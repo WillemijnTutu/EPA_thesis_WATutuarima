@@ -3,6 +3,7 @@ from road_components import Intersection, Road, SourceFugitive
 
 import osmnx as ox
 
+
 class FugitiveModel(DSOLModel):
     """
     Class used to simulate fugitive escape route choice behaviour
@@ -14,12 +15,27 @@ class FugitiveModel(DSOLModel):
 
     Methods
     -------
-
-
-
+    __init__
+        build the initial data set for roads, intersections, sources and sinks. Call the construct_graph() method
+    construct_model
+        reset model and construct sources
+    construct_graph
+        call method to construct the intersections and roads based on a provided file
+    construct_intersections
+        construct intersections
+    construct_roads
+        construct roads
     """
 
-    def __init__(self, simulator):
+    def __init__(self, simulator, filepath):
+        """
+        Parameters
+        ----------
+        simulator: simulator
+            the simulator used to run the model
+        filepath: str
+            the filepath of the graph file used to build the network
+        """
         super().__init__(simulator)
 
         self.fugitive_start = 44871340
@@ -32,29 +48,44 @@ class FugitiveModel(DSOLModel):
         self.source_fugitive = []
         self.roads_from_sources = []
 
-        self.construct_graph()
+        self.construct_graph(filepath)
 
     def construct_model(self):
+        """
+        Method to reset model and construct sources
+        """
 
         self.reset_model()
 
         self.construct_sources(self.graph)
 
-    def construct_graph(self):
+    def construct_graph(self, filepath):
+        """
+        Method to construct the intersections and road components of graph
 
-        filepath = "graph/delft_drive.graphml"
+        Parameters
+        ----------
+        filepath: str
+            the filepath of the graph file used to build the network
+        """
+
         graph = ox.load_graphml(filepath)
 
         self.graph = graph
         self.construct_intersections(graph)
         self.construct_roads(graph)
 
-    """
-    This method constructs all the intersections from the provided graph
-    """
     def construct_intersections(self, graph):
+        """
+        This method constructs all the intersections from the provided graph
 
-        #create a intersection object for all the intersections
+        Parameters
+        ----------
+        graph: osmnx.graph
+            osmnx graph that is used to create the network
+        """
+
+        # create an intersection object for all the intersections
         for node, data in graph.nodes(data=True):
             locx = data["x"]
             loxy = data["y"]
@@ -63,12 +94,17 @@ class FugitiveModel(DSOLModel):
 
             self.intersections.append(intersection)
 
-    """
-    This method constructs all roads from the provided graph
-    """
     def construct_roads(self, graph):
+        """
+        This method constructs all roads from the provided graph
 
-        #create a road objects for all the roads
+        Parameters
+        ----------
+        graph: osmnx.graph
+            osmnx graph that is used to create the network
+        """
+
+        # create a road objects for all the roads
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
             origin = next((x for x in self.intersections if x.id == origin_num), None)
             destination = next((x for x in self.intersections if x.id == destination_num), None)
@@ -84,11 +120,20 @@ class FugitiveModel(DSOLModel):
 
             self.roads.append(road)
 
-            #for each road, connect the two components
+            # for each road, connect the two components
             if type(origin) == Intersection:
                 origin.next.append(self.roads[-1])
 
     def construct_sources(self, graph):
+        """
+        Method to construct the sources where the fugitive entity is creates
+
+        Parameters
+        ----------
+        graph: osmnx.graph
+            osmnx graph that is used to create the network
+        """
+
         self.sources = []
         self.source_fugitive = []
 
@@ -122,9 +167,15 @@ class FugitiveModel(DSOLModel):
 
     @staticmethod
     def reset_model():
+        """
+        Method to reset model
+        """
         classes = [SourceFugitive, Road, Intersection]
 
     def get_output_statistic(self):
+        """
+        Method to calclate output statistics and visualize the route taken during simulation
+        """
         self.simulator._eventlist.clear()
 
         list_fugitives = []
