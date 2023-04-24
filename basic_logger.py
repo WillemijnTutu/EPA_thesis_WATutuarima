@@ -3,6 +3,10 @@ import sys
 
 
 def get_module_logger(mod_name, level=logging.INFO):
+    """
+    Method to get the module logger used for the fugitive route seeking model
+    """
+
     logger = logging.getLogger(mod_name)
     handler = logging.StreamHandler(stream=sys.stdout)
     msg_format = '%(asctime)s [%(levelname)s] %(message)s (%(name)s - %(filename)s: line %(lineno)s)'

@@ -9,22 +9,99 @@ import logging
 from basic_logger import get_module_logger
 logger = get_module_logger(__name__, level=logging.INFO)
 
+"""
+    This file includes all the classes that are used to build a network in the fugitive route seeking model
+    
+    Classes
+    -------
+    Intersection: Node
+        Class that creates an intersection to connect one or more road components. The functionality of an intersection
+        includes the decision making of the fugitive entity per node. 
+    Road: Link
+        Class that creates an road component that connects two intersection components.
+    SourceFugitive: Source
+        Class that creates a source component which creates the fugitive entities
+"""
+
 
 class Intersection(Node):
+    """
+    Class that creates an intersection to connect one or more road components. The functionality of an intersection
+    includes the decision making of the fugitive entity per node.
+
+    Attributes
+    ----------
+    simulator:
+        PyDSOL core simulator
+    capacity: int
+    kwargs:
+        the keyword arguments that are used to expand the Node class
+        id: int
+            Personal id number of the intersection component
+
+    Methods
+    ------
+    __init__
+        Method to initialise the intersection component
+    enter_input_node
+        Method to enter the intersection
+    exit_output_node
+        Method to exit the link by selecting a link on which the entity should travel to the next destination
+
+    """
+
     def __init__(self, simulator, capacity=math.inf, **kwargs):
+        """
+        Method to initialise the intersection component
+
+        Parameters
+        ----------
+        simulator:
+            PyDSOL core simulator
+        capacity: int
+            Maximum number of entities that can be present at an intersection
+        kwargs:
+            the keyword arguments that are used to expand the Node class
+            id: int
+                Personal id number of the intersection component
+        """
         super().__init__(simulator, **kwargs)
 
         self.id = kwargs["id"]
         self.next = []
 
     def enter_input_node(self, entity, **kwargs):
+        """
+        Method to enter the intersection
+
+        Parameters
+        ----------
+        entity: Entity
+        kwargs:
+            the keyword arguments that are used to expand the enter_input_node method
+        """
+
         super().enter_input_node(entity, **kwargs)
         logger.debug(f"Time {self.simulator.simulator_time:.2f}: Entity: {entity.name} entered node{self.name}")
 
-        #save route
+        # save route
         entity.output_route[self.simulator.simulator_time] = self.id
 
     def exit_output_node(self, entity, **kwargs):
+        """
+        Method to exit the link by selecting a link on which the entity should travel to the next destination
+
+        Parameters
+        ----------
+        entity: Entity
+        kwargs:
+            the keyword arguments that are used to expand the exit_output_node method
+
+        Raises
+        ------
+        AssertionError
+            If the intersection is not found on the route of the entity
+        """
 
         assert self.id == entity.route_planned[0]
 
@@ -57,18 +134,106 @@ class Intersection(Node):
 
 
 class Road(Link):
+    """
+    Class that creates an road component that connects two intersection components.
+
+    Attributes
+    ----------
+    simulator:
+        PyDSOL core simulator
+    origin: Intersection
+        Starting point of the road component
+    destination: Intersection
+        End point of the road component
+    length: int
+        Length in KM
+    selection_weight: int
+        Weight used to calculate preference for route choices
+
+    Methods
+    -------
+    __init__
+        Method to initialise a road component
+    """
+
     def __init__(self, simulator, origin, destination, length, selection_weight=1, **kwargs):
+        """
+        Method to initialise a road component
+
+        Parameters
+        ----------
+        simulator:
+            PyDSOL core simulator
+        origin: Intersection
+            Starting point of the road component
+        destination: Intersection
+            End point of the road component
+        length: int
+            Length in KM
+        selection_weight: int
+             Weight used to calculate preference for route choices
+        kwargs:
+            the keyword arguments that are used to expand the Link class
+        """
+
         super().__init__(simulator, origin, destination, length, selection_weight, **kwargs)
         self.next = destination
         self.road_id = kwargs["road_id"]
 
         self.destination_name = kwargs["destination_name"]
 
-    def enter_link(self, entity, **kwargs):
-        super().enter_link(entity)
 
 class SourceFugitive(Source):
+    """
+    Class that construct a source that creates a fugitive entity
+
+    Attributes
+    ----------
+    graph: osmnx.graph
+        graph that represents the network
+    simulator:
+        PyDSOL core simulator
+    interarrival_time:str
+        time between the creation of entities. Default is np.random.exponential(0.25).
+    num_entities: int
+        number of entities that the source creates
+    id: int
+        Identification number of source
+    fugitive_sink: Node
+        Node that is the final destination of the fugitive entity
+    entity_type: Class
+        The entity type that the source creates, in this case the type is Fugitive
+
+    Methods
+    -------
+    __init__
+        Method to initialise the fugitive source component
+    exit_source
+        Method for an entity to exit the source component
+    """
+
     def __init__(self, graph, simulator, interarrival_time="default", num_entities=1, **kwargs):
+        """
+        Method to initialise the fugitive source component
+
+        Parameters
+        ----------
+        graph: osmnx.graph
+            graph that represents the network
+        simulator:
+            PyDSOL core simulator
+        interarrival_time:str
+            time between the creation of entities. Default is np.random.exponential(0.25).
+        num_entities: int
+            number of entities that the source creates
+        kwargs:
+            the keyword arguments that are used to expand the Source class
+            id: int
+                Identification number of source
+            fugitive_sink: Node
+                Node that is the final destination of the fugitive entity
+        """
+
         super().__init__(simulator, interarrival_time, num_entities, **kwargs)
 
         self.id = kwargs['id']
@@ -79,9 +244,21 @@ class SourceFugitive(Source):
         self.graph = graph
 
     def exit_source(self, entity, **kwargs):
+        """
+        Method to exit the source component
+
+        Parameters
+        ----------
+        entity: Entity
+        kwargs:
+            the keyword arguments that are used to expand the exit_source method
+        """
         super().exit_source(entity, **kwargs)
 
         entity.route_planned = ox.distance.shortest_path(self.graph, self.id, self.fugitive_sink, weight='length', cpus=1)
         print(entity.route_planned)
 
         self.entities_created = entity
+
+
+# TODO: add sink class

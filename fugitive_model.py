@@ -12,6 +12,8 @@ class FugitiveModel(DSOLModel):
     ----------
     simulator:
         PyDSOL core simulator
+    filepath: str
+        filepath to graph representation to build network
 
     Methods
     -------
