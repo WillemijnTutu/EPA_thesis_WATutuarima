@@ -1,5 +1,5 @@
 from pydsol.core.model import DSOLModel
-from road_components import Intersection, Road, SourceFugitive
+from road_components import Intersection, Road, SourceFugitive, SinkFugitive
 
 import osmnx as ox
 
@@ -29,7 +29,7 @@ class FugitiveModel(DSOLModel):
         construct roads
     """
 
-    def __init__(self, simulator, filepath):
+    def __init__(self, simulator, filepath, camera_avoiding=False):
         """
         Parameters
         ----------
@@ -48,7 +48,10 @@ class FugitiveModel(DSOLModel):
         self.sources = []
         self.graph = []
         self.source_fugitive = []
+        self.sinks = []
+        self.sink_fugitive = []
         self.roads_from_sources = []
+        self.roads_to_sinks = []
 
         self.construct_graph(filepath)
 
@@ -59,7 +62,8 @@ class FugitiveModel(DSOLModel):
 
         self.reset_model()
 
-        self.construct_sources(self.graph)
+        self.construct_sources()
+        self.construct_sink()
 
     def construct_graph(self, filepath):
         """
@@ -126,14 +130,9 @@ class FugitiveModel(DSOLModel):
             if type(origin) == Intersection:
                 origin.next.append(self.roads[-1])
 
-    def construct_sources(self, graph):
+    def construct_sources(self):
         """
         Method to construct the sources where the fugitive entity is creates
-
-        Parameters
-        ----------
-        graph: osmnx.graph
-            osmnx graph that is used to create the network
         """
 
         self.sources = []
@@ -166,6 +165,36 @@ class FugitiveModel(DSOLModel):
 
         fugitive_source.next = road
         self.roads_from_sources.append(road)
+
+    def construct_sink(self):
+        """
+        Method to construct the sinks where the fugitive entity is deleted
+        """
+
+        self.sinks = []
+        self.sink_fugitive = []
+
+        fugitive_sink = SinkFugitive(self.simulator, 0, name=self.fugitive_end)
+
+        self.sinks.append(fugitive_sink)
+        self.sink_fugitive.append(fugitive_sink)
+
+        # ADD EDGES FROM SOURCES TO SOURCE LOCATIONS OF LENGTH 0
+        destination = fugitive_sink
+        origin = next((x for x in self.intersections if x.id == self.fugitive_end), None)
+
+        road = Road(simulator=self.simulator,
+                    origin=origin,
+                    destination=destination,
+                    destination_name=self.fugitive_end,
+                    length=0.001,
+                    selection_weight=1,
+                    next=destination,
+                    road_id=0
+                    )
+
+        origin.next = road
+        self.roads_to_sinks.append(road)
 
     @staticmethod
     def reset_model():

@@ -1,6 +1,7 @@
 from pydsol.model.node import Node
 from pydsol.model.link import Link
 from pydsol.model.source import Source
+from pydsol.model.sink import Sink
 from fugitive import Fugitive
 import math
 import osmnx as ox
@@ -107,6 +108,8 @@ class Intersection(Node):
 
         if len(entity.route_planned) <= 1:  # reached destination node
             logger.debug(f"Time {self.simulator.simulator_time:.2f}: {entity.name} has reached destination node {self.id}")
+
+            self.next.enter_link(entity)
 
         elif self.id == entity.route_planned[1]:  # next node is the current node; i.e., posting
             entity.route_planned.pop(0)
@@ -256,9 +259,38 @@ class SourceFugitive(Source):
         super().exit_source(entity, **kwargs)
 
         entity.route_planned = ox.distance.shortest_path(self.graph, self.id, self.fugitive_sink, weight='length', cpus=1)
-        print(entity.route_planned)
 
         self.entities_created = entity
 
 
-# TODO: add sink class
+class SinkFugitive(Sink):
+    """
+    This class creates a fugitive sink component
+
+    Attributes
+    ----------
+    simulator:
+        PyDSOL core simulator
+    transfer_in_time: [float, int]
+        time it takes to transfer an object into the sink. Default is 0.
+    """
+
+    def __init__(self, simulator, transfer_in_time: [float, int], **kwargs):
+        """
+        Method to initialise a fugitive sink component
+
+        Parameters
+        ----------
+        simulator
+            PyDSOL core simulator
+        transfer_in_time: [float, int]
+            time it takes to transfer an object into the sink. Default is 0.
+        kwargs:
+            kwargs are the keyword arguments that are used to expand the sink class.
+            *name: str
+                user-specified name for the sink.
+        """
+
+        super().__init__(simulator, transfer_in_time=transfer_in_time, **kwargs)
+
+        self.entities_of_system = []
