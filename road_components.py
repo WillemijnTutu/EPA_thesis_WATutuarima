@@ -1,10 +1,10 @@
+import numpy as np
 from pydsol.model.node import Node
 from pydsol.model.link import Link
 from pydsol.model.source import Source
 from pydsol.model.sink import Sink
 from fugitive import Fugitive
 import math
-import osmnx as ox
 
 import logging
 from basic_logger import get_module_logger
@@ -215,7 +215,7 @@ class SourceFugitive(Source):
         Method for an entity to exit the source component
     """
 
-    def __init__(self, graph, simulator, interarrival_time="default", num_entities=1, **kwargs):
+    def __init__(self, graph, simulator, num_entities=1, **kwargs):
         """
         Method to initialise the fugitive source component
 
@@ -236,15 +236,56 @@ class SourceFugitive(Source):
             fugitive_sink: Node
                 Node that is the final destination of the fugitive entity
         """
-
-        super().__init__(simulator, interarrival_time, num_entities, **kwargs)
-
         self.id = kwargs['id']
 
         self.entity_type = Fugitive
         self.entities_created = None
         self.fugitive_sink = kwargs["fugitive_sink"]
+        self.fugitive_source = kwargs["fugitive_source"]
         self.graph = graph
+
+        self.simulator = simulator
+        self.num_entities = num_entities
+
+        self.next = None  # this should be the next process
+        self.interarrival_time = np.random.exponential(0.25)
+
+        self.entity_mode = kwargs['mental_mode']
+
+        self.kwargs = kwargs
+
+
+        self.name = "{0} {1}".format(self.__class__.__name__, str(self.id))
+        if "name" in kwargs:
+            self.name = kwargs["name"]
+
+        if "distribution" in kwargs:
+            self.distribution = kwargs["distribution"]
+
+        self.simulator.schedule_event_now(self, "create_entities")
+
+    def create_entities(self, **kwargs):
+        """
+        Create fugitives via SimEvent, given the interarrival time and the number of entities.
+
+        Parameters
+        ----------
+        entity_mode:
+            the mode of the fugitive
+        kwargs:
+            kwargs are the keyword arguments that are used to invoke the method or expand the function.
+
+        """
+
+        # Create new entity
+        for _ in range(self.num_entities):
+            entity = Fugitive(self.simulator, self.simulator.simulator_time, self.entity_mode, self.graph,
+                              self.fugitive_sink, self.fugitive_source, **kwargs)
+            # logger.info("Time {0:.2f}: {1} is created at {2}".format(self.simulator.simulator_time, entity.name))
+            self.exit_source(entity)
+
+        # Schedule event to create next entity according to the interarrival time
+        # self.simulator.schedule_event_rel(self.interarrival_time, self, "create_entities")
 
     def exit_source(self, entity, **kwargs):
         """
@@ -257,8 +298,6 @@ class SourceFugitive(Source):
             the keyword arguments that are used to expand the exit_source method
         """
         super().exit_source(entity, **kwargs)
-
-        entity.route_planned = ox.distance.shortest_path(self.graph, self.id, self.fugitive_sink, weight='length', cpus=1)
 
         self.entities_created = entity
 

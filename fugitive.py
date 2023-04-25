@@ -1,6 +1,8 @@
 from pydsol.model.entities import Entity
 import itertools
 
+import osmnx as ox
+
 
 class Fugitive(Entity):
     """
@@ -18,7 +20,7 @@ class Fugitive(Entity):
 
     id_iter_fug = itertools.count(1)
 
-    def __init__(self, simulator, t, **kwargs):
+    def __init__(self, simulator, t, mode, graph, fugitive_sink, fugitive_source, **kwargs):
         """
         Method to initialise fugitive entity
         """
@@ -32,6 +34,10 @@ class Fugitive(Entity):
 
         self.output_route = {}
 
+        self.graph = graph
+        self.fugitive_sink = fugitive_sink
+        self.fugitive_source = fugitive_source
 
-
-
+        self.camera_avoidance = mode['camera_avoidance']
+        print(self.camera_avoidance)
+        self.route_planned = ox.distance.shortest_path(self.graph, self.fugitive_source, self.fugitive_sink, weight='length', cpus=1)

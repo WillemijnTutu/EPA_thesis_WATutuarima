@@ -29,7 +29,7 @@ class FugitiveModel(DSOLModel):
         construct roads
     """
 
-    def __init__(self, simulator, filepath, camera_avoiding=False):
+    def __init__(self, simulator, filepath, mental_mode={'camera_avoidance':True}):
         """
         Parameters
         ----------
@@ -52,6 +52,7 @@ class FugitiveModel(DSOLModel):
         self.sink_fugitive = []
         self.roads_from_sources = []
         self.roads_to_sinks = []
+        self.mental_mode = mental_mode
 
         self.construct_graph(filepath)
 
@@ -143,7 +144,9 @@ class FugitiveModel(DSOLModel):
                                          id=self.fugitive_start,
                                          interarrival_time=10000000,
                                          num_entities=1,
-                                         fugitive_sink =self.fugitive_end
+                                         fugitive_sink =self.fugitive_end,
+                                         fugitive_source=self.fugitive_start,
+                                         mental_mode=self.mental_mode
                                          )
 
         self.sources.append(fugitive_source)
@@ -205,7 +208,7 @@ class FugitiveModel(DSOLModel):
 
     def get_output_statistic(self):
         """
-        Method to calclate output statistics and visualize the route taken during simulation
+        Method to calculate output statistics and visualize the route taken during simulation
         """
         self.simulator._eventlist.clear()
 

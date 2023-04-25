@@ -18,7 +18,8 @@ if __name__ == "__main__":
     simulator = DEVSSimulatorFloat("sim")
 
     filepath = "graph/delft_drive.graphml"
-    model = fugitive_model.FugitiveModel(simulator, filepath, camera_avoiding=True)
+
+    model = fugitive_model.FugitiveModel(simulator, filepath)
     replication = SingleReplication("rep1", 0.0, 0.0, 15)
     simulator.initialize(model, replication)
     simulator.start()
