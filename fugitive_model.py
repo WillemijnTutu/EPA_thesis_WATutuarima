@@ -1,3 +1,5 @@
+import networkx as nx
+
 from pydsol.core.model import DSOLModel
 from road_components import Intersection, Road, SourceFugitive, SinkFugitive
 
@@ -29,7 +31,7 @@ class FugitiveModel(DSOLModel):
         construct roads
     """
 
-    def __init__(self, simulator, filepath, mental_mode={'camera_avoidance':True}):
+    def __init__(self, simulator, filepath, fugitive_start, fugitive_end, mental_mode={'camera_avoidance':True}):
         """
         Parameters
         ----------
@@ -40,8 +42,8 @@ class FugitiveModel(DSOLModel):
         """
         super().__init__(simulator)
 
-        self.fugitive_start = 44871340
-        self.fugitive_end = 1584013959
+        self.fugitive_start = fugitive_start
+        self.fugitive_end = fugitive_end
 
         self.intersections = []
         self.roads = []
@@ -77,8 +79,37 @@ class FugitiveModel(DSOLModel):
         """
 
         graph = ox.load_graphml(filepath)
-
         self.graph = graph
+
+        # calculate the time that it takes to cross an edge based on the maximum speed and length of an edge
+        total = 0
+        for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):
+            if isinstance(data.get('maxspeed'),list):
+                nx.set_edge_attributes(self.graph,
+                                       {(origin_num, destination_num, 0): {
+                                           "time_to_cross": data.get('length') / float(data.get('maxspeed')[0])},
+                                        (origin_num, destination_num, 1): {
+                                            "time_to_cross": data.get('length') / float(data.get('maxspeed')[1])}})
+
+            elif isinstance(data.get('maxspeed'),str):
+                nx.set_edge_attributes(self.graph,
+                                   {(origin_num, destination_num, 0): {"time_to_cross": data.get('length') / float(data.get('maxspeed'))},
+                                    (origin_num, destination_num, 1): {"time_to_cross": data.get('length') / float(data.get('maxspeed'))}})
+
+            else:
+                # if maximum speed is not specified, max speed of 30 km/h is assumed
+                # the number of edges without maximum speed is 2402, from the total of 25348 edges (so 9.47%)
+                # print("origin ", origin_num)
+                # print("destination", destination_num)
+                total = total + 1
+                nx.set_edge_attributes(self.graph,
+                                       {(origin_num, destination_num, 0): {
+                                           "time_to_cross": data.get('length') / 30.0},
+                                        (origin_num, destination_num, 1): {
+                                            "time_to_cross": data.get('length') / 30.0}})
+
+        # print("total ", total)
+
         self.construct_intersections(graph)
         self.construct_roads(graph)
 
@@ -224,14 +255,9 @@ class FugitiveModel(DSOLModel):
                 node_size.append(0)
                 node_color.append('blue')
 
+            print(fugitive.output_route.values())
+
             ox.plot.plot_graph_route(
                 self.graph, list(fugitive.output_route.values()), route_color='b', route_linewidth=4, route_alpha=0.5, orig_dest_size=100, ax=None,
                 bgcolor="white", node_color=node_color, node_size=node_size, edge_linewidth=1, edge_color='lightgray'
             )
-
-            print(fugitive.output_route.values())
-
-
-
-
-

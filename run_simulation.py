@@ -17,9 +17,11 @@ After the model is run, the output statistics are displayed.
 if __name__ == "__main__":
     simulator = DEVSSimulatorFloat("sim")
 
-    filepath = "graph/delft_drive.graphml"
+    filepath = "graph/rotterdam_drive_with_cameras.graphml"
+    fugitive_start =44430463
+    fugitive_end =44465861
 
-    model = fugitive_model.FugitiveModel(simulator, filepath)
+    model = fugitive_model.FugitiveModel(simulator, filepath,fugitive_start, fugitive_end)
     replication = SingleReplication("rep1", 0.0, 0.0, 15)
     simulator.initialize(model, replication)
     simulator.start()

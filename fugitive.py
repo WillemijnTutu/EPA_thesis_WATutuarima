@@ -1,5 +1,7 @@
+import networkx as nx
 from pydsol.model.entities import Entity
 import itertools
+import math
 
 import osmnx as ox
 
@@ -39,5 +41,23 @@ class Fugitive(Entity):
         self.fugitive_source = fugitive_source
 
         self.camera_avoidance = mode['camera_avoidance']
-        print(self.camera_avoidance)
-        self.route_planned = ox.distance.shortest_path(self.graph, self.fugitive_source, self.fugitive_sink, weight='length', cpus=1)
+
+        if self.camera_avoidance:
+            self.set_camera_avoidance()
+
+        self.set_route()
+
+    def set_route(self):
+        self.route_planned = ox.distance.shortest_path(self.graph, self.fugitive_source, self.fugitive_sink, weight='time_to_cross', cpus=1)
+
+    def set_camera_avoidance(self):
+
+        # for roads that lead up to an intersection, make the time to cross very high (inf)
+        for index1, node in self.graph.nodes(data=True):
+            if node.get("camera"):
+                for road_id, (origin_num, destination_num, data) in self.graph.edges(node):
+                    nx.set_edge_attributes(self.graph,
+                                           {(origin_num, destination_num, 0): {
+                                               "time_to_cross": math.inf},
+                                               (origin_num, destination_num, 1): {"time_to_cross": math.inf}})
+
