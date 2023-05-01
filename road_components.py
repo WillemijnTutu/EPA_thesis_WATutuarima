@@ -314,7 +314,7 @@ class SinkFugitive(Sink):
         time it takes to transfer an object into the sink. Default is 0.
     """
 
-    def __init__(self, simulator, transfer_in_time: [float, int], **kwargs):
+    def __init__(self, simulator, model, transfer_in_time: [float, int], **kwargs):
         """
         Method to initialise a fugitive sink component
 
@@ -332,4 +332,10 @@ class SinkFugitive(Sink):
 
         super().__init__(simulator, transfer_in_time=transfer_in_time, **kwargs)
 
+        self.model=model
         self.entities_of_system = []
+
+    def enter_input_node(self, entity):
+
+        self.model.get_output_statistic(entity)
+        super().enter_input_node(entity)

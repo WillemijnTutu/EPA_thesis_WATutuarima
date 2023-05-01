@@ -208,7 +208,7 @@ class FugitiveModel(DSOLModel):
         self.sinks = []
         self.sink_fugitive = []
 
-        fugitive_sink = SinkFugitive(self.simulator, 0, name=self.fugitive_end)
+        fugitive_sink = SinkFugitive(self.simulator, self, 0, name=self.fugitive_end)
 
         self.sinks.append(fugitive_sink)
         self.sink_fugitive.append(fugitive_sink)
@@ -235,29 +235,24 @@ class FugitiveModel(DSOLModel):
         """
         Method to reset model
         """
+
         classes = [SourceFugitive, Road, Intersection]
 
-    def get_output_statistic(self):
+    def get_output_statistic(self, entity):
         """
         Method to calculate output statistics and visualize the route taken during simulation
         """
         self.simulator._eventlist.clear()
 
-        list_fugitives = []
-        for source in self.source_fugitive:
-            list_fugitives.append(source.entities_created)
-            del source
+        node_size = []
+        node_color = []
+        for node in self.graph.nodes:
+            node_size.append(0)
+            node_color.append('blue')
 
-        for fugitive in list_fugitives:
-            node_size = []
-            node_color = []
-            for node in self.graph.nodes:
-                node_size.append(0)
-                node_color.append('blue')
+        print(entity.output_route.values())
 
-            print(fugitive.output_route.values())
-
-            ox.plot.plot_graph_route(
-                self.graph, list(fugitive.output_route.values()), route_color='b', route_linewidth=4, route_alpha=0.5, orig_dest_size=100, ax=None,
-                bgcolor="white", node_color=node_color, node_size=node_size, edge_linewidth=1, edge_color='lightgray'
-            )
+        ox.plot.plot_graph_route(
+            self.graph, list(entity.output_route.values()), route_color='b', route_linewidth=4, route_alpha=0.5, orig_dest_size=100, ax=None,
+            bgcolor="white", node_color=node_color, node_size=node_size, edge_linewidth=1, edge_color='lightgray'
+        )
