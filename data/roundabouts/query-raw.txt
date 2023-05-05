@@ -1,0 +1,18 @@
+/*
+This query looks for nodes, ways and relations 
+with the given key.
+Choose your region and hit the Run button above!
+*/
+[out:json][timeout:25];
+// gather results
+(
+  // query part for: “traffic_sign=*”
+  node["junction"="roundabout"](51.863171, 4.427773, 51.970486, 4.580918);
+  way["junction"="roundabout"](51.863171, 4.427773, 51.970486, 4.580918);
+  relation["junction"="roundabout"](51.863171, 4.427773, 51.970486, 4.580918);
+);
+// print results
+out body;
+>;
+out skel qt;
+//(51.863171, 4.427773, 51.970486, 4.580918)

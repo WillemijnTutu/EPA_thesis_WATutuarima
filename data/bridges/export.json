@@ -1,0 +1,1393 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.60 f4c14d41",
+  "osm3s": {
+    "timestamp_osm_base": "2023-05-04T09:27:54Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "way",
+      "id": 59971952,
+      "nodes": [
+        745637781,
+        745637382
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "bridge": "movable",
+        "bridge:movable": "lift",
+        "foot": "use_sidepath",
+        "highway": "secondary",
+        "layer": "1",
+        "maxspeed": "50",
+        "name": "Prinses Irenebrug",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 126710397,
+      "nodes": [
+        4149464049,
+        4149464053
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Van Brienenoordbrug",
+        "carriageway_ref": "y",
+        "highway": "motorway",
+        "lanes": "3",
+        "layer": "2",
+        "lit": "yes",
+        "maxspeed": "100",
+        "noname": "yes",
+        "official_name": "Rijksweg A16",
+        "oneway": "yes",
+        "operator": "Rijkswaterstaat",
+        "ref": "A16",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 126730207,
+      "nodes": [
+        4149464048,
+        4149464052
+      ],
+      "tags": {
+        "access:lanes": "yes|yes|no",
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Van Brienenoordbrug",
+        "bus:lanes": "yes|yes|yes",
+        "carriageway_ref": "Li",
+        "hgv:lanes": "yes|yes|yes",
+        "highway": "motorway",
+        "int_ref": "E 19",
+        "lanes": "3",
+        "layer": "2",
+        "lit": "yes",
+        "maxspeed": "100",
+        "noname": "yes",
+        "official_name": "Rijksweg A16",
+        "oneway": "yes",
+        "operator": "Rijkswaterstaat",
+        "ref": "A16",
+        "surface": "asphalt",
+        "tourist_bus:lanes": "yes|yes|yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 232189669,
+      "nodes": [
+        2398913925,
+        1700382331,
+        6199692954,
+        44399127,
+        44398714,
+        6199692839,
+        2398913926,
+        2398913924,
+        44398268,
+        44398709,
+        745722526,
+        6199692955,
+        44399122,
+        2398913927,
+        1501926286,
+        6199692847,
+        2398913925
+      ],
+      "tags": {
+        "alt_name": "Boerengatsluis",
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "layer": "1",
+        "man_made": "bridge",
+        "name": "Boerengatbrug",
+        "wikidata": "Q3173910",
+        "wikipedia": "nl:Boerengatbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 232189670,
+      "nodes": [
+        2405631457,
+        1555848066,
+        1555848069,
+        1555848077,
+        1555848078,
+        2405631460,
+        2405631469,
+        1555848065,
+        770739584,
+        306285399,
+        1555848064,
+        2405631461,
+        2405631457
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "layer": "1",
+        "man_made": "bridge",
+        "name": "Oostbrug",
+        "wikidata": "Q2478609",
+        "wikipedia": "nl:Oostbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 303371942,
+      "nodes": [
+        4484194456,
+        4484194457
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Spoorbrug Delfshavense Schie",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1435",
+        "layer": "1",
+        "maxspeed": "130",
+        "name": "Oude Lijn",
+        "operator": "ProRail",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:atb": "yes",
+        "ref:ProRailID": "2877531.0",
+        "ref:ProRailSpoortak": "540_147AL_81.2",
+        "source": "ProRail",
+        "source:date": "2014-01-03",
+        "usage": "main",
+        "voltage": "1500",
+        "wikidata": "Q801843",
+        "wikipedia": "nl:Spoorlijn Amsterdam - Rotterdam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 321532769,
+      "nodes": [
+        3282923078,
+        3282923079,
+        3282923080,
+        3282923081,
+        3282923082,
+        3282923083,
+        3282923084,
+        3282923086,
+        3282923087,
+        3282923089,
+        3282923094,
+        3282923093,
+        3282923092,
+        3282923091,
+        2140332771,
+        3282923090,
+        3282923088,
+        3282923085,
+        3282923078
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "layer": "1",
+        "man_made": "bridge",
+        "name": "Giessenbrug",
+        "wikidata": "Q2793311",
+        "wikipedia": "nl:Giessenbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 413670973,
+      "nodes": [
+        4149464050,
+        4149464046
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Van Brienenoordbrug",
+        "carriageway_ref": "x",
+        "highway": "motorway",
+        "lanes": "3",
+        "layer": "2",
+        "lit": "yes",
+        "maxspeed": "100",
+        "noname": "yes",
+        "official_name": "Rijksweg A16",
+        "oneway": "yes",
+        "operator": "Rijkswaterstaat",
+        "ref": "A16",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 413670975,
+      "nodes": [
+        4149464051,
+        4149464047
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Van Brienenoordbrug",
+        "carriageway_ref": "Re",
+        "highway": "motorway",
+        "int_ref": "E 19",
+        "lanes": "3",
+        "layer": "2",
+        "lit": "yes",
+        "maxspeed": "100",
+        "noname": "yes",
+        "official_name": "Rijksweg A16",
+        "oneway": "yes",
+        "operator": "Rijkswaterstaat",
+        "ref": "A16",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 451594923,
+      "nodes": [
+        4484194451,
+        4484194450
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Spoorbrug Delfshavense Schie",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1435",
+        "layer": "1",
+        "maxspeed": "130",
+        "name": "Oude Lijn",
+        "operator": "ProRail",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:atb": "yes",
+        "ref:ProRailID": "2877539.0",
+        "ref:ProRailSpoortak": "540_151BV_81.5",
+        "service": "siding",
+        "source": "ProRail",
+        "source:date": "2014-01-03",
+        "voltage": "1500",
+        "wikidata": "Q801843",
+        "wikipedia": "nl:Spoorlijn Amsterdam - Rotterdam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 451594926,
+      "nodes": [
+        4484194455,
+        4484194454
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Spoorbrug Delfshavense Schie",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1435",
+        "layer": "1",
+        "maxspeed": "130",
+        "name": "Oude Lijn",
+        "operator": "ProRail",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:atb": "yes",
+        "ref:ProRailID": "2877534.0",
+        "ref:ProRailSpoortak": "540_149AL_81.3",
+        "source": "ProRail",
+        "source:date": "2014-01-03",
+        "usage": "main",
+        "voltage": "1500",
+        "wikidata": "Q801843",
+        "wikipedia": "nl:Spoorlijn Amsterdam - Rotterdam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 451594927,
+      "nodes": [
+        4484194452,
+        4484194453
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Spoorbrug Delfshavense Schie",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1435",
+        "layer": "1",
+        "maxspeed": "130",
+        "name": "Oude Lijn",
+        "operator": "ProRail",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:atb": "yes",
+        "ref:ProRailID": "2877537.0",
+        "ref:ProRailSpoortak": "540_151AL_81.4",
+        "service": "siding",
+        "source": "ProRail",
+        "source:date": "2014-01-03",
+        "voltage": "1500",
+        "wikidata": "Q801843",
+        "wikipedia": "nl:Spoorlijn Amsterdam - Rotterdam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 550127068,
+      "nodes": [
+        5313597287,
+        5313597288,
+        5313597289,
+        5313597290,
+        5313597287
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:name": "Mouterbrug",
+        "bridge:structure": "humpback",
+        "layer": "1",
+        "man_made": "bridge",
+        "name": "Mouterbrug",
+        "wikidata": "Q105761252"
+      }
+    },
+    {
+      "type": "way",
+      "id": 574042254,
+      "nodes": [
+        5511303679,
+        7308911910,
+        5511303678,
+        1029946442,
+        44354109,
+        1029946393,
+        5511303677,
+        4460603835,
+        5511303676,
+        4718288430,
+        4718288432,
+        4718288429,
+        5511303679
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "layer": "1",
+        "man_made": "bridge",
+        "name": "Binnenhavenbrug",
+        "wikidata": "Q50356525",
+        "wikipedia": "nl:Binnenhavenbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 624096807,
+      "nodes": [
+        5893097276,
+        1030275236
+      ],
+      "tags": {
+        "bicycle": "no",
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Algerabrug",
+        "foot": "no",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "1",
+        "maxheight": "1.9",
+        "maxspeed": "50",
+        "name": "Algerabrug",
+        "oneway": "reversible",
+        "surface": "asphalt",
+        "zone:traffic": "NL:rural"
+      }
+    },
+    {
+      "type": "way",
+      "id": 624096810,
+      "nodes": [
+        5893097284,
+        5893099085
+      ],
+      "tags": {
+        "bicycle": "no",
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Algerabrug",
+        "foot": "no",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "1",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "Algerabrug",
+        "ref": "N210",
+        "surface": "asphalt",
+        "zone:traffic": "NL:rural"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625539650,
+      "nodes": [
+        5906145141,
+        5906145140
+      ],
+      "tags": {
+        "bicycle": "no",
+        "bridge": "movable",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "1",
+        "maxspeed": "50",
+        "name": "Spoorweghavenbrug",
+        "oneway": "yes",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625539654,
+      "nodes": [
+        5906145142,
+        5906145143
+      ],
+      "tags": {
+        "bicycle": "no",
+        "bridge": "movable",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "1",
+        "maxspeed": "50",
+        "name": "Spoorweghavenbrug",
+        "oneway": "yes",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 918231938,
+      "nodes": [
+        8528109104,
+        8528109100
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "bridge": "movable",
+        "highway": "tertiary",
+        "layer": "1",
+        "maxspeed": "50",
+        "name": "Mathenesserbrug",
+        "name:etymology:wikidata": "Q2410108",
+        "oneway": "yes",
+        "parking:lane:both": "no",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 918231943,
+      "nodes": [
+        8528109097,
+        8528109106
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "bridge": "movable",
+        "highway": "tertiary",
+        "layer": "1",
+        "maxspeed": "50",
+        "name": "Mathenesserbrug",
+        "name:etymology:wikidata": "Q2410108",
+        "oneway": "yes",
+        "parking:lane:both": "no",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 918231947,
+      "nodes": [
+        8437277790,
+        8437277791,
+        8528109096,
+        8528109097,
+        8528109098,
+        8528109099,
+        8528109100,
+        8528109101,
+        8528109108,
+        8437277798,
+        8528109102,
+        8528109104,
+        8528109103,
+        8528109105,
+        8528109106,
+        8528109107,
+        8437277790
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "bridge:name": "Mathenesserbrug",
+        "layer": "1",
+        "man_made": "bridge",
+        "start_date": "1984",
+        "wikidata": "Q2665599",
+        "wikipedia": "nl:Mathenesserbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 928772293,
+      "nodes": [
+        5313430411,
+        7308876067,
+        7308911904,
+        5313430409,
+        5313430408,
+        5313430407,
+        5313430406,
+        5313430405,
+        5313430404,
+        7308876068,
+        5313431621,
+        5313430420,
+        5313430419,
+        5313430418,
+        5313430417,
+        5313430416,
+        5313430415,
+        5313430414,
+        5313430413,
+        7308876066,
+        5313430412,
+        1538591395,
+        5313430411
+      ],
+      "tags": {
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "layer": "1",
+        "loc_name": "De Hoerenloper",
+        "man_made": "bridge",
+        "name": "Rijnhavenbrug",
+        "wikidata": "Q2143162",
+        "wikipedia": "nl:Rijnhavenbrug"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1029657836,
+      "nodes": [
+        9492743504,
+        9492726897
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "bridge": "movable",
+        "bridge:movable": "bascule",
+        "foot": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "5",
+        "lanes:forward": "3",
+        "layer": "1",
+        "maxaxleload": "10",
+        "maxspeed": "50",
+        "name": "Koninginnebrug",
+        "ref": "S123",
+        "turn:lanes:forward": "left;through|right|right",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5313597287,
+      "lat": 51.906264,
+      "lon": 4.448596
+    },
+    {
+      "type": "node",
+      "id": 5313597288,
+      "lat": 51.9062763,
+      "lon": 4.4480553
+    },
+    {
+      "type": "node",
+      "id": 5313597289,
+      "lat": 51.9062424,
+      "lon": 4.4480554
+    },
+    {
+      "type": "node",
+      "id": 5313597290,
+      "lat": 51.9062318,
+      "lon": 4.4485921
+    },
+    {
+      "type": "node",
+      "id": 8437277790,
+      "lat": 51.9166382,
+      "lon": 4.4437982
+    },
+    {
+      "type": "node",
+      "id": 8437277791,
+      "lat": 51.9166996,
+      "lon": 4.4439865
+    },
+    {
+      "type": "node",
+      "id": 8437277798,
+      "lat": 51.9163993,
+      "lon": 4.4439971
+    },
+    {
+      "type": "node",
+      "id": 8528109096,
+      "lat": 51.9166568,
+      "lon": 4.4440222
+    },
+    {
+      "type": "node",
+      "id": 8528109097,
+      "lat": 51.9166197,
+      "lon": 4.4440531
+    },
+    {
+      "type": "node",
+      "id": 8528109098,
+      "lat": 51.916594,
+      "lon": 4.4440745
+    },
+    {
+      "type": "node",
+      "id": 8528109099,
+      "lat": 51.9165687,
+      "lon": 4.4440956
+    },
+    {
+      "type": "node",
+      "id": 8528109100,
+      "lat": 51.9165347,
+      "lon": 4.444124
+    },
+    {
+      "type": "node",
+      "id": 8528109101,
+      "lat": 51.9164988,
+      "lon": 4.4441539
+    },
+    {
+      "type": "node",
+      "id": 8528109102,
+      "lat": 51.9164376,
+      "lon": 4.4439653
+    },
+    {
+      "type": "node",
+      "id": 8528109103,
+      "lat": 51.9165092,
+      "lon": 4.4439057
+    },
+    {
+      "type": "node",
+      "id": 8528109104,
+      "lat": 51.9164756,
+      "lon": 4.4439336
+    },
+    {
+      "type": "node",
+      "id": 8528109105,
+      "lat": 51.9165341,
+      "lon": 4.4438849
+    },
+    {
+      "type": "node",
+      "id": 8528109106,
+      "lat": 51.9165589,
+      "lon": 4.4438643
+    },
+    {
+      "type": "node",
+      "id": 8528109107,
+      "lat": 51.9165967,
+      "lon": 4.4438328
+    },
+    {
+      "type": "node",
+      "id": 8528109108,
+      "lat": 51.9164602,
+      "lon": 4.4441861
+    },
+    {
+      "type": "node",
+      "id": 1538591395,
+      "lat": 51.9023861,
+      "lon": 4.4858959
+    },
+    {
+      "type": "node",
+      "id": 5313430404,
+      "lat": 51.9032601,
+      "lon": 4.4858176
+    },
+    {
+      "type": "node",
+      "id": 5313430405,
+      "lat": 51.9031827,
+      "lon": 4.4859048
+    },
+    {
+      "type": "node",
+      "id": 5313430406,
+      "lat": 51.9031488,
+      "lon": 4.4859477
+    },
+    {
+      "type": "node",
+      "id": 5313430407,
+      "lat": 51.9031281,
+      "lon": 4.4859624
+    },
+    {
+      "type": "node",
+      "id": 5313430408,
+      "lat": 51.9031066,
+      "lon": 4.4859678
+    },
+    {
+      "type": "node",
+      "id": 5313430409,
+      "lat": 51.9030644,
+      "lon": 4.4859651
+    },
+    {
+      "type": "node",
+      "id": 5313430411,
+      "lat": 51.9023904,
+      "lon": 4.4858489
+    },
+    {
+      "type": "node",
+      "id": 5313430412,
+      "lat": 51.9023824,
+      "lon": 4.4859436
+    },
+    {
+      "type": "node",
+      "id": 5313430413,
+      "lat": 51.9029049,
+      "lon": 4.4860807
+    },
+    {
+      "type": "node",
+      "id": 5313430414,
+      "lat": 51.9030983,
+      "lon": 4.4861234
+    },
+    {
+      "type": "node",
+      "id": 5313430415,
+      "lat": 51.9031198,
+      "lon": 4.4861261
+    },
+    {
+      "type": "node",
+      "id": 5313430416,
+      "lat": 51.9031446,
+      "lon": 4.486118
+    },
+    {
+      "type": "node",
+      "id": 5313430417,
+      "lat": 51.9031653,
+      "lon": 4.4861086
+    },
+    {
+      "type": "node",
+      "id": 5313430418,
+      "lat": 51.9031926,
+      "lon": 4.4860872
+    },
+    {
+      "type": "node",
+      "id": 5313430419,
+      "lat": 51.9032083,
+      "lon": 4.4860697
+    },
+    {
+      "type": "node",
+      "id": 5313430420,
+      "lat": 51.9033051,
+      "lon": 4.4859423
+    },
+    {
+      "type": "node",
+      "id": 5313431621,
+      "lat": 51.9036754,
+      "lon": 4.4854748
+    },
+    {
+      "type": "node",
+      "id": 7308876066,
+      "lat": 51.9026644,
+      "lon": 4.4860172
+    },
+    {
+      "type": "node",
+      "id": 7308876067,
+      "lat": 51.9026746,
+      "lon": 4.485896
+    },
+    {
+      "type": "node",
+      "id": 7308876068,
+      "lat": 51.9036392,
+      "lon": 4.4853989
+    },
+    {
+      "type": "node",
+      "id": 7308911904,
+      "lat": 51.9029142,
+      "lon": 4.4859359
+    },
+    {
+      "type": "node",
+      "id": 5906145140,
+      "lat": 51.9090079,
+      "lon": 4.4945105
+    },
+    {
+      "type": "node",
+      "id": 5906145141,
+      "lat": 51.9088613,
+      "lon": 4.4943529
+    },
+    {
+      "type": "node",
+      "id": 5906145142,
+      "lat": 51.909053,
+      "lon": 4.4944094
+    },
+    {
+      "type": "node",
+      "id": 5906145143,
+      "lat": 51.9089042,
+      "lon": 4.4942535
+    },
+    {
+      "type": "node",
+      "id": 44354109,
+      "lat": 51.9106763,
+      "lon": 4.4962949
+    },
+    {
+      "type": "node",
+      "id": 1029946393,
+      "lat": 51.9107001,
+      "lon": 4.4962385
+    },
+    {
+      "type": "node",
+      "id": 1029946442,
+      "lat": 51.9106494,
+      "lon": 4.4963586
+    },
+    {
+      "type": "node",
+      "id": 4460603835,
+      "lat": 51.9106018,
+      "lon": 4.4960479
+    },
+    {
+      "type": "node",
+      "id": 4718288429,
+      "lat": 51.9104423,
+      "lon": 4.4961287
+    },
+    {
+      "type": "node",
+      "id": 4718288430,
+      "lat": 51.9104937,
+      "lon": 4.4960071
+    },
+    {
+      "type": "node",
+      "id": 4718288432,
+      "lat": 51.9104707,
+      "lon": 4.4960615
+    },
+    {
+      "type": "node",
+      "id": 5511303676,
+      "lat": 51.9105165,
+      "lon": 4.4959532
+    },
+    {
+      "type": "node",
+      "id": 5511303677,
+      "lat": 51.9107235,
+      "lon": 4.4961831
+    },
+    {
+      "type": "node",
+      "id": 5511303678,
+      "lat": 51.9106317,
+      "lon": 4.4964005
+    },
+    {
+      "type": "node",
+      "id": 5511303679,
+      "lat": 51.9104246,
+      "lon": 4.4961707
+    },
+    {
+      "type": "node",
+      "id": 7308911910,
+      "lat": 51.9105105,
+      "lon": 4.496266
+    },
+    {
+      "type": "node",
+      "id": 9492726897,
+      "lat": 51.9129838,
+      "lon": 4.4976644
+    },
+    {
+      "type": "node",
+      "id": 9492743504,
+      "lat": 51.9128999,
+      "lon": 4.4977909
+    },
+    {
+      "type": "node",
+      "id": 44398268,
+      "lat": 51.9201972,
+      "lon": 4.4996644
+    },
+    {
+      "type": "node",
+      "id": 44398709,
+      "lat": 51.9202433,
+      "lon": 4.4996541
+    },
+    {
+      "type": "node",
+      "id": 44398714,
+      "lat": 51.9202211,
+      "lon": 4.4999524
+    },
+    {
+      "type": "node",
+      "id": 44399122,
+      "lat": 51.9203692,
+      "lon": 4.499625
+    },
+    {
+      "type": "node",
+      "id": 44399127,
+      "lat": 51.9202696,
+      "lon": 4.4999412
+    },
+    {
+      "type": "node",
+      "id": 745722526,
+      "lat": 51.9203014,
+      "lon": 4.4996408
+    },
+    {
+      "type": "node",
+      "id": 1501926286,
+      "lat": 51.9203823,
+      "lon": 4.4996409
+    },
+    {
+      "type": "node",
+      "id": 1700382331,
+      "lat": 51.920394,
+      "lon": 4.49991
+    },
+    {
+      "type": "node",
+      "id": 2398913924,
+      "lat": 51.9201519,
+      "lon": 4.4996745
+    },
+    {
+      "type": "node",
+      "id": 2398913925,
+      "lat": 51.9204071,
+      "lon": 4.4999068
+    },
+    {
+      "type": "node",
+      "id": 2398913926,
+      "lat": 51.9201764,
+      "lon": 4.4999622
+    },
+    {
+      "type": "node",
+      "id": 2398913927,
+      "lat": 51.9203806,
+      "lon": 4.4996223
+    },
+    {
+      "type": "node",
+      "id": 6199692839,
+      "lat": 51.9201919,
+      "lon": 4.4999587
+    },
+    {
+      "type": "node",
+      "id": 6199692847,
+      "lat": 51.9204032,
+      "lon": 4.4998651
+    },
+    {
+      "type": "node",
+      "id": 6199692954,
+      "lat": 51.9203434,
+      "lon": 4.4999223
+    },
+    {
+      "type": "node",
+      "id": 6199692955,
+      "lat": 51.9203184,
+      "lon": 4.4996386
+    },
+    {
+      "type": "node",
+      "id": 4149464046,
+      "lat": 51.9046341,
+      "lon": 4.5420148
+    },
+    {
+      "type": "node",
+      "id": 4149464047,
+      "lat": 51.9046786,
+      "lon": 4.5421859
+    },
+    {
+      "type": "node",
+      "id": 4149464048,
+      "lat": 51.9047376,
+      "lon": 4.5424124
+    },
+    {
+      "type": "node",
+      "id": 4149464049,
+      "lat": 51.9047847,
+      "lon": 4.5425932
+    },
+    {
+      "type": "node",
+      "id": 4149464050,
+      "lat": 51.9050158,
+      "lon": 4.5417446
+    },
+    {
+      "type": "node",
+      "id": 4149464051,
+      "lat": 51.9050561,
+      "lon": 4.541918
+    },
+    {
+      "type": "node",
+      "id": 4149464052,
+      "lat": 51.9051102,
+      "lon": 4.542151
+    },
+    {
+      "type": "node",
+      "id": 4149464053,
+      "lat": 51.9051525,
+      "lon": 4.542333
+    },
+    {
+      "type": "node",
+      "id": 1030275236,
+      "lat": 51.9171736,
+      "lon": 4.578391
+    },
+    {
+      "type": "node",
+      "id": 5893097276,
+      "lat": 51.9170998,
+      "lon": 4.5787222
+    },
+    {
+      "type": "node",
+      "id": 5893097284,
+      "lat": 51.9170428,
+      "lon": 4.5786747
+    },
+    {
+      "type": "node",
+      "id": 5893099085,
+      "lat": 51.917113,
+      "lon": 4.5783521
+    },
+    {
+      "type": "node",
+      "id": 2140332771,
+      "lat": 51.9279713,
+      "lon": 4.4300596
+    },
+    {
+      "type": "node",
+      "id": 3282923078,
+      "lat": 51.9275511,
+      "lon": 4.4297977
+    },
+    {
+      "type": "node",
+      "id": 3282923079,
+      "lat": 51.927591,
+      "lon": 4.4297399
+    },
+    {
+      "type": "node",
+      "id": 3282923080,
+      "lat": 51.9276807,
+      "lon": 4.4296099
+    },
+    {
+      "type": "node",
+      "id": 3282923081,
+      "lat": 51.9277202,
+      "lon": 4.4295528
+    },
+    {
+      "type": "node",
+      "id": 3282923082,
+      "lat": 51.9277298,
+      "lon": 4.4295388
+    },
+    {
+      "type": "node",
+      "id": 3282923083,
+      "lat": 51.9277516,
+      "lon": 4.4295086
+    },
+    {
+      "type": "node",
+      "id": 3282923084,
+      "lat": 51.9277717,
+      "lon": 4.4294788
+    },
+    {
+      "type": "node",
+      "id": 3282923086,
+      "lat": 51.927795,
+      "lon": 4.4294466
+    },
+    {
+      "type": "node",
+      "id": 3282923087,
+      "lat": 51.9278011,
+      "lon": 4.4294365
+    },
+    {
+      "type": "node",
+      "id": 3282923089,
+      "lat": 51.9278339,
+      "lon": 4.4293891
+    },
+    {
+      "type": "node",
+      "id": 3282923090,
+      "lat": 51.9279052,
+      "lon": 4.4301579
+    },
+    {
+      "type": "node",
+      "id": 3282923091,
+      "lat": 51.9279944,
+      "lon": 4.4300253
+    },
+    {
+      "type": "node",
+      "id": 3282923092,
+      "lat": 51.9280178,
+      "lon": 4.4299905
+    },
+    {
+      "type": "node",
+      "id": 3282923093,
+      "lat": 51.928026,
+      "lon": 4.4299784
+    },
+    {
+      "type": "node",
+      "id": 3282923094,
+      "lat": 51.9280549,
+      "lon": 4.4299353
+    },
+    {
+      "type": "node",
+      "id": 4484194450,
+      "lat": 51.9220705,
+      "lon": 4.437214
+    },
+    {
+      "type": "node",
+      "id": 4484194451,
+      "lat": 51.9220854,
+      "lon": 4.4373962
+    },
+    {
+      "type": "node",
+      "id": 4484194452,
+      "lat": 51.9221036,
+      "lon": 4.4371737
+    },
+    {
+      "type": "node",
+      "id": 4484194453,
+      "lat": 51.9221185,
+      "lon": 4.437356
+    },
+    {
+      "type": "node",
+      "id": 4484194454,
+      "lat": 51.9221525,
+      "lon": 4.4371141
+    },
+    {
+      "type": "node",
+      "id": 4484194455,
+      "lat": 51.9221673,
+      "lon": 4.4372965
+    },
+    {
+      "type": "node",
+      "id": 4484194456,
+      "lat": 51.9221857,
+      "lon": 4.4370737
+    },
+    {
+      "type": "node",
+      "id": 4484194457,
+      "lat": 51.9222004,
+      "lon": 4.4372562
+    },
+    {
+      "type": "node",
+      "id": 3282923085,
+      "lat": 51.9277791,
+      "lon": 4.4303453
+    },
+    {
+      "type": "node",
+      "id": 3282923088,
+      "lat": 51.9278177,
+      "lon": 4.4302879
+    },
+    {
+      "type": "node",
+      "id": 306285399,
+      "lat": 51.9210671,
+      "lon": 4.4982022
+    },
+    {
+      "type": "node",
+      "id": 770739584,
+      "lat": 51.9210887,
+      "lon": 4.4982675
+    },
+    {
+      "type": "node",
+      "id": 1555848064,
+      "lat": 51.9210507,
+      "lon": 4.4981514
+    },
+    {
+      "type": "node",
+      "id": 1555848065,
+      "lat": 51.9211014,
+      "lon": 4.4983061
+    },
+    {
+      "type": "node",
+      "id": 1555848066,
+      "lat": 51.9212546,
+      "lon": 4.4979768
+    },
+    {
+      "type": "node",
+      "id": 1555848069,
+      "lat": 51.9212719,
+      "lon": 4.4980331
+    },
+    {
+      "type": "node",
+      "id": 1555848077,
+      "lat": 51.9212932,
+      "lon": 4.498102
+    },
+    {
+      "type": "node",
+      "id": 1555848078,
+      "lat": 51.921305,
+      "lon": 4.4981397
+    },
+    {
+      "type": "node",
+      "id": 2405631457,
+      "lat": 51.9212427,
+      "lon": 4.4979387
+    },
+    {
+      "type": "node",
+      "id": 2405631460,
+      "lat": 51.9213216,
+      "lon": 4.4981915
+    },
+    {
+      "type": "node",
+      "id": 2405631461,
+      "lat": 51.921037,
+      "lon": 4.4981074
+    },
+    {
+      "type": "node",
+      "id": 2405631469,
+      "lat": 51.9211192,
+      "lon": 4.4983619
+    },
+    {
+      "type": "node",
+      "id": 745637382,
+      "lat": 51.9556009,
+      "lon": 4.5185185
+    },
+    {
+      "type": "node",
+      "id": 745637781,
+      "lat": 51.9555779,
+      "lon": 4.5186502
+    }
+  ]
+}

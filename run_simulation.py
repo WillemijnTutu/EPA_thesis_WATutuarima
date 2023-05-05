@@ -1,9 +1,8 @@
 import fugitive_model
+import logging
 
 from pydsol.core.simulator import DEVSSimulatorFloat
 from pydsol.core.experiment import SingleReplication
-
-import logging
 from pydsol.model.basic_logger import get_module_logger
 
 logger = get_module_logger(__name__, level=logging.DEBUG)
@@ -26,4 +25,3 @@ if __name__ == "__main__":
     simulator.initialize(model, replication)
     simulator.start()
 
-    # model.get_output_statistic()

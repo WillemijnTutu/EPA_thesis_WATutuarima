@@ -1,13 +1,14 @@
 import numpy as np
+import math
+import logging
+
 from pydsol.model.node import Node
 from pydsol.model.link import Link
 from pydsol.model.source import Source
 from pydsol.model.sink import Sink
 from fugitive import Fugitive
-import math
-
-import logging
 from basic_logger import get_module_logger
+
 logger = get_module_logger(__name__, level=logging.INFO)
 
 """
@@ -15,20 +16,22 @@ logger = get_module_logger(__name__, level=logging.INFO)
     
     Classes
     -------
-    Intersection: Node
+    Intersection:Node
         Class that creates an intersection to connect one or more road components. The functionality of an intersection
         includes the decision making of the fugitive entity per node. 
-    Road: Link
+    Road:Link
         Class that creates an road component that connects two intersection components.
-    SourceFugitive: Source
+    SourceFugitive:Source
         Class that creates a source component which creates the fugitive entities
+    SinkFugitive:Sink
+        This class creates a fugitive sink component 
 """
 
 
 class Intersection(Node):
     """
     Class that creates an intersection to connect one or more road components. The functionality of an intersection
-    includes the decision making of the fugitive entity per node.
+    includes the decision-making of the fugitive entity per node.
 
     Attributes
     ----------
@@ -39,6 +42,8 @@ class Intersection(Node):
         the keyword arguments that are used to expand the Node class
         id: int
             Personal id number of the intersection component
+    next:Array
+        List of edges that are connected to the node
 
     Methods
     ------
@@ -107,7 +112,8 @@ class Intersection(Node):
         assert self.id == entity.route_planned[0]
 
         if len(entity.route_planned) <= 1:  # reached destination node
-            logger.debug(f"Time {self.simulator.simulator_time:.2f}: {entity.name} has reached destination node {self.id}")
+            logger.debug(f"Time {self.simulator.simulator_time:.2f}: {entity.name} has reached "
+                         f"destination node {self.id}")
 
             self.next.enter_link(entity)
 
@@ -123,14 +129,16 @@ class Intersection(Node):
                 for link in self.next:
                     if link.destination_name == next_node:
                         destination_link = link
-                        destination_link.enter_link(entity)  # stel er zijn twee links naar de next_node gaat het hier mis -> break na deze if
+                        destination_link.enter_link(entity)
+                        # stel er zijn twee links naar de next_node gaat het hier mis -> break na deze if
 
                         logger.debug("Time {0:.2f}: Entity: {1} exited node{2}".format(self.simulator.simulator_time,
                                                                                       entity.name, self.id))
                         break
 
                 if 'destination_link' not in locals():
-                    raise Exception(f'The destination node {next_node} of {entity.name} is not an output link of the current node {self.name}')
+                    raise Exception(f'The destination node {next_node} of {entity.name} '
+                                    f'is not an output link of the current node {self.name}')
 
             except AttributeError:
                 raise AttributeError(f"{self.name} has no output link")
@@ -192,25 +200,29 @@ class SourceFugitive(Source):
 
     Attributes
     ----------
-    graph: osmnx.graph
+    graph:osmnx.graph
         graph that represents the network
     simulator:
         PyDSOL core simulator
     interarrival_time:str
         time between the creation of entities. Default is np.random.exponential(0.25).
-    num_entities: int
+    num_entities:int
         number of entities that the source creates
-    id: int
+    id:int
         Identification number of source
-    fugitive_sink: Node
+    fugitive_sink:Node
         Node that is the final destination of the fugitive entity
-    entity_type: Class
+    entity_type:Class
         The entity type that the source creates, in this case the type is Fugitive
+    entity_mode:Array
+        An array representing the mental mode of the fugitive
 
     Methods
     -------
     __init__
         Method to initialise the fugitive source component
+    create_entities
+        Create fugitives via SimEvent, given the interarrival time and the number of entities.
     exit_source
         Method for an entity to exit the source component
     """
@@ -254,7 +266,6 @@ class SourceFugitive(Source):
 
         self.kwargs = kwargs
 
-
         self.name = "{0} {1}".format(self.__class__.__name__, str(self.id))
         if "name" in kwargs:
             self.name = kwargs["name"]
@@ -270,8 +281,6 @@ class SourceFugitive(Source):
 
         Parameters
         ----------
-        entity_mode:
-            the mode of the fugitive
         kwargs:
             kwargs are the keyword arguments that are used to invoke the method or expand the function.
 
@@ -283,9 +292,6 @@ class SourceFugitive(Source):
                               self.fugitive_sink, self.fugitive_source, **kwargs)
             # logger.info("Time {0:.2f}: {1} is created at {2}".format(self.simulator.simulator_time, entity.name))
             self.exit_source(entity)
-
-        # Schedule event to create next entity according to the interarrival time
-        # self.simulator.schedule_event_rel(self.interarrival_time, self, "create_entities")
 
     def exit_source(self, entity, **kwargs):
         """
@@ -312,6 +318,17 @@ class SinkFugitive(Sink):
         PyDSOL core simulator
     transfer_in_time: [float, int]
         time it takes to transfer an object into the sink. Default is 0.
+    model:FugitiveModel
+            The model that uses the road_component
+    entities_of_system=Array
+        Array of all the entities in the system created by the component
+
+    Methods
+    -------
+    __init__
+        Method to initialise class
+    enter_input_node
+        Method to call when entity enters a sink (output statistics)
     """
 
     def __init__(self, simulator, model, transfer_in_time: [float, int], **kwargs):
@@ -322,6 +339,8 @@ class SinkFugitive(Sink):
         ----------
         simulator
             PyDSOL core simulator
+        model:FugitiveModel
+            The model that uses the road_component
         transfer_in_time: [float, int]
             time it takes to transfer an object into the sink. Default is 0.
         kwargs:
@@ -336,6 +355,14 @@ class SinkFugitive(Sink):
         self.entities_of_system = []
 
     def enter_input_node(self, entity):
+        """
+        Method to call when entity enters a sink (output statistics)
+
+        Parameters
+        ----------
+        entity:fugitive
+            Fugitive entity on which to calculate the output statistics
+        """
 
         self.model.get_output_statistic(entity)
         super().enter_input_node(entity)

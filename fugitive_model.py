@@ -1,9 +1,8 @@
 import networkx as nx
+import osmnx as ox
 
 from pydsol.core.model import DSOLModel
 from road_components import Intersection, Road, SourceFugitive, SinkFugitive
-
-import osmnx as ox
 
 
 class FugitiveModel(DSOLModel):
@@ -20,25 +19,41 @@ class FugitiveModel(DSOLModel):
     Methods
     -------
     __init__
-        build the initial data set for roads, intersections, sources and sinks. Call the construct_graph() method
+        Build the initial data set for roads, intersections, sources and sinks. Call the construct_graph() method
     construct_model
-        reset model and construct sources
+        Method to reset model and construct sources
     construct_graph
-        call method to construct the intersections and roads based on a provided file
+        Method to construct the intersections and road components of graph
     construct_intersections
-        construct intersections
+        This method constructs all the intersections from the provided graph
     construct_roads
-        construct roads
+        This method constructs all roads from the provided graph
+    construct_sources
+        Method to construct the sources where the fugitive entity is creates
+    construct_sink
+        Method to construct the sinks where the fugitive entity is deleted
+    reset_model
+        Method to reset model
+    get_output_statistic
+        Method to calculate output statistics and visualize the route taken during simulation
     """
 
-    def __init__(self, simulator, filepath, fugitive_start, fugitive_end, mental_mode={'camera_avoidance':True}):
+    def __init__(self, simulator, filepath, fugitive_start=44430463, fugitive_end=44465861, mental_mode={'camera_avoidance':True}):
         """
         Parameters
         ----------
-        simulator: simulator
+        simulator:simulator
             the simulator used to run the model
-        filepath: str
+        filepath:str
             the filepath of the graph file used to build the network
+        fugitive_start:int
+            The starting location of the fugitive entity
+        fugitive_end:int
+            The goal location of the fugitive entity
+        mental_mode:Array[Bool]
+            array representing the mental mode of the fugitive
+            camera_avoidance:Bool
+                A boolean representing whether the fugitive is avoiding cameras
         """
         super().__init__(simulator)
 
@@ -99,16 +114,12 @@ class FugitiveModel(DSOLModel):
             else:
                 # if maximum speed is not specified, max speed of 30 km/h is assumed
                 # the number of edges without maximum speed is 2402, from the total of 25348 edges (so 9.47%)
-                # print("origin ", origin_num)
-                # print("destination", destination_num)
                 total = total + 1
                 nx.set_edge_attributes(self.graph,
                                        {(origin_num, destination_num, 0): {
                                            "time_to_cross": data.get('length') / 30.0},
                                         (origin_num, destination_num, 1): {
                                             "time_to_cross": data.get('length') / 30.0}})
-
-        # print("total ", total)
 
         self.construct_intersections(graph)
         self.construct_roads(graph)
@@ -125,8 +136,8 @@ class FugitiveModel(DSOLModel):
 
         # create an intersection object for all the intersections
         for node, data in graph.nodes(data=True):
-            locx = data["x"]
-            loxy = data["y"]
+            # locx = data["x"]
+            # loxy = data["y"]
 
             intersection = Intersection(simulator=self.simulator, id=node)
 
@@ -241,6 +252,11 @@ class FugitiveModel(DSOLModel):
     def get_output_statistic(self, entity):
         """
         Method to calculate output statistics and visualize the route taken during simulation
+
+        Parameters
+        ----------
+        entity:fugitive
+            The fugitive entity on which to base the output statistics
         """
         self.simulator._eventlist.clear()
 
