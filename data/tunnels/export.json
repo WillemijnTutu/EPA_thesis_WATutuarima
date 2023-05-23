@@ -1,0 +1,2502 @@
+[
+    {
+      "type": "way",
+      "id": 7311039,
+      "nodes": [
+        44412945,
+        44412366
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "tertiary",
+        "layer": "-1",
+        "maxspeed": "50",
+        "name": "Schönberglaan",
+        "oneway": "no",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7330702,
+      "nodes": [
+        44259105,
+        44259101
+      ],
+      "tags": {
+        "bicycle": "no",
+        "ele": "4",
+        "highway": "primary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "4",
+        "maxspeed": "50",
+        "name": "Strevelsweg",
+        "oneway": "yes",
+        "ref": "S125",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7330707,
+      "nodes": [
+        44258484,
+        5310440835,
+        44258488
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "ele": "4",
+        "highway": "primary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "4",
+        "maxspeed": "50",
+        "name": "Strevelsweg",
+        "oneway": "yes",
+        "ref": "S125",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7514714,
+      "nodes": [
+        44326287,
+        8806549638,
+        8806549639,
+        8806549640,
+        8806549641,
+        8806549642,
+        8806549643,
+        8806549644,
+        8806549645,
+        8806549646,
+        8806549647,
+        8806549648,
+        8806549649,
+        8806549650,
+        8806549651,
+        8806549652,
+        8806549653,
+        8806549654,
+        8806549655,
+        745732494
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "hazmat:adr_tunnel_cat": "D",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "4",
+        "maxheight:physical": "4",
+        "maxspeed": "50",
+        "maxwidth": "2.6",
+        "mofa": "no",
+        "moped": "no",
+        "name": "Maastunnel",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "concrete",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q302938",
+        "wikipedia": "de:Maastunnel",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7514715,
+      "nodes": [
+        44287209,
+        8806549656,
+        8806549657,
+        8806549658,
+        8806549659,
+        8806549660,
+        8806549661,
+        8806549662,
+        8806549663,
+        8806549664,
+        8806549665,
+        8806549666,
+        8806549667,
+        8806549668,
+        8806549669,
+        8806549670,
+        8806549671,
+        8806549672,
+        8806549673,
+        8806549631,
+        8806549632,
+        8806549633,
+        8806549634,
+        8806549635,
+        8806549636,
+        8806549637,
+        44326289
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "hazmat:adr_tunnel_cat": "D",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "4",
+        "maxheight:physical": "4",
+        "maxspeed": "50",
+        "maxwidth": "2.6",
+        "mofa": "no",
+        "moped": "no",
+        "name": "Maastunnel",
+        "oneway": "yes",
+        "opening_date": "2019-08-19 06.00",
+        "ref": "S103",
+        "surface": "concrete",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q302938",
+        "wikipedia": "de:Maastunnel",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7523323,
+      "nodes": [
+        44387965,
+        44389330
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.8",
+        "maxspeed": "50",
+        "name": "Churchillplein",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7523350,
+      "nodes": [
+        44389602,
+        2388757613,
+        44388463
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "level": "-1",
+        "maxheight": "3.8",
+        "maxspeed": "50",
+        "name": "Churchillplein",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 7531168,
+      "nodes": [
+        44479212,
+        44481369
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "residential",
+        "layer": "-1",
+        "maxheight": "3.30",
+        "maxspeed": "30",
+        "name": "Kleinpoldertunnel",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 19789936,
+      "nodes": [
+        206180440,
+        1445365049
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "tertiary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "4.0",
+        "maxheight:physical": "4",
+        "maxspeed": "50",
+        "name": "Diergaardetunnel",
+        "name:etymology:wikidata": "Q18775796",
+        "shoulder": "no",
+        "source": "Gemeente Rotterdam Stadsbeheer Gebouwen & Grenzen",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 42702375,
+      "nodes": [
+        1434991577,
+        533987391
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "foot": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "4.1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "mofa": "use_sidepath",
+        "name": "Gordelweg",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 42702468,
+      "nodes": [
+        533988179,
+        533988182
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "foot": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "4.1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "mofa": "use_sidepath",
+        "moped": "use_sidepath",
+        "name": "Gordelweg",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 45754203,
+      "nodes": [
+        582730474,
+        676069834
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S103",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q2793209",
+        "wikipedia": "nl:'s-Gravendijkwal",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076538,
+      "nodes": [
+        622670792,
+        622670835
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "layer": "-1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S100",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076541,
+      "nodes": [
+        622670822,
+        622670811
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "layer": "-1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S100",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076542,
+      "nodes": [
+        622670813,
+        622670824
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "layer": "-1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S100",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076543,
+      "nodes": [
+        622670837,
+        622670843
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "layer": "-1",
+        "maxheight:physical": "4.1",
+        "maxspeed": "50",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S100",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076550,
+      "nodes": [
+        622670986,
+        622670962
+      ],
+      "tags": {
+        "bicycle": "no",
+        "embedded_rails": "tram",
+        "hgv": "no",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "3.4",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "shoulder": "no",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076551,
+      "nodes": [
+        622670987,
+        622670963
+      ],
+      "tags": {
+        "bicycle": "no",
+        "hgv": "no",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "lit": "yes",
+        "maxheight": "4.0",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "shoulder": "no",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076552,
+      "nodes": [
+        622670971,
+        622670989
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "lit": "yes",
+        "maxheight": "4.0",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "shoulder": "no",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076553,
+      "nodes": [
+        622670972,
+        206180350
+      ],
+      "tags": {
+        "bicycle": "no",
+        "embedded_rails": "tram",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "3.4",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "shoulder": "no",
+        "surface": "asphalt",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076557,
+      "nodes": [
+        622670967,
+        622670941
+      ],
+      "tags": {
+        "bicycle": "no",
+        "hgv": "no",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "4.0",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 49076558,
+      "nodes": [
+        622670942,
+        622670968
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "4.0",
+        "maxspeed": "50",
+        "name": "Statentunnel",
+        "name:etymology:wikidata": "Q769041",
+        "oneway": "yes",
+        "ref": "S113",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 53505261,
+      "nodes": [
+        1602597006,
+        44338642
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "asphalt",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q2793209",
+        "wikipedia": "nl:'s-Gravendijkwal",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 53505262,
+      "nodes": [
+        676069836,
+        582730477
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "asphalt",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q2793209",
+        "wikipedia": "nl:'s-Gravendijkwal",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 59984969,
+      "nodes": [
+        1230991842,
+        2098302977,
+        1230991865
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "Pleinweg",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "asphalt",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 60062720,
+      "nodes": [
+        3491058860,
+        2789468446,
+        2789468447,
+        1555848106
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "level": "-1",
+        "maxheight": "3.8",
+        "maxspeed": "50",
+        "name": "Weenatunnel",
+        "name:etymology:wikidata": "Q2163790",
+        "oneway": "yes",
+        "ref": "S100",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "wikidata": "Q2325618",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 60062723,
+      "nodes": [
+        3491058795,
+        3491058814
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "level": "-1",
+        "maxheight": "3.8",
+        "maxspeed": "50",
+        "name": "Weenatunnel",
+        "name:etymology:wikidata": "Q2163790",
+        "oneway": "yes",
+        "ref": "S100",
+        "shoulder": "no",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 107063946,
+      "nodes": [
+        1230974000,
+        2098302976,
+        1230974038
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "Pleinweg",
+        "note": "traffic temporarily reversed",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "asphalt",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 130195035,
+      "nodes": [
+        1434930038,
+        1602597018
+      ],
+      "tags": {
+        "agricultural": "no",
+        "bicycle": "no",
+        "foot": "no",
+        "hazmat:B": "no",
+        "hazmat:C": "no",
+        "hazmat:D": "no",
+        "hazmat:E": "yes",
+        "highway": "primary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.6",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "'s-Gravendijkwal",
+        "oneway": "yes",
+        "ref": "S103",
+        "surface": "asphalt",
+        "traffic_sign": "NL:C9;NL:C16",
+        "tunnel": "yes",
+        "wikidata": "Q2793209",
+        "wikipedia": "nl:'s-Gravendijkwal",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 168116013,
+      "nodes": [
+        1794228972,
+        10231764618,
+        8553643287,
+        10231764721,
+        1794228977,
+        10231854674,
+        10231854647,
+        10231854640,
+        8553606969,
+        10231854620,
+        10231854638,
+        10231854661,
+        8553606974,
+        10231854687,
+        10231854682,
+        8553606971,
+        10231834115,
+        10231854653,
+        1794228978,
+        10231854639,
+        10231854651,
+        8553606973,
+        10231854642,
+        10231854629,
+        1794228979,
+        1794228980
+      ],
+      "tags": {
+        "carriageway_ref": "Li",
+        "construction": "motorway",
+        "highway": "construction",
+        "int_ref": "E 19",
+        "lanes": "2",
+        "layer": "-1",
+        "maxspeed": "100",
+        "name": "Rottemerentunnel",
+        "oneway": "yes",
+        "ref": "A16",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 168116016,
+      "nodes": [
+        1794229006,
+        1794229011,
+        10231854630,
+        10231854671,
+        8553606972,
+        10231854656,
+        10231854654,
+        1794229010,
+        10231854632,
+        10231854672,
+        8553606970,
+        10231854623,
+        10231854649,
+        8553606975,
+        10231854669,
+        10231854685,
+        10231854680,
+        10231854676,
+        8553606968,
+        10231854641,
+        10231854621,
+        10231854668,
+        1794229009,
+        10231764643,
+        8553643288,
+        10231748509,
+        1794228973
+      ],
+      "tags": {
+        "carriageway_ref": "Re",
+        "construction": "motorway",
+        "highway": "construction",
+        "int_ref": "E 19",
+        "lanes": "2",
+        "layer": "-1",
+        "maxspeed": "100",
+        "name": "Rottemerentunnel",
+        "oneway": "yes",
+        "ref": "A16",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 255337451,
+      "nodes": [
+        2610310761,
+        4878526524
+      ],
+      "tags": {
+        "covered": "yes",
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "name": "Scheepmakerskade",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 255344100,
+      "nodes": [
+        2610310921,
+        6206630709
+      ],
+      "tags": {
+        "covered": "yes",
+        "highway": "residential",
+        "layer": "-1",
+        "name": "1e Blekerhof",
+        "tunnel": "covered"
+      }
+    },
+    {
+      "type": "way",
+      "id": 301725878,
+      "nodes": [
+        2786741237,
+        4800828909
+      ],
+      "tags": {
+        "highway": "residential",
+        "layer": "-1",
+        "maxspeed": "30",
+        "name": "Oostvoornsestraat",
+        "oneway": "yes",
+        "oneway:bicycle": "no",
+        "oneway:mofa": "no",
+        "oneway:moped": "no",
+        "source:maxspeed": "NL:zone30",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 317414753,
+      "nodes": [
+        3236761397,
+        3236761398
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "default",
+        "maxspeed": "50",
+        "name": "Rijstuin",
+        "oneway": "yes",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 317414755,
+      "nodes": [
+        3236761396,
+        3236761395
+      ],
+      "tags": {
+        "covered": "yes",
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "default",
+        "maxspeed": "50",
+        "name": "Rijstuin",
+        "oneway": "yes",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 472417313,
+      "nodes": [
+        4666276681,
+        4666276682
+      ],
+      "tags": {
+        "hgv": "no",
+        "highway": "tertiary",
+        "lanes": "1",
+        "layer": "-1",
+        "maxheight": "2.4",
+        "name": "Stoopweg",
+        "sidewalk": "no",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "wikidata": "Q107412098"
+      }
+    },
+    {
+      "type": "way",
+      "id": 477447059,
+      "nodes": [
+        4708005932,
+        4708005925,
+        4708005926,
+        4708005927
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "name": "Jufferkade",
+        "oneway": "yes",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 495194726,
+      "nodes": [
+        4869747695,
+        4869747696
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "3.2",
+        "maxspeed": "30",
+        "maxspeed:type": "NL:zone30",
+        "name": "Pannekoekstraat",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 508166495,
+      "nodes": [
+        4975178272,
+        4708005932
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "name": "Jufferkade",
+        "oneway": "no",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 635622596,
+      "nodes": [
+        5995360258,
+        5995360257,
+        5995360256,
+        5995360255,
+        5995360258
+      ],
+      "tags": {
+        "layer": "-1",
+        "man_made": "tunnel",
+        "name": "Diergaardetunnel",
+        "tunnel": "yes",
+        "wikidata": "Q44409826",
+        "wikipedia": "nl:Diergaardetunnel"
+      }
+    },
+    {
+      "type": "way",
+      "id": 662244945,
+      "nodes": [
+        6199943116,
+        6199943121
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "foot": "no",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxspeed": "50",
+        "name": "Overblaak",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "covered"
+      }
+    },
+    {
+      "type": "way",
+      "id": 662244946,
+      "nodes": [
+        6199943118,
+        6199943119
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "foot": "no",
+        "highway": "secondary_link",
+        "lanes": "2",
+        "layer": "-1",
+        "maxspeed": "50",
+        "name": "Overblaak",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "covered"
+      }
+    },
+    {
+      "type": "way",
+      "id": 662244950,
+      "nodes": [
+        6199943124,
+        6199943123
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "foot": "no",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxspeed": "50",
+        "name": "Overblaak",
+        "oneway": "yes",
+        "surface": "asphalt",
+        "tunnel": "covered"
+      }
+    },
+    {
+      "type": "way",
+      "id": 662745209,
+      "nodes": [
+        6204275019,
+        1951440786,
+        6204275025
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "3",
+        "layer": "-1",
+        "maxheight": "default",
+        "maxspeed": "50",
+        "name": "Schiekade",
+        "name:etymology:wikidata": "Q2169049",
+        "oneway": "yes",
+        "placement": "right_of:1",
+        "ref": "S112",
+        "surface": "asphalt",
+        "tunnel": "covered",
+        "turn:lanes": "through|through|right"
+      }
+    },
+    {
+      "type": "way",
+      "id": 662745219,
+      "nodes": [
+        6204275029,
+        6204275018
+      ],
+      "tags": {
+        "bicycle": "use_sidepath",
+        "highway": "secondary",
+        "lanes": "2",
+        "layer": "-1",
+        "maxheight": "default",
+        "maxspeed": "50",
+        "name": "Schiekade",
+        "name:etymology:wikidata": "Q2169049",
+        "oneway": "yes",
+        "ref": "S112",
+        "surface": "asphalt",
+        "tunnel": "covered"
+      }
+    },
+    {
+      "type": "way",
+      "id": 763194610,
+      "nodes": [
+        1377770950,
+        1377770954,
+        1377770957,
+        1377770961,
+        1377770965
+      ],
+      "tags": {
+        "bicycle": "no",
+        "highway": "primary",
+        "junction": "circular",
+        "lanes": "3",
+        "maxheight": "default",
+        "maxspeed": "50",
+        "mofa": "no",
+        "moped": "no",
+        "name": "IJsselmondseplein",
+        "oneway": "yes",
+        "source:maxspeed": "NL:urban",
+        "surface": "asphalt",
+        "tunnel": "yes",
+        "zone:traffic": "NL:urban"
+      }
+    },
+    {
+      "type": "way",
+      "id": 842581505,
+      "nodes": [
+        4708005924,
+        4708005932
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "1",
+        "layer": "-1",
+        "name": "Jufferkade",
+        "surface": "paving_stones",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 897594980,
+      "nodes": [
+        1501934346,
+        1501934385
+      ],
+      "tags": {
+        "layer": "-1",
+        "name": "Delftsevaart",
+        "tunnel": "yes",
+        "water_system": "boezem",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1125417381,
+      "nodes": [
+        10291452007,
+        10291476023
+      ],
+      "tags": {
+        "construction": "cycleway",
+        "highway": "construction",
+        "layer": "-1",
+        "name": "IJsselmondse Randweg",
+        "oneway": "no",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1125417388,
+      "nodes": [
+        10291476037,
+        10291476036
+      ],
+      "tags": {
+        "construction": "cycleway",
+        "highway": "construction",
+        "layer": "-1",
+        "name": "Verbindingsweg",
+        "oneway": "no",
+        "tunnel": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2786741237,
+      "lat": 51.890873,
+      "lon": 4.4677538
+    },
+    {
+      "type": "node",
+      "id": 4800828909,
+      "lat": 51.8909095,
+      "lon": 4.4675979
+    },
+    {
+      "type": "node",
+      "id": 1230974000,
+      "lat": 51.8926353,
+      "lon": 4.4745021
+    },
+    {
+      "type": "node",
+      "id": 1230974038,
+      "lat": 51.892337,
+      "lon": 4.475453
+    },
+    {
+      "type": "node",
+      "id": 1230991842,
+      "lat": 51.8924147,
+      "lon": 4.4755893
+    },
+    {
+      "type": "node",
+      "id": 1230991865,
+      "lat": 51.8927962,
+      "lon": 4.4747571
+    },
+    {
+      "type": "node",
+      "id": 2098302976,
+      "lat": 51.8924726,
+      "lon": 4.4749412
+    },
+    {
+      "type": "node",
+      "id": 2098302977,
+      "lat": 51.8925258,
+      "lon": 4.4753138
+    },
+    {
+      "type": "node",
+      "id": 44258484,
+      "lat": 51.8896942,
+      "lon": 4.5075795
+    },
+    {
+      "type": "node",
+      "id": 44258488,
+      "lat": 51.8897274,
+      "lon": 4.5080487
+    },
+    {
+      "type": "node",
+      "id": 44259101,
+      "lat": 51.8897948,
+      "lon": 4.5076238
+    },
+    {
+      "type": "node",
+      "id": 44259105,
+      "lat": 51.8898227,
+      "lon": 4.5080823
+    },
+    {
+      "type": "node",
+      "id": 5310440835,
+      "lat": 51.8896984,
+      "lon": 4.5076916
+    },
+    {
+      "type": "node",
+      "id": 8806549643,
+      "lat": 51.8972633,
+      "lon": 4.468049
+    },
+    {
+      "type": "node",
+      "id": 8806549644,
+      "lat": 51.897151,
+      "lon": 4.4680559
+    },
+    {
+      "type": "node",
+      "id": 8806549645,
+      "lat": 51.8969813,
+      "lon": 4.4680816
+    },
+    {
+      "type": "node",
+      "id": 8806549646,
+      "lat": 51.8968239,
+      "lon": 4.4681222
+    },
+    {
+      "type": "node",
+      "id": 8806549647,
+      "lat": 51.8966611,
+      "lon": 4.4681815
+    },
+    {
+      "type": "node",
+      "id": 8806549648,
+      "lat": 51.8964855,
+      "lon": 4.4682623
+    },
+    {
+      "type": "node",
+      "id": 8806549649,
+      "lat": 51.8963365,
+      "lon": 4.4683483
+    },
+    {
+      "type": "node",
+      "id": 8806549650,
+      "lat": 51.8961896,
+      "lon": 4.4684487
+    },
+    {
+      "type": "node",
+      "id": 8806549651,
+      "lat": 51.8960495,
+      "lon": 4.4685607
+    },
+    {
+      "type": "node",
+      "id": 8806549652,
+      "lat": 51.8958673,
+      "lon": 4.4687306
+    },
+    {
+      "type": "node",
+      "id": 8806549653,
+      "lat": 51.8957566,
+      "lon": 4.4688468
+    },
+    {
+      "type": "node",
+      "id": 8806549654,
+      "lat": 51.895664,
+      "lon": 4.4689592
+    },
+    {
+      "type": "node",
+      "id": 8806549655,
+      "lat": 51.8954759,
+      "lon": 4.4692218
+    },
+    {
+      "type": "node",
+      "id": 8806549656,
+      "lat": 51.8954309,
+      "lon": 4.4694513
+    },
+    {
+      "type": "node",
+      "id": 8806549657,
+      "lat": 51.8955293,
+      "lon": 4.4692958
+    },
+    {
+      "type": "node",
+      "id": 8806549658,
+      "lat": 51.8957073,
+      "lon": 4.4690523
+    },
+    {
+      "type": "node",
+      "id": 8806549659,
+      "lat": 51.8958074,
+      "lon": 4.4689306
+    },
+    {
+      "type": "node",
+      "id": 8806549660,
+      "lat": 51.8958932,
+      "lon": 4.4688427
+    },
+    {
+      "type": "node",
+      "id": 8806549661,
+      "lat": 51.8960278,
+      "lon": 4.4687113
+    },
+    {
+      "type": "node",
+      "id": 8806549662,
+      "lat": 51.8961392,
+      "lon": 4.468617
+    },
+    {
+      "type": "node",
+      "id": 8806549663,
+      "lat": 51.8962374,
+      "lon": 4.4685404
+    },
+    {
+      "type": "node",
+      "id": 8806549664,
+      "lat": 51.8963461,
+      "lon": 4.4684668
+    },
+    {
+      "type": "node",
+      "id": 8806549665,
+      "lat": 51.896508,
+      "lon": 4.4683742
+    },
+    {
+      "type": "node",
+      "id": 8806549666,
+      "lat": 51.8966337,
+      "lon": 4.4683143
+    },
+    {
+      "type": "node",
+      "id": 8806549667,
+      "lat": 51.8967716,
+      "lon": 4.4682608
+    },
+    {
+      "type": "node",
+      "id": 8806549668,
+      "lat": 51.8968974,
+      "lon": 4.4682223
+    },
+    {
+      "type": "node",
+      "id": 8806549669,
+      "lat": 51.89705,
+      "lon": 4.4681899
+    },
+    {
+      "type": "node",
+      "id": 8806549670,
+      "lat": 51.8972113,
+      "lon": 4.4681727
+    },
+    {
+      "type": "node",
+      "id": 8806549671,
+      "lat": 51.8973726,
+      "lon": 4.4681685
+    },
+    {
+      "type": "node",
+      "id": 8806549672,
+      "lat": 51.8974546,
+      "lon": 4.4681676
+    },
+    {
+      "type": "node",
+      "id": 44326287,
+      "lat": 51.9044907,
+      "lon": 4.467475
+    },
+    {
+      "type": "node",
+      "id": 44326289,
+      "lat": 51.9045147,
+      "lon": 4.467603
+    },
+    {
+      "type": "node",
+      "id": 44338642,
+      "lat": 51.9074805,
+      "lon": 4.4660402
+    },
+    {
+      "type": "node",
+      "id": 1434930038,
+      "lat": 51.9075614,
+      "lon": 4.4663725
+    },
+    {
+      "type": "node",
+      "id": 1602597006,
+      "lat": 51.9076916,
+      "lon": 4.4659434
+    },
+    {
+      "type": "node",
+      "id": 1602597018,
+      "lat": 51.9077767,
+      "lon": 4.4662729
+    },
+    {
+      "type": "node",
+      "id": 8806549631,
+      "lat": 51.9027117,
+      "lon": 4.4681059
+    },
+    {
+      "type": "node",
+      "id": 8806549632,
+      "lat": 51.9031154,
+      "lon": 4.4681
+    },
+    {
+      "type": "node",
+      "id": 8806549633,
+      "lat": 51.9032608,
+      "lon": 4.4680846
+    },
+    {
+      "type": "node",
+      "id": 8806549634,
+      "lat": 51.903386,
+      "lon": 4.4680602
+    },
+    {
+      "type": "node",
+      "id": 8806549635,
+      "lat": 51.9035244,
+      "lon": 4.4680219
+    },
+    {
+      "type": "node",
+      "id": 8806549636,
+      "lat": 51.9037249,
+      "lon": 4.4679489
+    },
+    {
+      "type": "node",
+      "id": 8806549637,
+      "lat": 51.9044891,
+      "lon": 4.4676133
+    },
+    {
+      "type": "node",
+      "id": 8806549638,
+      "lat": 51.9035974,
+      "lon": 4.4678672
+    },
+    {
+      "type": "node",
+      "id": 8806549639,
+      "lat": 51.9034244,
+      "lon": 4.4679218
+    },
+    {
+      "type": "node",
+      "id": 8806549640,
+      "lat": 51.9032895,
+      "lon": 4.4679525
+    },
+    {
+      "type": "node",
+      "id": 8806549641,
+      "lat": 51.9031651,
+      "lon": 4.4679701
+    },
+    {
+      "type": "node",
+      "id": 8806549642,
+      "lat": 51.9017226,
+      "lon": 4.4679987
+    },
+    {
+      "type": "node",
+      "id": 8806549673,
+      "lat": 51.9026299,
+      "lon": 4.4681069
+    },
+    {
+      "type": "node",
+      "id": 44287209,
+      "lat": 51.8952959,
+      "lon": 4.469678
+    },
+    {
+      "type": "node",
+      "id": 745732494,
+      "lat": 51.8952542,
+      "lon": 4.4696156
+    },
+    {
+      "type": "node",
+      "id": 582730474,
+      "lat": 51.9085656,
+      "lon": 4.4653997
+    },
+    {
+      "type": "node",
+      "id": 582730477,
+      "lat": 51.9086428,
+      "lon": 4.4658135
+    },
+    {
+      "type": "node",
+      "id": 622670811,
+      "lat": 51.9136778,
+      "lon": 4.4636372
+    },
+    {
+      "type": "node",
+      "id": 622670813,
+      "lat": 51.9137044,
+      "lon": 4.4637507
+    },
+    {
+      "type": "node",
+      "id": 622670822,
+      "lat": 51.9138801,
+      "lon": 4.4636004
+    },
+    {
+      "type": "node",
+      "id": 622670824,
+      "lat": 51.9138968,
+      "lon": 4.4637096
+    },
+    {
+      "type": "node",
+      "id": 676069834,
+      "lat": 51.9083401,
+      "lon": 4.4655589
+    },
+    {
+      "type": "node",
+      "id": 676069836,
+      "lat": 51.9084101,
+      "lon": 4.4659621
+    },
+    {
+      "type": "node",
+      "id": 622670792,
+      "lat": 51.9150234,
+      "lon": 4.4631788
+    },
+    {
+      "type": "node",
+      "id": 622670835,
+      "lat": 51.914669,
+      "lon": 4.4633403
+    },
+    {
+      "type": "node",
+      "id": 622670837,
+      "lat": 51.9146845,
+      "lon": 4.4634497
+    },
+    {
+      "type": "node",
+      "id": 622670843,
+      "lat": 51.9150454,
+      "lon": 4.4632822
+    },
+    {
+      "type": "node",
+      "id": 44387965,
+      "lat": 51.9176931,
+      "lon": 4.4805985
+    },
+    {
+      "type": "node",
+      "id": 44388463,
+      "lat": 51.9177731,
+      "lon": 4.4805597
+    },
+    {
+      "type": "node",
+      "id": 44389330,
+      "lat": 51.9179051,
+      "lon": 4.4817063
+    },
+    {
+      "type": "node",
+      "id": 44389602,
+      "lat": 51.9179764,
+      "lon": 4.4816672
+    },
+    {
+      "type": "node",
+      "id": 2388757613,
+      "lat": 51.9178737,
+      "lon": 4.4811073
+    },
+    {
+      "type": "node",
+      "id": 2610310921,
+      "lat": 51.9154854,
+      "lon": 4.4813164
+    },
+    {
+      "type": "node",
+      "id": 6206630709,
+      "lat": 51.9155682,
+      "lon": 4.4813105
+    },
+    {
+      "type": "node",
+      "id": 1501934346,
+      "lat": 51.9207852,
+      "lon": 4.4839304
+    },
+    {
+      "type": "node",
+      "id": 1501934385,
+      "lat": 51.9203741,
+      "lon": 4.4841409
+    },
+    {
+      "type": "node",
+      "id": 2610310761,
+      "lat": 51.9154397,
+      "lon": 4.4859806
+    },
+    {
+      "type": "node",
+      "id": 4708005924,
+      "lat": 51.9154208,
+      "lon": 4.4840414
+    },
+    {
+      "type": "node",
+      "id": 4708005925,
+      "lat": 51.9157095,
+      "lon": 4.4848849
+    },
+    {
+      "type": "node",
+      "id": 4708005926,
+      "lat": 51.9159624,
+      "lon": 4.4856057
+    },
+    {
+      "type": "node",
+      "id": 4708005927,
+      "lat": 51.9159871,
+      "lon": 4.4856305
+    },
+    {
+      "type": "node",
+      "id": 4708005932,
+      "lat": 51.9155913,
+      "lon": 4.4845416
+    },
+    {
+      "type": "node",
+      "id": 4878526524,
+      "lat": 51.9155028,
+      "lon": 4.4861225
+    },
+    {
+      "type": "node",
+      "id": 4975178272,
+      "lat": 51.9156206,
+      "lon": 4.4845137
+    },
+    {
+      "type": "node",
+      "id": 3236761395,
+      "lat": 51.9208983,
+      "lon": 4.4901189
+    },
+    {
+      "type": "node",
+      "id": 6199943116,
+      "lat": 51.9203172,
+      "lon": 4.4905881
+    },
+    {
+      "type": "node",
+      "id": 6199943118,
+      "lat": 51.9200936,
+      "lon": 4.4904541
+    },
+    {
+      "type": "node",
+      "id": 6199943119,
+      "lat": 51.920244,
+      "lon": 4.4908193
+    },
+    {
+      "type": "node",
+      "id": 6199943121,
+      "lat": 51.9201681,
+      "lon": 4.4902326
+    },
+    {
+      "type": "node",
+      "id": 6199943123,
+      "lat": 51.9202013,
+      "lon": 4.4909539
+    },
+    {
+      "type": "node",
+      "id": 6199943124,
+      "lat": 51.9199752,
+      "lon": 4.4904637
+    },
+    {
+      "type": "node",
+      "id": 10291452007,
+      "lat": 51.8656188,
+      "lon": 4.5566118
+    },
+    {
+      "type": "node",
+      "id": 10291476023,
+      "lat": 51.8659865,
+      "lon": 4.5561746
+    },
+    {
+      "type": "node",
+      "id": 10291476036,
+      "lat": 51.8652676,
+      "lon": 4.5564911
+    },
+    {
+      "type": "node",
+      "id": 10291476037,
+      "lat": 51.8652064,
+      "lon": 4.5561638
+    },
+    {
+      "type": "node",
+      "id": 1377770950,
+      "lat": 51.8964,
+      "lon": 4.5469889
+    },
+    {
+      "type": "node",
+      "id": 1377770954,
+      "lat": 51.8965097,
+      "lon": 4.5470113
+    },
+    {
+      "type": "node",
+      "id": 1377770957,
+      "lat": 51.8965922,
+      "lon": 4.5470021
+    },
+    {
+      "type": "node",
+      "id": 1377770961,
+      "lat": 51.8966796,
+      "lon": 4.5469708
+    },
+    {
+      "type": "node",
+      "id": 1377770965,
+      "lat": 51.8967463,
+      "lon": 4.5469478
+    },
+    {
+      "type": "node",
+      "id": 206180440,
+      "lat": 51.9230629,
+      "lon": 4.4549616
+    },
+    {
+      "type": "node",
+      "id": 1445365049,
+      "lat": 51.9240059,
+      "lon": 4.4547985
+    },
+    {
+      "type": "node",
+      "id": 5995360255,
+      "lat": 51.9240087,
+      "lon": 4.4546592
+    },
+    {
+      "type": "node",
+      "id": 5995360256,
+      "lat": 51.9240261,
+      "lon": 4.4549504
+    },
+    {
+      "type": "node",
+      "id": 5995360257,
+      "lat": 51.9230866,
+      "lon": 4.4550974
+    },
+    {
+      "type": "node",
+      "id": 5995360258,
+      "lat": 51.9230693,
+      "lon": 4.4548061
+    },
+    {
+      "type": "node",
+      "id": 44479212,
+      "lat": 51.935817,
+      "lon": 4.432806
+    },
+    {
+      "type": "node",
+      "id": 44481369,
+      "lat": 51.9360056,
+      "lon": 4.4335304
+    },
+    {
+      "type": "node",
+      "id": 206180350,
+      "lat": 51.9244078,
+      "lon": 4.4624587
+    },
+    {
+      "type": "node",
+      "id": 622670941,
+      "lat": 51.9223935,
+      "lon": 4.4627777
+    },
+    {
+      "type": "node",
+      "id": 622670942,
+      "lat": 51.9224083,
+      "lon": 4.4628828
+    },
+    {
+      "type": "node",
+      "id": 622670962,
+      "lat": 51.9233666,
+      "lon": 4.4623025
+    },
+    {
+      "type": "node",
+      "id": 622670963,
+      "lat": 51.9233895,
+      "lon": 4.4624519
+    },
+    {
+      "type": "node",
+      "id": 622670967,
+      "lat": 51.9227665,
+      "lon": 4.4626592
+    },
+    {
+      "type": "node",
+      "id": 622670968,
+      "lat": 51.9227858,
+      "lon": 4.462778
+    },
+    {
+      "type": "node",
+      "id": 622670971,
+      "lat": 51.9234056,
+      "lon": 4.4626002
+    },
+    {
+      "type": "node",
+      "id": 622670972,
+      "lat": 51.9234229,
+      "lon": 4.4627567
+    },
+    {
+      "type": "node",
+      "id": 622670986,
+      "lat": 51.9243544,
+      "lon": 4.4620129
+    },
+    {
+      "type": "node",
+      "id": 622670987,
+      "lat": 51.9243758,
+      "lon": 4.4621602
+    },
+    {
+      "type": "node",
+      "id": 622670989,
+      "lat": 51.9243913,
+      "lon": 4.4623034
+    },
+    {
+      "type": "node",
+      "id": 1555848106,
+      "lat": 51.9230921,
+      "lon": 4.4715933
+    },
+    {
+      "type": "node",
+      "id": 2789468446,
+      "lat": 51.9228048,
+      "lon": 4.4700805
+    },
+    {
+      "type": "node",
+      "id": 2789468447,
+      "lat": 51.9229556,
+      "lon": 4.4709773
+    },
+    {
+      "type": "node",
+      "id": 3491058795,
+      "lat": 51.9232759,
+      "lon": 4.4714901
+    },
+    {
+      "type": "node",
+      "id": 3491058814,
+      "lat": 51.9228865,
+      "lon": 4.469607
+    },
+    {
+      "type": "node",
+      "id": 3491058860,
+      "lat": 51.9227278,
+      "lon": 4.4696893
+    },
+    {
+      "type": "node",
+      "id": 1951440786,
+      "lat": 51.9261571,
+      "lon": 4.4769415
+    },
+    {
+      "type": "node",
+      "id": 6204275018,
+      "lat": 51.9260627,
+      "lon": 4.4767076
+    },
+    {
+      "type": "node",
+      "id": 6204275019,
+      "lat": 51.9260676,
+      "lon": 4.476991
+    },
+    {
+      "type": "node",
+      "id": 6204275025,
+      "lat": 51.9262829,
+      "lon": 4.4768771
+    },
+    {
+      "type": "node",
+      "id": 6204275029,
+      "lat": 51.9262714,
+      "lon": 4.4765918
+    },
+    {
+      "type": "node",
+      "id": 533987391,
+      "lat": 51.9372544,
+      "lon": 4.4626859
+    },
+    {
+      "type": "node",
+      "id": 533988179,
+      "lat": 51.9372883,
+      "lon": 4.4626504
+    },
+    {
+      "type": "node",
+      "id": 533988182,
+      "lat": 51.9370751,
+      "lon": 4.4620767
+    },
+    {
+      "type": "node",
+      "id": 1434991577,
+      "lat": 51.9370389,
+      "lon": 4.4621127
+    },
+    {
+      "type": "node",
+      "id": 3236761396,
+      "lat": 51.9209447,
+      "lon": 4.4902643
+    },
+    {
+      "type": "node",
+      "id": 3236761397,
+      "lat": 51.9212443,
+      "lon": 4.489877
+    },
+    {
+      "type": "node",
+      "id": 3236761398,
+      "lat": 51.9212876,
+      "lon": 4.490024
+    },
+    {
+      "type": "node",
+      "id": 4869747695,
+      "lat": 51.9220123,
+      "lon": 4.4895517
+    },
+    {
+      "type": "node",
+      "id": 4869747696,
+      "lat": 51.9219788,
+      "lon": 4.4893898
+    },
+    {
+      "type": "node",
+      "id": 4666276681,
+      "lat": 51.9436885,
+      "lon": 4.4924305
+    },
+    {
+      "type": "node",
+      "id": 4666276682,
+      "lat": 51.9437991,
+      "lon": 4.4923878
+    },
+    {
+      "type": "node",
+      "id": 1794228980,
+      "lat": 51.972394,
+      "lon": 4.4948855
+    },
+    {
+      "type": "node",
+      "id": 1794229006,
+      "lat": 51.9722513,
+      "lon": 4.4948545
+    },
+    {
+      "type": "node",
+      "id": 1794228978,
+      "lat": 51.9714949,
+      "lon": 4.498966
+    },
+    {
+      "type": "node",
+      "id": 1794228979,
+      "lat": 51.9721719,
+      "lon": 4.4962378
+    },
+    {
+      "type": "node",
+      "id": 1794229010,
+      "lat": 51.971322,
+      "lon": 4.498952
+    },
+    {
+      "type": "node",
+      "id": 1794229011,
+      "lat": 51.9720245,
+      "lon": 4.4961244
+    },
+    {
+      "type": "node",
+      "id": 8553606970,
+      "lat": 51.9709569,
+      "lon": 4.5001151
+    },
+    {
+      "type": "node",
+      "id": 8553606971,
+      "lat": 51.971071,
+      "lon": 4.5003323
+    },
+    {
+      "type": "node",
+      "id": 8553606972,
+      "lat": 51.9717002,
+      "lon": 4.4975383
+    },
+    {
+      "type": "node",
+      "id": 8553606973,
+      "lat": 51.9718488,
+      "lon": 4.4976518
+    },
+    {
+      "type": "node",
+      "id": 8553606974,
+      "lat": 51.9706348,
+      "lon": 4.501545
+    },
+    {
+      "type": "node",
+      "id": 8553606975,
+      "lat": 51.9705769,
+      "lon": 4.5011913
+    },
+    {
+      "type": "node",
+      "id": 10231834115,
+      "lat": 51.9712082,
+      "lon": 4.4999133
+    },
+    {
+      "type": "node",
+      "id": 10231854620,
+      "lat": 51.9703354,
+      "lon": 4.5023123
+    },
+    {
+      "type": "node",
+      "id": 10231854623,
+      "lat": 51.9707827,
+      "lon": 4.5006296
+    },
+    {
+      "type": "node",
+      "id": 10231854629,
+      "lat": 51.9720702,
+      "lon": 4.4967051
+    },
+    {
+      "type": "node",
+      "id": 10231854630,
+      "lat": 51.9719198,
+      "lon": 4.4965979
+    },
+    {
+      "type": "node",
+      "id": 10231854632,
+      "lat": 51.9711963,
+      "lon": 4.4993693
+    },
+    {
+      "type": "node",
+      "id": 10231854638,
+      "lat": 51.9704315,
+      "lon": 4.5020734
+    },
+    {
+      "type": "node",
+      "id": 10231854639,
+      "lat": 51.9715966,
+      "lon": 4.4986049
+    },
+    {
+      "type": "node",
+      "id": 10231854642,
+      "lat": 51.9719328,
+      "lon": 4.4973031
+    },
+    {
+      "type": "node",
+      "id": 10231854649,
+      "lat": 51.9706634,
+      "lon": 4.5009564
+    },
+    {
+      "type": "node",
+      "id": 10231854651,
+      "lat": 51.9717042,
+      "lon": 4.4982087
+    },
+    {
+      "type": "node",
+      "id": 10231854653,
+      "lat": 51.9713452,
+      "lon": 4.4994684
+    },
+    {
+      "type": "node",
+      "id": 10231854654,
+      "lat": 51.9714646,
+      "lon": 4.4984395
+    },
+    {
+      "type": "node",
+      "id": 10231854656,
+      "lat": 51.9716102,
+      "lon": 4.4978969
+    },
+    {
+      "type": "node",
+      "id": 10231854661,
+      "lat": 51.9705381,
+      "lon": 4.5018042
+    },
+    {
+      "type": "node",
+      "id": 10231854669,
+      "lat": 51.9704282,
+      "lon": 4.5015835
+    },
+    {
+      "type": "node",
+      "id": 10231854671,
+      "lat": 51.9718083,
+      "lon": 4.4970933
+    },
+    {
+      "type": "node",
+      "id": 10231854672,
+      "lat": 51.9710584,
+      "lon": 4.4998074
+    },
+    {
+      "type": "node",
+      "id": 10231854680,
+      "lat": 51.9701851,
+      "lon": 4.5022003
+    },
+    {
+      "type": "node",
+      "id": 10231854682,
+      "lat": 51.9709244,
+      "lon": 4.5007531
+    },
+    {
+      "type": "node",
+      "id": 10231854685,
+      "lat": 51.9702984,
+      "lon": 4.5019182
+    },
+    {
+      "type": "node",
+      "id": 10231854687,
+      "lat": 51.970775,
+      "lon": 4.5011675
+    },
+    {
+      "type": "node",
+      "id": 1794228977,
+      "lat": 51.9695457,
+      "lon": 4.504085
+    },
+    {
+      "type": "node",
+      "id": 1794229009,
+      "lat": 51.9694176,
+      "lon": 4.5039237
+    },
+    {
+      "type": "node",
+      "id": 8553606968,
+      "lat": 51.9699679,
+      "lon": 4.5027112
+    },
+    {
+      "type": "node",
+      "id": 8553606969,
+      "lat": 51.9701109,
+      "lon": 4.5028511
+    },
+    {
+      "type": "node",
+      "id": 10231764643,
+      "lat": 51.969058,
+      "lon": 4.5046465
+    },
+    {
+      "type": "node",
+      "id": 10231764721,
+      "lat": 51.9691815,
+      "lon": 4.5048242
+    },
+    {
+      "type": "node",
+      "id": 10231854621,
+      "lat": 51.9696719,
+      "lon": 4.5033852
+    },
+    {
+      "type": "node",
+      "id": 10231854640,
+      "lat": 51.9699392,
+      "lon": 4.5032441
+    },
+    {
+      "type": "node",
+      "id": 10231854641,
+      "lat": 51.9698084,
+      "lon": 4.503083
+    },
+    {
+      "type": "node",
+      "id": 10231854647,
+      "lat": 51.9698029,
+      "lon": 4.5035445
+    },
+    {
+      "type": "node",
+      "id": 10231854668,
+      "lat": 51.9695217,
+      "lon": 4.5037095
+    },
+    {
+      "type": "node",
+      "id": 10231854674,
+      "lat": 51.969654,
+      "lon": 4.5038663
+    },
+    {
+      "type": "node",
+      "id": 10231854676,
+      "lat": 51.9700875,
+      "lon": 4.5024378
+    },
+    {
+      "type": "node",
+      "id": 8553643287,
+      "lat": 51.964926,
+      "lon": 4.5132473
+    },
+    {
+      "type": "node",
+      "id": 8553643288,
+      "lat": 51.9648048,
+      "lon": 4.5130649
+    },
+    {
+      "type": "node",
+      "id": 10231748509,
+      "lat": 51.9620074,
+      "lon": 4.5185763
+    },
+    {
+      "type": "node",
+      "id": 10231764618,
+      "lat": 51.9621323,
+      "lon": 4.5187424
+    },
+    {
+      "type": "node",
+      "id": 1794228972,
+      "lat": 51.9603496,
+      "lon": 4.5222529
+    },
+    {
+      "type": "node",
+      "id": 1794228973,
+      "lat": 51.9602334,
+      "lon": 4.5220591
+    },
+    {
+      "type": "node",
+      "id": 44412366,
+      "lat": 51.9230205,
+      "lon": 4.5706415
+    },
+    {
+      "type": "node",
+      "id": 44412945,
+      "lat": 51.923086,
+      "lon": 4.5710168
+    }
+]

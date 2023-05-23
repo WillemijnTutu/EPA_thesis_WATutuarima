@@ -1,0 +1,18 @@
+/*
+This query looks for nodes, ways and relations 
+with the given key.
+Choose your region and hit the Run button above!
+*/
+[out:json][timeout:25];
+// gather results
+(
+  // query part for: “traffic_sign=*”
+  node["tunnel"]["highway"!="pedestrian"]["highway"!="footway"]["highway"!="path"]["highway"!="cycleway"]["railway"!="tram"]["tunnel" != "building_passage"]["tunnel" != "canal"]["tunnel" != "culvert"]["railway" != "subway"]["waterway" != "drain"]["access" != "private"]["highway" != "steps"]["highway" != "service"]["railway" != "rail"]["highway" != "platform"]["constuction" != "cycleway"]["access" != "no"]["waterway" != "stream"](51.863171, 4.427773, 51.970486, 4.580918);
+  way["tunnel"]["highway"!="pedestrian"]["highway"!="footway"]["highway"!="path"]["highway"!="cycleway"]["railway"!="tram"]["tunnel" != "building_passage"]["tunnel" != "canal"]["tunnel" != "culvert"]["railway" != "subway"]["waterway" != "drain"]["access" != "private"]["highway" != "steps"]["highway" != "service"]["railway" != "rail"]["highway" != "platform"]["constuction" != "cycleway"]["access" != "no"]["waterway" != "stream"](51.863171, 4.427773, 51.970486, 4.580918);
+  relation["tunnel"]["highway"!="footway"]["highway"!="pedestrian"]["highway"!="path"]["highway"!="cycleway"]["railway"!="tram"]["tunnel" != "building_passage"]["tunnel" != "canal"]["tunnel" != "culvert"]["railway" != "subway"]["waterway" != "drain"]["access" != "private"]["highway" != "steps"]["highway" != "service"]["railway" != "rail"]["highway" != "platform"]["constuction" != "cycleway"]["access" != "no"]["waterway" != "stream"](51.863171, 4.427773, 51.970486, 4.580918);
+);
+// print results
+out body;
+>;
+out skel qt;
+//(51.863171, 4.427773, 51.970486, 4.580918)
