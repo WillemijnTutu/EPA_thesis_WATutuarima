@@ -1,11 +1,4 @@
-import fugitive_model
-import logging
-
-from pydsol.core.simulator import DEVSSimulatorFloat
-from pydsol.core.experiment import SingleReplication
-from pydsol.model.basic_logger import get_module_logger
-
-logger = get_module_logger(__name__, level=logging.DEBUG)
+import run_model
 
 """
 Main method to run the experiment of the fugitive model
@@ -14,14 +7,8 @@ Here the experimental setup is inserted into the model and the number of replica
 After the model is run, the output statistics are displayed. 
 """
 if __name__ == "__main__":
-    simulator = DEVSSimulatorFloat("sim")
 
-    filepath = "graph/rotterdam_drive_with_cameras_on_edges.graphml"
-    fugitive_start =44430463
-    fugitive_end =44465861
+    runner = run_model.RunModel()
+    runner.run_replication("rational_length")
 
-    model = fugitive_model.FugitiveModel(simulator, filepath,fugitive_start, fugitive_end)
-    replication = SingleReplication("rep1", 0.0, 0.0, 15)
-    simulator.initialize(model, replication)
-    simulator.start()
 
