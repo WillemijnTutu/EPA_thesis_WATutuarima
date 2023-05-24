@@ -1,4 +1,5 @@
 import run_model
+import route_model
 
 """
 Main method to run the experiment of the fugitive model
@@ -8,7 +9,10 @@ After the model is run, the output statistics are displayed.
 """
 if __name__ == "__main__":
 
-    runner = run_model.RunModel()
-    runner.run_replication("rational_length")
+    results = route_model.route_model()
+
+    print(results)
+    # runner = run_model.RunModel()
+    # runner.run_replication("rational_length")
 
 
