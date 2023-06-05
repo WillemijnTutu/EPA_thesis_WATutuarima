@@ -14,11 +14,15 @@ strategies = {
 }
 
 
-class route_model():
+class route_model:
 
-    def __init__(self, start_points=default_start_points, destination_points=default_destination_points,
+    def __init__(self, start_points=None, destination_points=None,
                  graph_file_path=default_graph_file_path, num_of_paths=default_num_of_paths, graph=None
                  ):
+        if destination_points is None:
+            destination_points = default_destination_points
+        if start_points is None:
+            start_points = default_start_points
         self.start_points = start_points
         self.destination_points = destination_points
         self.graph_file_path = graph_file_path
@@ -32,8 +36,7 @@ class route_model():
         self.original_graph = self.graph.copy()
         self.undirected_graph = self.graph.copy().to_undirected()
 
-        # simulator = None
-        # model = None
+        self.graph_end_strategy = self.graph.copy()
 
     def load_graph(self):
         return ox.load_graphml(self.graph_file_path)
@@ -48,7 +51,7 @@ class route_model():
             else:
                 self.graph = self.original_graph.copy()
 
-            self.calculate_weights(CA, OA, LP, RP, WW, HS, SR, TA)
+            self.calculate_weights(CA, OA, LP, RP, WW, HS, SR, TA, self.graph)
             self.num_of_paths = num_of_paths
             return self.run_rational_model()
 
@@ -58,10 +61,16 @@ class route_model():
             else:
                 self.graph = self.original_graph.copy()
 
-            self.calculate_weights(*strategies[start_strategy][: -1])
+            if strategies[end_strategy][-1]:
+                self.graph_end_strategy = self.undirected_graph.copy()
+            else:
+                self.graph_end_strategy = self.original_graph.copy()
+
+            self.calculate_weights(*strategies[start_strategy][: -1], self.graph)
+            self.calculate_weights(*strategies[end_strategy][: -1], self.graph_end_strategy)
             self.num_of_paths = num_of_paths
 
-            return self.run_irrational_model(end_strategy, strategy_change_percentage)
+            return self.run_bounded_rational_model(strategy_change_percentage)
 
     def run_rational_model(self):
         # calculate weights
@@ -137,7 +146,7 @@ class route_model():
             'betweenness_centrality_var_var': betweenness_centrality_var_var,
         }
 
-    def run_irrational_model(self, end_strategy, strategy_change_percentage):
+    def run_bounded_rational_model(self, strategy_change_percentage):
         degree_centrality_means = []
         degree_centrality_vars = []
         betweenness_centrality_means = []
@@ -154,12 +163,12 @@ class route_model():
                     adjusted_routes = []
 
                     index_to_change = int(len(route) * strategy_change_percentage)
-                    routes_to_adjust = ox.distance.k_shortest_paths(self.graph, route[index_to_change], sink,
-                                                                    self.num_of_paths,
+                    routes_to_adjust = ox.distance.k_shortest_paths(self.graph_end_strategy, route[index_to_change],
+                                                                    sink, self.num_of_paths,
                                                                     weight="used_weight")  # cpus=1??
 
                     for route_to_adjust in routes_to_adjust:
-                        adjusted_routes.append(route[0:index_to_change - 1] + route_to_adjust) #is indexing correct??
+                        adjusted_routes.append(route[0:index_to_change] + route_to_adjust)
 
                     for adjusted_route in adjusted_routes:
                         for i in range(0, len(adjusted_route) - 1):
@@ -180,7 +189,6 @@ class route_model():
                                 route_graph.add_edge(adjusted_routes[i], adjusted_routes[i + 1])
                                 nx.set_edge_attributes(route_graph,
                                                        {(adjusted_routes[i], adjusted_routes[i + 1]): {"count": 1}})
-
 
             stats = self.calculate_statistics(route_graph)
             degree_centrality_means.append(stats[0])
@@ -217,8 +225,8 @@ class route_model():
             'betweenness_centrality_var_var': betweenness_centrality_var_var,
         }
 
-    def calculate_weights(self, CA, OA, LP, RP, WW, HS, SR, TA):
-        for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):
+    def calculate_weights(self, CA, OA, LP, RP, WW, HS, SR, TA, graph=None):
+        for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
             # speed limits and length
             weight_used = 0
 
@@ -297,8 +305,6 @@ class route_model():
 
         return [degree_centrality_mean, degree_centrality_var, betweenness_centrality_mean, betweenness_centrality_var]
 
-        # add statistics in excel
-
     def visualise(self, routes):
         route_pairs = []
         for route in routes:
@@ -322,6 +328,3 @@ class route_model():
             self.graph, bgcolor="white", node_color=node_color, node_size=node_size, edge_linewidth=1,
             edge_color=edge_color
         )
-
-    def run_bounded_rational_model(self, mode):
-        return

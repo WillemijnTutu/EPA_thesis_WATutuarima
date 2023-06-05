@@ -1,4 +1,3 @@
-import run_model
 import route_model
 
 """
@@ -9,10 +8,7 @@ After the model is run, the output statistics are displayed.
 """
 if __name__ == "__main__":
 
-    results = route_model.route_model()
+    model = route_model.route_model()
 
-    print(results)
-    # runner = run_model.RunModel()
-    # runner.run_replication("rational_length")
-
+    print(model.run_model())
 
