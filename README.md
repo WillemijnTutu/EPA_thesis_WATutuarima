@@ -25,7 +25,7 @@ Launch the simulation model with visualization
 
 ### Graph folder:
 
-This folder includes all the graph files that were created during the development of the final graph used in the simulation. These graphs have been created using the code found in [Notebooks](Notebooks). The graph used in simulation can be found [here](rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml).
+This folder includes all the graph files that were created during the development of the final graph used in the simulation. These graphs have been created using the code found in [notebooks](notebooks). The graph used in simulation can be found [here](graph/rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml).
 
 ### Data folder:
 * [bridges](bridges): Folder with bridge data and queries from OSM
