@@ -1,8 +1,7 @@
 import osmnx as ox
 import networkx as nx
 
-default_start_points = [44430463]
-default_destination_points = [44465861]
+default_points = [44430463, 44465861]
 default_graph_file_path = "graph/rotterdam_drive_with_cameras_on_edges.graphml"
 default_num_of_paths = 5
 
@@ -16,15 +15,14 @@ strategies = {
 
 class route_model:
 
-    def __init__(self, start_points=None, destination_points=None,
+    def __init__(self, points=None,
                  graph_file_path=default_graph_file_path, num_of_paths=default_num_of_paths, graph=None
                  ):
-        if destination_points is None:
-            destination_points = default_destination_points
-        if start_points is None:
-            start_points = default_start_points
-        self.start_points = start_points
-        self.destination_points = destination_points
+        if points is None:
+            self.points = default_points
+        else:
+            self.points = points
+
         self.graph_file_path = graph_file_path
         self.num_of_paths = num_of_paths
         # load graph
@@ -38,12 +36,25 @@ class route_model:
 
         self.graph_end_strategy = self.graph.copy()
 
+        self.num_nodes = 0
+        self.num_edges = 0
+        self.continuity = []
+        self.connectivity = []
+        self.degree_centrality_means = []
+        self.degree_centrality_vars = []
+        self.betweenness_centrality_means = []
+        self.betweenness_centrality_vars = []
+
     def load_graph(self):
         return ox.load_graphml(self.graph_file_path)
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1):
+
+        self.reset_scenario_statistics()
+
+        self.num_of_paths = num_of_paths
 
         if rational:
             if one_way_possible:
@@ -52,8 +63,7 @@ class route_model:
                 self.graph = self.original_graph.copy()
 
             self.calculate_weights(CA, OA, LP, RP, WW, HS, SR, TA, self.graph)
-            self.num_of_paths = num_of_paths
-            return self.run_rational_model()
+            self.run_rational_model()
 
         else:
             if strategies[start_strategy][-1]:
@@ -68,26 +78,84 @@ class route_model:
 
             self.calculate_weights(*strategies[start_strategy][: -1], self.graph)
             self.calculate_weights(*strategies[end_strategy][: -1], self.graph_end_strategy)
-            self.num_of_paths = num_of_paths
 
-            return self.run_bounded_rational_model(strategy_change_percentage)
+            self.run_bounded_rational_model(strategy_change_percentage)
+
+        return self.calculate_scenario_statistics()
+
+    def reset_scenario_statistics(self):
+        self.num_nodes = 0
+        self.num_edges = 0
+        self.continuity = []
+        self.connectivity = []
+        self.degree_centrality_means = []
+        self.degree_centrality_vars = []
+        self.betweenness_centrality_means = []
+        self.betweenness_centrality_vars = []
+
+    def calculate_scenario_statistics(self):
+        degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
+        degree_centrality_mean_var = sum(
+            (i - degree_centrality_mean_mean) ** 2 for i in self.degree_centrality_means) / len(
+            self.degree_centrality_means)
+
+        degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
+        degree_centrality_var_var = sum(
+            (i - degree_centrality_var_mean) ** 2 for i in self.degree_centrality_vars) / len(
+            self.degree_centrality_vars)
+
+        betweenness_centrality_mean_mean = sum(self.betweenness_centrality_means) / len(
+            self.betweenness_centrality_means)
+        betweenness_centrality_mean_var = sum(
+            (i - betweenness_centrality_mean_mean) ** 2 for i in self.betweenness_centrality_means) / len(
+            self.betweenness_centrality_means)
+
+        betweenness_centrality_var_mean = sum(self.betweenness_centrality_vars) / len(self.betweenness_centrality_vars)
+        betweenness_centrality_var_var = sum(
+            (i - betweenness_centrality_var_mean) ** 2 for i in self.betweenness_centrality_vars) / len(
+            self.betweenness_centrality_vars)
+
+        continuity_mean = sum(self.continuity) / len(self.continuity)
+        continuity_vars = sum(
+            (i - continuity_mean) ** 2 for i in self.continuity) / len(
+            self.continuity)
+
+        connectivity_mean = sum(self.connectivity) / len(self.connectivity)
+        connectivity_vars = sum(
+            (i - connectivity_mean) ** 2 for i in self.connectivity) / len(
+            self.connectivity)
+
+        return {
+            "num_of_nodes" : self.num_nodes,
+            "num_of_edges" : self.num_edges,
+            "continuity_mean" : continuity_mean,
+            "continuity_vars" : continuity_vars,
+            "connectivity_mean" : connectivity_mean,
+            "connectivity_vars" : connectivity_vars,
+            'degree_centrality_mean_mean': degree_centrality_mean_mean,
+            'degree_centrality_mean_var': degree_centrality_mean_var,
+            'degree_centrality_var_mean': degree_centrality_var_mean,
+            'degree_centrality_var_var': degree_centrality_var_var,
+            'betweenness_centrality_mean_mean': betweenness_centrality_mean_mean,
+            'betweenness_centrality_mean_var': betweenness_centrality_mean_var,
+            'betweenness_centrality_var_mean': betweenness_centrality_var_mean,
+            'betweenness_centrality_var_var': betweenness_centrality_var_var,
+        }
 
     def run_rational_model(self):
-        # calculate weights
 
-        degree_centrality_means = []
-        degree_centrality_vars = []
-        betweenness_centrality_means = []
-        betweenness_centrality_vars = []
-
-        for source in self.start_points:
+        for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
-            for sink in self.destination_points:
+            routes_in_graph = []
+            for sink in self.points:
+                if source == sink:
+                    continue
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
 
                 for route in routes:
+                    routes_in_graph.append(route)
                     for i in range(0, len(route) - 1):
                         # add nodes
                         if not route_graph.has_node(route[i]):
@@ -105,57 +173,28 @@ class route_model:
                             route_graph.add_edge(route[i], route[i + 1])
                             nx.set_edge_attributes(route_graph, {(route[i], route[i + 1]): {"count": 1}})
 
-                        # self.visualise(routes)
-            # save graph
+                    self.continuity.append(len(route))
 
-            # file_path = "results/rational_" + mode + ".graphml"
-            # nx.write_graphml_lxml(route_graph, file_path)
+            for route in routes_in_graph:
+                connectivity_route = 0
+                for route_it in routes_in_graph:
+                    if route == route_it:
+                        continue
+                    if len(list((value for value in route if value in route_it))) > 0:
+                        connectivity_route += 1
+                self.connectivity.append(connectivity_route)
 
-            stats = self.calculate_statistics(route_graph)
-            degree_centrality_means.append(stats[0])
-            degree_centrality_vars.append(stats[1])
-            betweenness_centrality_means.append(stats[2])
-            betweenness_centrality_vars.append(stats[3])
-
-        degree_centrality_mean_mean = sum(degree_centrality_means) / len(degree_centrality_means)
-        degree_centrality_mean_var = sum((i - degree_centrality_mean_mean) ** 2 for i in degree_centrality_means) / len(
-            degree_centrality_means)
-
-        degree_centrality_var_mean = sum(degree_centrality_vars) / len(degree_centrality_vars)
-        degree_centrality_var_var = sum((i - degree_centrality_var_mean) ** 2 for i in degree_centrality_vars) / len(
-            degree_centrality_vars)
-
-        betweenness_centrality_mean_mean = sum(betweenness_centrality_means) / len(betweenness_centrality_means)
-        betweenness_centrality_mean_var = sum(
-            (i - betweenness_centrality_mean_mean) ** 2 for i in betweenness_centrality_means) / len(
-            betweenness_centrality_means)
-
-        betweenness_centrality_var_mean = sum(betweenness_centrality_vars) / len(betweenness_centrality_vars)
-        betweenness_centrality_var_var = sum(
-            (i - betweenness_centrality_var_mean) ** 2 for i in betweenness_centrality_vars) / len(
-            betweenness_centrality_vars)
-
-        return {
-            'degree_centrality_mean_mean': degree_centrality_mean_mean,
-            'degree_centrality_mean_var': degree_centrality_mean_var,
-            'degree_centrality_var_mean': degree_centrality_var_mean,
-            'degree_centrality_var_var': degree_centrality_var_var,
-            'betweenness_centrality_mean_mean': betweenness_centrality_mean_mean,
-            'betweenness_centrality_mean_var': betweenness_centrality_mean_var,
-            'betweenness_centrality_var_mean': betweenness_centrality_var_mean,
-            'betweenness_centrality_var_var': betweenness_centrality_var_var,
-        }
+            self.calculate_OD_statistics(route_graph)
 
     def run_bounded_rational_model(self, strategy_change_percentage):
-        degree_centrality_means = []
-        degree_centrality_vars = []
-        betweenness_centrality_means = []
-        betweenness_centrality_vars = []
 
-        for source in self.start_points:
+        for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
-            for sink in self.destination_points:
+            routes_in_graph = []
+            for sink in self.points:
+                if source == sink:
+                    continue
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
 
@@ -171,6 +210,7 @@ class route_model:
                         adjusted_routes.append(route[0:index_to_change] + route_to_adjust)
 
                     for adjusted_route in adjusted_routes:
+                        routes_in_graph.append(adjusted_route)
                         for i in range(0, len(adjusted_route) - 1):
                             # add nodes
                             if not route_graph.has_node(adjusted_route[i]):
@@ -190,40 +230,16 @@ class route_model:
                                 nx.set_edge_attributes(route_graph,
                                                        {(adjusted_routes[i], adjusted_routes[i + 1]): {"count": 1}})
 
-            stats = self.calculate_statistics(route_graph)
-            degree_centrality_means.append(stats[0])
-            degree_centrality_vars.append(stats[1])
-            betweenness_centrality_means.append(stats[2])
-            betweenness_centrality_vars.append(stats[3])
+            for route in routes_in_graph:
+                connectivity_route = 0
+                for route_it in routes_in_graph:
+                    if route == route_it:
+                        continue
+                    if len(list((value for value in route if value in route_it))) > 0:
+                        connectivity_route += 1
+                self.connectivity.append(connectivity_route)
 
-        degree_centrality_mean_mean = sum(degree_centrality_means) / len(degree_centrality_means)
-        degree_centrality_mean_var = sum((i - degree_centrality_mean_mean) ** 2 for i in degree_centrality_means) / len(
-            degree_centrality_means)
-
-        degree_centrality_var_mean = sum(degree_centrality_vars) / len(degree_centrality_vars)
-        degree_centrality_var_var = sum((i - degree_centrality_var_mean) ** 2 for i in degree_centrality_vars) / len(
-            degree_centrality_vars)
-
-        betweenness_centrality_mean_mean = sum(betweenness_centrality_means) / len(betweenness_centrality_means)
-        betweenness_centrality_mean_var = sum(
-            (i - betweenness_centrality_mean_mean) ** 2 for i in betweenness_centrality_means) / len(
-            betweenness_centrality_means)
-
-        betweenness_centrality_var_mean = sum(betweenness_centrality_vars) / len(betweenness_centrality_vars)
-        betweenness_centrality_var_var = sum(
-            (i - betweenness_centrality_var_mean) ** 2 for i in betweenness_centrality_vars) / len(
-            betweenness_centrality_vars)
-
-        return {
-            'degree_centrality_mean_mean': degree_centrality_mean_mean,
-            'degree_centrality_mean_var': degree_centrality_mean_var,
-            'degree_centrality_var_mean': degree_centrality_var_mean,
-            'degree_centrality_var_var': degree_centrality_var_var,
-            'betweenness_centrality_mean_mean': betweenness_centrality_mean_mean,
-            'betweenness_centrality_mean_var': betweenness_centrality_mean_var,
-            'betweenness_centrality_var_mean': betweenness_centrality_var_mean,
-            'betweenness_centrality_var_var': betweenness_centrality_var_var,
-        }
+            self.calculate_OD_statistics(route_graph)
 
     def calculate_weights(self, CA, OA, LP, RP, WW, HS, SR, TA, graph=None):
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
@@ -292,7 +308,7 @@ class route_model:
                                            (origin_num, destination_num, 3): {
                                                "used_weight": data.get("length") / 30.0}})
 
-    def calculate_statistics(self, route_graph):
+    def calculate_OD_statistics(self, route_graph):
         degree_centrality = list(nx.degree_centrality(route_graph).values())
         degree_centrality_mean = sum(degree_centrality) / len(degree_centrality)
         degree_centrality_var = sum((i - degree_centrality_mean) ** 2 for i in degree_centrality) / len(
@@ -303,7 +319,13 @@ class route_model:
         betweenness_centrality_var = sum((i - betweenness_centrality_mean) ** 2 for i in betweenness_centrality) / len(
             betweenness_centrality)
 
-        return [degree_centrality_mean, degree_centrality_var, betweenness_centrality_mean, betweenness_centrality_var]
+        self.degree_centrality_means.append(degree_centrality_mean)
+        self.degree_centrality_vars.append(degree_centrality_var)
+        self.betweenness_centrality_means.append(betweenness_centrality_mean)
+        self.betweenness_centrality_vars.append(betweenness_centrality_var)
+
+        self.num_nodes = self.num_nodes + route_graph.number_of_nodes()
+        self.num_edges = self.num_edges + route_graph.number_of_edges()
 
     def visualise(self, routes):
         route_pairs = []
