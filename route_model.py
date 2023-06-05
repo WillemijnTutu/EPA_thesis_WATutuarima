@@ -95,25 +95,13 @@ class route_model:
 
     def calculate_scenario_statistics(self):
         degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
-        degree_centrality_mean_var = sum(
-            (i - degree_centrality_mean_mean) ** 2 for i in self.degree_centrality_means) / len(
-            self.degree_centrality_means)
 
         degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
-        degree_centrality_var_var = sum(
-            (i - degree_centrality_var_mean) ** 2 for i in self.degree_centrality_vars) / len(
-            self.degree_centrality_vars)
 
         betweenness_centrality_mean_mean = sum(self.betweenness_centrality_means) / len(
             self.betweenness_centrality_means)
-        betweenness_centrality_mean_var = sum(
-            (i - betweenness_centrality_mean_mean) ** 2 for i in self.betweenness_centrality_means) / len(
-            self.betweenness_centrality_means)
 
         betweenness_centrality_var_mean = sum(self.betweenness_centrality_vars) / len(self.betweenness_centrality_vars)
-        betweenness_centrality_var_var = sum(
-            (i - betweenness_centrality_var_mean) ** 2 for i in self.betweenness_centrality_vars) / len(
-            self.betweenness_centrality_vars)
 
         continuity_mean = sum(self.continuity) / len(self.continuity)
         continuity_vars = sum(
@@ -132,14 +120,10 @@ class route_model:
             "continuity_vars" : continuity_vars,
             "connectivity_mean" : connectivity_mean,
             "connectivity_vars" : connectivity_vars,
-            'degree_centrality_mean_mean': degree_centrality_mean_mean,
-            'degree_centrality_mean_var': degree_centrality_mean_var,
-            'degree_centrality_var_mean': degree_centrality_var_mean,
-            'degree_centrality_var_var': degree_centrality_var_var,
-            'betweenness_centrality_mean_mean': betweenness_centrality_mean_mean,
-            'betweenness_centrality_mean_var': betweenness_centrality_mean_var,
-            'betweenness_centrality_var_mean': betweenness_centrality_var_mean,
-            'betweenness_centrality_var_var': betweenness_centrality_var_var,
+            'degree_centrality_mean': degree_centrality_mean_mean,
+            'degree_centrality_var': degree_centrality_var_mean,
+            'betweenness_centrality_mean': betweenness_centrality_mean_mean,
+            'betweenness_centrality_var': betweenness_centrality_var_mean,
         }
 
     def run_rational_model(self):
