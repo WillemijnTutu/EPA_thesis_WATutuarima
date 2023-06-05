@@ -14,28 +14,49 @@ strategies = {
 
 
 class route_model:
+    """
+            Class that contains the code for the criminal fugitive route seeking model.
 
-    def __init__(self, points=None,
-                 graph_file_path=default_graph_file_path, num_of_paths=default_num_of_paths, graph=None
-                 ):
+            Attributes
+            ----------
+            points:array[int]
+                array with the origin and destination points
+            graph_file_path:str
+                path to file to use for graph
+            graph: object
+
+    """
+
+    def __init__(self, points=None, graph_file_path=default_graph_file_path):
+
+        """
+            Init method that initializes all the structure of the model.
+            This includes loading the graphs and setting the initial values of the necessary statistic variables.
+            @param points: origin and destination points
+            @param graph_file_path: file path for loading graph
+
+        """
+
+        # load the origin and destination points
         if points is None:
             self.points = default_points
         else:
             self.points = points
 
         self.graph_file_path = graph_file_path
-        self.num_of_paths = num_of_paths
-        # load graph
+        self.num_of_paths = default_num_of_paths
 
-        self.graph = graph
-        if graph is None:
-            self.graph = self.load_graph()
+        self.graph = None
+        self.load_graph()
 
+        # save copy of original and undirected graphs
         self.original_graph = self.graph.copy()
         self.undirected_graph = self.graph.copy().to_undirected()
 
+        # graph that is used during the bounded rational model for the second strategy
         self.graph_end_strategy = self.graph.copy()
 
+        # statistic variables
         self.num_nodes = 0
         self.num_edges = 0
         self.continuity = []
@@ -46,12 +67,32 @@ class route_model:
         self.betweenness_centrality_vars = []
 
     def load_graph(self):
-        return ox.load_graphml(self.graph_file_path)
+        """
+            Function that load the graph
+        """
+        self.graph = ox.load_graphml(self.graph_file_path)
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1):
-
+        """
+        Function that runs a model scenario
+        @param rational: Boolean indicating rational or bounded rational decision making
+        @param CA: Multiplication factor for camera avoidance
+        @param OA: Multiplication factor for obstacle avoidance
+        @param LP: Multiplication factor for lane preference
+        @param RP: Multiplication factor for residential preference
+        @param WW: Multiplication factor for wrong way preference
+        @param HS: Multiplication factor for high speed preference
+        @param SR: Multiplication factor for short road preference
+        @param TA: Multiplication factor for traffic avoidance
+        @param num_of_paths: number of paths generated per origin-destination pair
+        @param one_way_possible: Boolean indicating possibility of driving into a road from the wrong way
+        @param start_strategy: Integer number of starting strategy
+        @param end_strategy: Integer number of ending strategy
+        @param strategy_change_percentage: Float indicating at what time in the run, the strategy changes
+        @return: Statistical values of run
+        """
         self.reset_scenario_statistics()
 
         self.num_of_paths = num_of_paths
@@ -84,6 +125,9 @@ class route_model:
         return self.calculate_scenario_statistics()
 
     def reset_scenario_statistics(self):
+        """
+        Function that resets the scenario statistics
+        """
         self.num_nodes = 0
         self.num_edges = 0
         self.continuity = []
@@ -94,6 +138,10 @@ class route_model:
         self.betweenness_centrality_vars = []
 
     def calculate_scenario_statistics(self):
+        """
+        Function that calculates the scenario statistics
+        @return: the scenario statistics
+        """
         degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
 
         degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
@@ -114,12 +162,12 @@ class route_model:
             self.connectivity)
 
         return {
-            "num_of_nodes" : self.num_nodes,
-            "num_of_edges" : self.num_edges,
-            "continuity_mean" : continuity_mean,
-            "continuity_vars" : continuity_vars,
-            "connectivity_mean" : connectivity_mean,
-            "connectivity_vars" : connectivity_vars,
+            "num_of_nodes": self.num_nodes,
+            "num_of_edges": self.num_edges,
+            "continuity_mean": continuity_mean,
+            "continuity_vars": continuity_vars,
+            "connectivity_mean": connectivity_mean,
+            "connectivity_vars": connectivity_vars,
             'degree_centrality_mean': degree_centrality_mean_mean,
             'degree_centrality_var': degree_centrality_var_mean,
             'betweenness_centrality_mean': betweenness_centrality_mean_mean,
@@ -127,17 +175,23 @@ class route_model:
         }
 
     def run_rational_model(self):
-
+        """
+        Function that runs the rational model
+        """
         for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
+
             for sink in self.points:
+                # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
+                # Calculate top x number of paths between sink and source
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
 
+                # For every route, add the nodes and edges to the route graph
                 for route in routes:
                     routes_in_graph.append(route)
                     for i in range(0, len(route) - 1):
@@ -159,6 +213,7 @@ class route_model:
 
                     self.continuity.append(len(route))
 
+            # Calculate the connectivity of a route by determining the number of routes it intersects with
             for route in routes_in_graph:
                 connectivity_route = 0
                 for route_it in routes_in_graph:
@@ -171,17 +226,25 @@ class route_model:
             self.calculate_OD_statistics(route_graph)
 
     def run_bounded_rational_model(self, strategy_change_percentage):
-
+        """
+        Function that runs the bounded rational model
+        @param strategy_change_percentage: Float indicating at what time in the run, the strategy changes
+        """
         for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
+
             for sink in self.points:
+                # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
+
+                # Calculate top x number of paths between sink and source
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
 
+                # For every route, add the nodes and edges to the route graph
                 for route in routes:
                     adjusted_routes = []
 
@@ -214,6 +277,7 @@ class route_model:
                                 nx.set_edge_attributes(route_graph,
                                                        {(adjusted_routes[i], adjusted_routes[i + 1]): {"count": 1}})
 
+            # Calculate the connectivity of a route by determining the number of routes it intersects with
             for route in routes_in_graph:
                 connectivity_route = 0
                 for route_it in routes_in_graph:
@@ -226,10 +290,21 @@ class route_model:
             self.calculate_OD_statistics(route_graph)
 
     def calculate_weights(self, CA, OA, LP, RP, WW, HS, SR, TA, graph=None):
+        """
+        Function that calculates the weights of all the edges based on the scenario variables
+        @param CA: Multiplication factor for camera avoidance
+        @param OA: Multiplication factor for obstacle avoidance
+        @param LP: Multiplication factor for lane preference
+        @param RP: Multiplication factor for residential preference
+        @param WW: Multiplication factor for wrong way preference
+        @param HS: Multiplication factor for high speed preference
+        @param SR: Multiplication factor for short road preference
+        @param TA: Multiplication factor for traffic avoidance
+        @param graph: the graph that needs to be adapted
+        """
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
-            # speed limits and length
-            weight_used = 0
 
+            # speed limits and length
             if isinstance(data.get('maxspeed'), list):
                 weight_used = data.get('length') / float(data.get('maxspeed')[0])
 
@@ -276,10 +351,9 @@ class route_model:
                                        (origin_num, destination_num, 1): {
                                            "used_weight": weight_used}})
 
-            # print(graph[origin_num][destination_num].get(0))
-
             # Traffic avoidance, todo
 
+        # For edge cases in the graph, make sure that each edge has a calculated weight
         for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):
             if "used_weight" not in data:
                 nx.set_edge_attributes(self.graph,
@@ -293,6 +367,10 @@ class route_model:
                                                "used_weight": data.get("length") / 30.0}})
 
     def calculate_OD_statistics(self, route_graph):
+        """
+        Function to calculate the statistics of a origin-destination pair network
+        @param route_graph: the route network that is used
+        """
         degree_centrality = list(nx.degree_centrality(route_graph).values())
         degree_centrality_mean = sum(degree_centrality) / len(degree_centrality)
         degree_centrality_var = sum((i - degree_centrality_mean) ** 2 for i in degree_centrality) / len(
@@ -312,6 +390,10 @@ class route_model:
         self.num_edges = self.num_edges + route_graph.number_of_edges()
 
     def visualise(self, routes):
+        """
+        Function to visualize the
+        @param routes: the routes to be visualized
+        """
         route_pairs = []
         for route in routes:
             for i in range(0, len(route) - 1):

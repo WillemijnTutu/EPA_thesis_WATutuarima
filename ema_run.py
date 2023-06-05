@@ -12,10 +12,10 @@ from ema_workbench import save_results
 
 
 """
-Main method to run the experiment of the fugitive model
+Main method to run the experiment of the fugitive route choice model
 
 Here the experimental setup is inserted into the model and the number of replications is determined
-After the model is run, the output statistics are displayed. 
+After the model is run, the output statistics are saved into a file. 
 """
 if __name__ == "__main__":
     model = Model('routemodel', function=route_model.route_model)
@@ -49,10 +49,9 @@ if __name__ == "__main__":
     with MultiprocessingEvaluator(model, n_processes=7) as evaluator:
         results = evaluator.perform_experiments(scenarios=10)
 
-
     fig, axes = pairs_plotting.pairs_scatter(results[0], results[1], legend=False)
     fig.set_size_inches(8, 8)
     plt.show()
 
-    save_results(results, '1000 scenarios 5 policies.tar.gz')
+    save_results(results, 'results.gz')
 
