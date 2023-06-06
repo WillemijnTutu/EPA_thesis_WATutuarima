@@ -3,9 +3,6 @@ from ema_workbench import Model, RealParameter, ScalarOutcome, ema_logging, perf
 from ema_workbench.analysis import pairs_plotting
 from ema_workbench import MultiprocessingEvaluator, ema_logging, perform_experiments
 
-import numpy as np
-import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 from ema_workbench import save_results

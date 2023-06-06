@@ -1,9 +1,16 @@
 import osmnx as ox
 import networkx as nx
+import geopandas as gpd
+import numpy as np
+import math
+
+from shapely.geometry import Point
 
 default_points = [44430463, 44465861]
-default_graph_file_path = "graph/rotterdam_drive_with_cameras_on_edges.graphml"
+default_graph_file_path = "graph/rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml"
 default_num_of_paths = 5
+default_neighbourhood_map_file_path = "data/neighbourhood_division/neighbourhood_map.geojson"
+default_seed = 1111
 
 strategies = {
     1: [1, 1, 1, 1, 1, 1, 1, 1, True],
@@ -11,6 +18,16 @@ strategies = {
     3: [1, 1, 1, 1, 1, 1, 1, 1, False],
     4: [1, 1, 1, 1, 1, 1, 1, 1, False]
 }
+
+
+def random_points_in_polygon(polygon, number):
+    points = []
+    minx, miny, maxx, maxy = polygon.bounds
+    while len(points) < number:
+        pnt = Point(np.random.uniform(minx, maxx), np.random.uniform(miny, maxy))
+        if polygon.contains(pnt):
+            points.append(pnt)
+    return points
 
 
 class route_model:
@@ -36,12 +53,15 @@ class route_model:
             @param graph_file_path: file path for loading graph
 
         """
+        self.seed = default_seed
 
         # load the origin and destination points
         if points is None:
             self.points = default_points
         else:
             self.points = points
+
+        self.neighbourhood_map = gpd.read_file(default_neighbourhood_map_file_path)
 
         self.graph_file_path = graph_file_path
         self.num_of_paths = default_num_of_paths
@@ -72,15 +92,55 @@ class route_model:
         """
         self.graph = ox.load_graphml(self.graph_file_path)
 
+    def generate_points(self, seed=default_seed, num_of_points_per_neighbourhood=1):
+        """
+        Function that generates the origin and destination points in the map.
+        These are random points based on the neighbourhoods in the map.
+        The number of points per neighbourhood is specified which might be multiplied
+        if it is one of the large neighbourhoods.
+        @param seed:
+        @param num_of_points_per_neighbourhood:
+        """
+        if seed == self.seed:
+            return
 
+        np.random.seed(seed)
 
-    # def generate_points(self):
+        points_from_map = []
+
+        for index, row in self.neighbourhood_map.iterrows():
+            num_of_points = num_of_points_per_neighbourhood
+            if row['name'] == "Centrum":
+                num_of_points = num_of_points * 6
+            elif row['name'] == "Noord":
+                num_of_points = num_of_points * 8
+            elif row['name'] == "Kralingen-Crooswijk":
+                num_of_points = num_of_points * 5
+
+            # todo checken dat punten >100 meter uit elkaar zijn
+            points_from_map = points_from_map + random_points_in_polygon(row["geometry"], num_of_points)
+
+        self.points = []
+        for point in points_from_map:
+            closest_node = None
+            closest_distance = math.inf
+
+            for index1, node in self.graph.nodes(data=True):
+                distance = math.dist([point.x, point.y], [node.get("x"), node.get("y")])
+                if distance < closest_distance:
+                    closest_distance = distance
+                    closest_node = index1
+
+            self.points.append(closest_node)
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
-                  one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1):
+                  one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
+                  seed=222, num_of_points_per_neighbourhood=1):
         """
         Function that runs a model scenario
+        @param seed:
+        @param num_of_points_per_neighbourhood:
         @param rational: Boolean indicating rational or bounded rational decision making
         @param CA: Multiplication factor for camera avoidance
         @param OA: Multiplication factor for obstacle avoidance
@@ -98,6 +158,7 @@ class route_model:
         @return: Statistical values of run
         """
         self.reset_scenario_statistics()
+        self.generate_points(seed, num_of_points_per_neighbourhood)
 
         self.num_of_paths = num_of_paths
 
@@ -182,18 +243,23 @@ class route_model:
         """
         Function that runs the rational model
         """
+        counter = 0
         for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
 
+            counter2 = 0
             for sink in self.points:
                 # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
                 # Calculate top x number of paths between sink and source
+                if not nx.has_path(self.graph, source, sink):
+                    continue
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
+
 
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
