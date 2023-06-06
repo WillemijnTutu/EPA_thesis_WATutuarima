@@ -72,6 +72,10 @@ class route_model:
         """
         self.graph = ox.load_graphml(self.graph_file_path)
 
+
+
+    # def generate_points(self):
+
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1):
