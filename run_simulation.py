@@ -1,15 +1,10 @@
 import route_model
 import time
 
-from ema_workbench import Model, RealParameter, ScalarOutcome, ema_logging, perform_experiments
-from ema_workbench.analysis import pairs_plotting
-from ema_workbench import MultiprocessingEvaluator, ema_logging, perform_experiments
-
-import matplotlib.pyplot as plt
+from ema_workbench import Model, RealParameter, ScalarOutcome
+from ema_workbench import MultiprocessingEvaluator, ema_logging
 
 from ema_workbench import save_results
-
-
 
 """
 Main method to run the experiment of the fugitive model
@@ -21,7 +16,9 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    model = Model('routemodel', function=route_model.route_model)
+    route_model_instance = route_model.route_model()
+
+    model = Model('routemodel', function=route_model_instance.run_model)
 
     # specify uncertainties
     model.uncertainties = [
@@ -52,8 +49,8 @@ if __name__ == "__main__":
     ema_logging.log_to_stderr(ema_logging.INFO)
 
     with MultiprocessingEvaluator(model, n_processes=7) as evaluator:
-        results = evaluator.perform_experiments(scenarios=1)
+        results = evaluator.perform_experiments(scenarios=10)
 
-    save_results(results, 'results.gz')
+    save_results(results, 'results/first_run_allpoints_10scenarios.gz')
     print("--- %s seconds ---" % (time.time() - start_time))
 

@@ -133,6 +133,9 @@ class route_model:
 
             self.points.append(closest_node)
 
+        # for test
+        # self.points = self.points[:10]
+
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
@@ -207,24 +210,39 @@ class route_model:
         Function that calculates the scenario statistics
         @return: the scenario statistics
         """
-        degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
+        degree_centrality_mean_mean = 0
+        if len(self.degree_centrality_means) != 0:
+            degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
 
-        degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
+        degree_centrality_var_mean = 0
+        if len(self.degree_centrality_vars) != 0:
+            degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
 
-        betweenness_centrality_mean_mean = sum(self.betweenness_centrality_means) / len(
-            self.betweenness_centrality_means)
+        betweenness_centrality_mean_mean = 0
+        if len(self.betweenness_centrality_means) != 0:
+            betweenness_centrality_mean_mean = sum(self.betweenness_centrality_means) / len(
+                self.betweenness_centrality_means)
 
-        betweenness_centrality_var_mean = sum(self.betweenness_centrality_vars) / len(self.betweenness_centrality_vars)
+        betweenness_centrality_var_mean = 0
+        if len(self.betweenness_centrality_vars) != 0:
+            betweenness_centrality_var_mean = sum(self.betweenness_centrality_vars) / len(
+                self.betweenness_centrality_vars)
 
-        continuity_mean = sum(self.continuity) / len(self.continuity)
-        continuity_vars = sum(
-            (i - continuity_mean) ** 2 for i in self.continuity) / len(
-            self.continuity)
+        continuity_mean = 0
+        continuity_vars = 0
+        if len(self.continuity) != 0:
+            continuity_mean = sum(self.continuity) / len(self.continuity)
+            continuity_vars = sum(
+                (i - continuity_mean) ** 2 for i in self.continuity) / len(
+                self.continuity)
 
-        connectivity_mean = sum(self.connectivity) / len(self.connectivity)
-        connectivity_vars = sum(
-            (i - connectivity_mean) ** 2 for i in self.connectivity) / len(
-            self.connectivity)
+        connectivity_mean = 0
+        connectivity_vars = 0
+        if len(self.connectivity) != 0:
+            connectivity_mean = sum(self.connectivity) / len(self.connectivity)
+            connectivity_vars = sum(
+                (i - connectivity_mean) ** 2 for i in self.connectivity) / len(
+                self.connectivity)
 
         return {
             "num_of_nodes": self.num_nodes,
@@ -249,7 +267,6 @@ class route_model:
             route_graph = nx.Graph()
             routes_in_graph = []
 
-            counter2 = 0
             for sink in self.points:
                 # if sink and source are equal, continue to next pair
                 if source == sink:
@@ -289,7 +306,7 @@ class route_model:
                 for route_it in routes_in_graph:
                     if route == route_it:
                         continue
-                    if len(list((value for value in route if value in route_it))) > 0:
+                    if len(list((value for value in route[1, -1] if value in route_it[1, -1]))) > 0:
                         connectivity_route += 1
                 self.connectivity.append(connectivity_route)
 
@@ -353,7 +370,8 @@ class route_model:
                 for route_it in routes_in_graph:
                     if route == route_it:
                         continue
-                    if len(list((value for value in route if value in route_it))) > 0:
+                    # connectivity is only when there is a crossing without it being the first and second node
+                    if len(list((value for value in route[1:-1] if value in route_it[1:-1]))) > 0:
                         connectivity_route += 1
                 self.connectivity.append(connectivity_route)
 
@@ -442,13 +460,21 @@ class route_model:
         @param route_graph: the route network that is used
         """
         degree_centrality = list(nx.degree_centrality(route_graph).values())
-        degree_centrality_mean = sum(degree_centrality) / len(degree_centrality)
-        degree_centrality_var = sum((i - degree_centrality_mean) ** 2 for i in degree_centrality) / len(
-            degree_centrality)
+
+        degree_centrality_mean = 0
+        degree_centrality_var = 0
+        if len(degree_centrality) != 0:
+            degree_centrality_mean = sum(degree_centrality) / len(degree_centrality)
+            degree_centrality_var = sum((i - degree_centrality_mean) ** 2 for i in degree_centrality) / len(
+                degree_centrality)
 
         betweenness_centrality = list(nx.betweenness_centrality(route_graph).values())
-        betweenness_centrality_mean = sum(betweenness_centrality) / len(betweenness_centrality)
-        betweenness_centrality_var = sum((i - betweenness_centrality_mean) ** 2 for i in betweenness_centrality) / len(
+
+        betweenness_centrality_mean = 0
+        betweenness_centrality_var = 0
+        if len(betweenness_centrality) != 0:
+            betweenness_centrality_mean = sum(betweenness_centrality) / len(betweenness_centrality)
+            betweenness_centrality_var = sum((i - betweenness_centrality_mean) ** 2 for i in betweenness_centrality) / len(
             betweenness_centrality)
 
         self.degree_centrality_means.append(degree_centrality_mean)
