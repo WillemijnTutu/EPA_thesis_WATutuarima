@@ -3,6 +3,7 @@ import networkx as nx
 import geopandas as gpd
 import numpy as np
 import math
+import random
 
 from shapely.geometry import Point
 
@@ -61,6 +62,9 @@ class route_model:
         else:
             self.points = points
 
+        self.start_points = []
+        self.end_points = []
+
         self.neighbourhood_map = gpd.read_file(default_neighbourhood_map_file_path)
 
         self.graph_file_path = graph_file_path
@@ -104,7 +108,7 @@ class route_model:
         if seed == self.seed:
             return
 
-        np.random.seed(seed)
+        random.seed(seed)
 
         points_from_map = []
 
@@ -133,8 +137,9 @@ class route_model:
 
             self.points.append(closest_node)
 
-        # for test
-        # self.points = self.points[:10]
+        # # for test
+        self.start_points = random.choices(self.points, k=10)
+        self.end_points = random.choices(list(set(self.points) - set(self.start_points)), k=10)
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
                   num_of_paths=default_num_of_paths,
@@ -261,13 +266,12 @@ class route_model:
         """
         Function that runs the rational model
         """
-        counter = 0
-        for source in self.points:
+        for source in self.start_points:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
 
-            for sink in self.points:
+            for sink in self.end_points:
                 # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
@@ -306,7 +310,7 @@ class route_model:
                 for route_it in routes_in_graph:
                     if route == route_it:
                         continue
-                    if len(list((value for value in route[1, -1] if value in route_it[1, -1]))) > 0:
+                    if len(list((value for value in list(route[1:-1]) if value in list(route_it[1:-1])))) > 0:
                         connectivity_route += 1
                 self.connectivity.append(connectivity_route)
 
@@ -371,7 +375,7 @@ class route_model:
                     if route == route_it:
                         continue
                     # connectivity is only when there is a crossing without it being the first and second node
-                    if len(list((value for value in route[1:-1] if value in route_it[1:-1]))) > 0:
+                    if len(list((value for value in list(route[1:-1]) if value in list(route_it[1:-1])))) > 0:
                         connectivity_route += 1
                 self.connectivity.append(connectivity_route)
 
