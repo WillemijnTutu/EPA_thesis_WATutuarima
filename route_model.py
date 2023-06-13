@@ -10,14 +10,14 @@ from shapely.geometry import Point
 default_points = [44430463, 44465861]
 default_graph_file_path = "graph/rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml"
 default_num_of_paths = 5
-default_neighbourhood_map_file_path = "data/neighbourhood_division/neighbourhood_map.geojson"
+default_neighbourhood_map_file_path = "data/neighbourhood_division/neighbourhood_map_suburb.geojson"
 default_seed = 1111
 
 strategies = {
-    1: [1, 1, 1, 1, 1, 1, 1, 1, True],
-    2: [1, 1, 1, 1, 1, 1, 1, 1, True],
-    3: [1, 1, 1, 1, 1, 1, 1, 1, False],
-    4: [1, 1, 1, 1, 1, 1, 1, 1, False]
+    1: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, True],
+    2: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, True],
+    3: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, False],
+    4: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, False]
 }
 
 
@@ -62,9 +62,6 @@ class route_model:
         else:
             self.points = points
 
-        self.start_points = []
-        self.end_points = []
-
         self.neighbourhood_map = gpd.read_file(default_neighbourhood_map_file_path)
 
         self.graph_file_path = graph_file_path
@@ -108,21 +105,30 @@ class route_model:
         if seed == self.seed:
             return
 
+        self.seed = seed
+
         random.seed(seed)
 
         points_from_map = []
 
-        for index, row in self.neighbourhood_map.iterrows():
-            num_of_points = num_of_points_per_neighbourhood
-            if row['name'] == "Centrum":
-                num_of_points = num_of_points * 6
-            elif row['name'] == "Noord":
-                num_of_points = num_of_points * 8
-            elif row['name'] == "Kralingen-Crooswijk":
-                num_of_points = num_of_points * 5
+        percentage_out_of_bound = 0.05
+        lat_min = 51.863171
+        lat_max = 51.970486
+        lon_min = 4.427773
+        lon_max = 4.580918
 
-            # todo checken dat punten >100 meter uit elkaar zijn
-            points_from_map = points_from_map + random_points_in_polygon(row["geometry"], num_of_points)
+        ten_perc_lat = (lat_max - lat_min) * percentage_out_of_bound
+        ten_perc_lon = (lon_max - lon_min) * percentage_out_of_bound
+
+        num_of_points_per_neighbourhood = 1
+        for index, row in self.neighbourhood_map.iterrows():
+            fit = True
+            while fit:
+                point = random_points_in_polygon(row["geometry"], num_of_points_per_neighbourhood)[0]
+                if (lat_max - ten_perc_lat > point.y > lat_min + ten_perc_lat) & (
+                        lon_max - ten_perc_lon > point.x > lon_min + ten_perc_lon):
+                    points_from_map.append(point)
+                    fit = False
 
         self.points = []
         for point in points_from_map:
@@ -137,16 +143,15 @@ class route_model:
 
             self.points.append(closest_node)
 
-        # # for test
-        self.start_points = random.choices(self.points, k=10)
-        self.end_points = random.choices(list(set(self.points) - set(self.start_points)), k=10)
-
-    def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, WW=1, HS=1, SR=1, TA=1,
+    def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, SR=1, TA1=1, TA2=1, TA3=1,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
                   seed=222, num_of_points_per_neighbourhood=1):
         """
         Function that runs a model scenario
+        @param TA1: Multiplication factor for traffic avoidance
+        @param TA2: Multiplication factor for traffic avoidance
+        @param TA3: Multiplication factor for traffic avoidance
         @param seed:
         @param num_of_points_per_neighbourhood:
         @param rational: Boolean indicating rational or bounded rational decision making
@@ -154,10 +159,9 @@ class route_model:
         @param OA: Multiplication factor for obstacle avoidance
         @param LP: Multiplication factor for lane preference
         @param RP: Multiplication factor for residential preference
-        @param WW: Multiplication factor for wrong way preference
+        @param OW: Multiplication factor for wrong way preference
         @param HS: Multiplication factor for high speed preference
         @param SR: Multiplication factor for short road preference
-        @param TA: Multiplication factor for traffic avoidance
         @param num_of_paths: number of paths generated per origin-destination pair
         @param one_way_possible: Boolean indicating possibility of driving into a road from the wrong way
         @param start_strategy: Integer number of starting strategy
@@ -176,7 +180,7 @@ class route_model:
             else:
                 self.graph = self.original_graph.copy()
 
-            self.calculate_weights(CA, OA, LP, RP, WW, HS, SR, TA, self.graph)
+            self.calculate_weights(CA, OA, LP, RP, OW, HS, SR, TA1, TA2, TA3, self.graph)
             self.run_rational_model()
 
         else:
@@ -266,12 +270,12 @@ class route_model:
         """
         Function that runs the rational model
         """
-        for source in self.start_points:
+        for source in self.points:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
 
-            for sink in self.end_points:
+            for sink in self.points:
                 # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
@@ -381,17 +385,19 @@ class route_model:
 
             self.calculate_OD_statistics(route_graph)
 
-    def calculate_weights(self, CA, OA, LP, RP, WW, HS, SR, TA, graph=None):
+    def calculate_weights(self, CA, OA, LP, RP, OW, HS, SR, TA1, TA2, TA3, graph=None):
         """
         Function that calculates the weights of all the edges based on the scenario variables
+        @param TA3: Multiplication factor for traffic avoidance
+        @param TA2: Multiplication factor for traffic avoidance
+        @param TA1: Multiplication factor for traffic avoidance
         @param CA: Multiplication factor for camera avoidance
         @param OA: Multiplication factor for obstacle avoidance
         @param LP: Multiplication factor for lane preference
         @param RP: Multiplication factor for residential preference
-        @param WW: Multiplication factor for wrong way preference
+        @param OW: Multiplication factor for wrong way preference
         @param HS: Multiplication factor for high speed preference
         @param SR: Multiplication factor for short road preference
-        @param TA: Multiplication factor for traffic avoidance
         @param graph: the graph that needs to be adapted
         """
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
@@ -427,7 +433,7 @@ class route_model:
 
             # One way
             if 'oneway' in data and data.get('oneway'):
-                weight_used = weight_used * WW
+                weight_used = weight_used * OW
 
             # High speed preference
             if isinstance(data.get('maxspeed'), list) and float(data.get('maxspeed')[0]) > 50.0:
@@ -437,13 +443,24 @@ class route_model:
             if 'length' in data and data.get('length') > 100:
                 weight_used = weight_used * SR
 
+            # Traffic avoidance
+            if 'highway' in data:
+                main_roads = ['motorway', 'motorway_link', 'trunk']
+                secondary_roads = ['primary', 'primary_link', 'secondary']
+                tertiary_roads = ['Tertiary']
+                if len([value for value in data['highway'] if value in main_roads]) > 0:
+                    weight_used = weight_used * TA1
+                elif len([value for value in data['highway'] if value in secondary_roads]) > 0:
+                    weight_used = weight_used * TA2
+                elif len([value for value in data['highway'] if value in tertiary_roads]) > 0:
+                    weight_used = weight_used * TA3
+
             nx.set_edge_attributes(self.graph,
                                    {(origin_num, destination_num, 0): {
                                        "used_weight": weight_used},
                                        (origin_num, destination_num, 1): {
                                            "used_weight": weight_used}})
 
-            # Traffic avoidance, todo
 
         # For edge cases in the graph, make sure that each edge has a calculated weight
         for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):

@@ -16,7 +16,7 @@ After the model is run, the output statistics are displayed.
 if __name__ == "__main__":
     print(os.cpu_count())
 
-    # model = route_model.route_model()
-    #
-    # print(model.run_model())
+    model = route_model.route_model()
+
+    print(model.run_model())
 
