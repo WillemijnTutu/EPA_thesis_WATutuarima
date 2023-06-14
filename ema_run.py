@@ -66,4 +66,4 @@ if __name__ == "__main__":
     with MultiprocessingEvaluator(model, n_processes=7) as evaluator:
         sa_results = evaluator.perform_experiments(scenarios=500)
 
-    save_results(sa_results, 'results/traffic_run_500.gz')
+    save_results(sa_results, 'results/traffic_rerunTA_500.gz')

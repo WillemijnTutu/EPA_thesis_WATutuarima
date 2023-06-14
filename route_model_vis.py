@@ -11,7 +11,7 @@ default_points = [44430463, 44465861]
 default_graph_file_path = "graph/rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml"
 default_num_of_paths = 5
 default_neighbourhood_map_file_path = "data/neighbourhood_division/neighbourhood_map_suburb.geojson"
-default_seed = 1000
+default_seed = 1111
 
 strategies = {
     1: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, True],
@@ -31,7 +31,7 @@ def random_points_in_polygon(polygon, number):
     return points
 
 
-class route_model:
+class route_model_vis:
     """
             Class that contains the code for the criminal fugitive route seeking model.
 
@@ -54,6 +54,7 @@ class route_model:
             @param graph_file_path: file path for loading graph
 
         """
+        self.run=0
         self.seed = default_seed
 
         # load the origin and destination points
@@ -145,7 +146,7 @@ class route_model:
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, SR=1, TA1=1, TA2=1, TA3=1,
                   num_of_paths=default_num_of_paths,
-                  one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
+                  one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=0.5,
                   seed=222, num_of_points_per_neighbourhood=1):
         """
         Function that runs a model scenario
@@ -169,6 +170,7 @@ class route_model:
         @param strategy_change_percentage: Float indicating at what time in the run, the strategy changes
         @return: Statistical values of run
         """
+        self.run +=1
         self.reset_scenario_statistics()
         self.generate_points(seed, num_of_points_per_neighbourhood)
 
@@ -274,6 +276,8 @@ class route_model:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
+            nodes_in_graph = []
+            edges_in_graph = []
 
             for sink in self.points:
                 # if sink and source are equal, continue to next pair
@@ -285,28 +289,60 @@ class route_model:
                 routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                                       weight="used_weight")  # cpus=1??
 
+
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
-                    routes_in_graph.append(route)
-                    for i in range(0, len(route) - 1):
-                        # add nodes
-                        if not route_graph.has_node(route[i]):
-                            route_graph.add_node(route[i])
+                    for i in range(0, len(route)-1):
+                        nodes_in_graph.append(route[i])
+                        edges_in_graph.append((route[i], route[i+1]))
 
-                        if not route_graph.has_node(route[i + 1]):
-                            route_graph.add_node(route[i + 1])
-
-                        # add edges
-                        if route_graph.has_edge(route[i], route[i + 1]):
-                            nx.set_edge_attributes(route_graph,
-                                                   {(route[i], route[i + 1]):
-                                                    {"count": route_graph[route[i]][route[i + 1]]['count'] + 1}})
-                        else:
-                            route_graph.add_edge(route[i], route[i + 1])
-                            nx.set_edge_attributes(route_graph, {(route[i], route[i + 1]): {"count": 1}})
+                    # routes_in_graph.append(route)
+                    # for i in range(0, len(route) - 1):
+                    #     # add nodes
+                    #     if not route_graph.has_node(route[i]):
+                    #         route_graph.add_node(route[i])
+                    #
+                    #     if not route_graph.has_node(route[i + 1]):
+                    #         route_graph.add_node(route[i + 1])
+                    #
+                    #     # add edges
+                    #     if route_graph.has_edge(route[i], route[i + 1]):
+                    #         nx.set_edge_attributes(route_graph,
+                    #                                {(route[i], route[i + 1]):
+                    #                                     {"count": route_graph[route[i]][route[i + 1]]['count'] + 1}})
+                    #     else:
+                    #         route_graph.add_edge(route[i], route[i + 1])
+                    #         nx.set_edge_attributes(route_graph, {(route[i], route[i + 1]): {"count": 1}})
 
                     self.continuity.append(len(route))
 
+                    ox.plot.plot_graph_route(
+                        self.graph, route, route_color='b', route_linewidth=4, route_alpha=0.5,
+                        orig_dest_size=100, ax=None, node_color='lightgray', node_size=1,
+                        bgcolor="white", edge_linewidth=1, edge_color='lightgray', filepath="test.png"
+                    )
+
+            node_colors = []
+            edge_colors=[]
+            for index in self.graph.nodes():
+                if index in nodes_in_graph:
+                    node_colors.append('red')
+                else:
+                    node_colors.append("lightgray")
+
+            for (u, v) in self.graph.edges():
+                if (u,v) in edges_in_graph:
+                    edge_colors.append('red')
+                else:
+                    edge_colors.append('lightgray')
+
+            file_path = "test" + str(self.run) + ".png"
+
+            ox.plot.plot_graph(
+                self.graph,
+                bgcolor="white", node_color=node_colors, node_size=2, edge_linewidth=1, edge_color=edge_colors,
+                show=False, save=True, filepath=file_path
+            )
             # Calculate the connectivity of a route by determining the number of routes it intersects with
             for route in routes_in_graph:
                 connectivity_route = 0
@@ -318,6 +354,7 @@ class route_model:
                 self.connectivity.append(connectivity_route)
 
             self.calculate_OD_statistics(route_graph)
+            return
 
     def run_bounded_rational_model(self, strategy_change_percentage):
         """
@@ -328,6 +365,8 @@ class route_model:
             # create empty graph
             route_graph = nx.Graph()
             routes_in_graph = []
+            nodes_in_graph = []
+            edges_in_graph = []
 
             for sink in self.points:
                 # if sink and source are equal, continue to next pair
@@ -353,25 +392,54 @@ class route_model:
                     for adjusted_route in adjusted_routes:
                         routes_in_graph.append(adjusted_route)
                         for i in range(0, len(adjusted_route) - 1):
-                            # add nodes
-                            if not route_graph.has_node(adjusted_route[i]):
-                                route_graph.add_node(adjusted_route[i])
-
-                            if not route_graph.has_node(adjusted_route[i + 1]):
-                                route_graph.add_node(adjusted_route[i + 1])
-
-                            # add edges
-                            if route_graph.has_edge(adjusted_route[i], adjusted_route[i + 1]):
-                                nx.set_edge_attributes(route_graph,
-                                                       {(adjusted_route[i], adjusted_route[i + 1]):
-                                                            {"count": route_graph[adjusted_route[i]][
-                                                                          adjusted_route[i + 1]]['count'] + 1}})
-                            else:
-                                route_graph.add_edge(adjusted_route[i], adjusted_route[i + 1])
-                                nx.set_edge_attributes(route_graph,
-                                                       {(adjusted_route[i], adjusted_route[i + 1]): {"count": 1}})
+                            nodes_in_graph.append(adjusted_route[i])
+                            edges_in_graph.append((adjusted_route[i], adjusted_route[i+1]))
+                            # # add nodes
+                            # if not route_graph.has_node(adjusted_route[i]):
+                            #     route_graph.add_node(adjusted_route[i])
+                            #
+                            # if not route_graph.has_node(adjusted_route[i + 1]):
+                            #     route_graph.add_node(adjusted_route[i + 1])
+                            #
+                            # # add edges
+                            # if route_graph.has_edge(adjusted_route[i], adjusted_route[i + 1]):
+                            #     nx.set_edge_attributes(route_graph,
+                            #                            {(adjusted_route[i], adjusted_route[i + 1]):
+                            #                                 {"count": route_graph[adjusted_route[i]][
+                            #                                               adjusted_route[i + 1]]['count'] + 1}})
+                            # else:
+                            #     route_graph.add_edge(adjusted_route[i], adjusted_route[i + 1])
+                            #     nx.set_edge_attributes(route_graph,
+                            #                            {(adjusted_route[i], adjusted_route[i + 1]): {"count": 1}})
 
                         self.continuity.append(len(adjusted_route))
+                        # ox.plot.plot_graph_route(
+                        #     self.graph, adjusted_route, route_color='b', route_linewidth=4, route_alpha=0.5,
+                        #     orig_dest_size=100, ax=None, node_color='lightgray', node_size=1,
+                        #     bgcolor="white", edge_linewidth=1, edge_color='lightgray', filepath="test.png"
+                        # )
+
+            node_colors = []
+            edge_colors = []
+            for index in self.graph.nodes():
+                if index in nodes_in_graph:
+                    node_colors.append('red')
+                else:
+                    node_colors.append("lightgray")
+
+            for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):
+                if (origin_num, destination_num) in edges_in_graph:
+                    edge_colors.append('red')
+                else:
+                    edge_colors.append('lightgray')
+
+            file_path = "test" + str(self.run+1) + ".png"
+
+            ox.plot.plot_graph(
+                self.graph,
+                bgcolor="white", node_color=node_colors, node_size=2, edge_linewidth=2, edge_color=edge_colors,
+                show=False, save=True, filepath=file_path
+            )
 
             # Calculate the connectivity of a route by determining the number of routes it intersects with
             for route in routes_in_graph:
@@ -385,6 +453,7 @@ class route_model:
                 self.connectivity.append(connectivity_route)
 
             self.calculate_OD_statistics(route_graph)
+            return
 
     def calculate_weights(self, CA, OA, LP, RP, OW, HS, SR, TA1, TA2, TA3, graph=None):
         """
@@ -468,6 +537,7 @@ class route_model:
                                        "used_weight": weight_used},
                                        (origin_num, destination_num, 1): {
                                            "used_weight": weight_used}})
+
 
         # For edge cases in the graph, make sure that each edge has a calculated weight
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
