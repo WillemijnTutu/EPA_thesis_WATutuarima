@@ -3,22 +3,19 @@ import networkx as nx
 import geopandas as gpd
 import numpy as np
 import math
-import random
-
 from shapely.geometry import Point
 
 default_points = [44430463, 44465861]
-default_graph_file_path = "graph/rotterdam_drive_bbox_cameras_traffic_lights_bridges_roundabouts_tunnels.graphml"
+default_graph_file_path = "graph_base_case.graphml"
 default_num_of_paths = 5
-default_neighbourhood_map_file_path = "data/neighbourhood_division/neighbourhood_map_suburb.geojson"
+default_neighbourhood_map_file_path = "neighbourhood_map_suburb.geojson"
 default_seed = 1000
 
 strategies = {
-    1: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, True],
-    2: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, True],
-    3: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, False],
-    4: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, False]
+    1: [1, 5,   1, 0.1, 5, 1, 1, 1, 1, 1, False],
+    2: [1, 1, 0.1,   1, 1, 5, 5, 2, 1.7, 1.3, False]
 }
+# CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, TA=1, TA1=2, TA2=1.7, TA3=1.3
 
 
 def random_points_in_polygon(polygon, number):
@@ -42,7 +39,6 @@ class route_model:
             graph_file_path:str
                 path to file to use for graph
             graph: object
-
     """
 
     def __init__(self, points=None, graph_file_path=default_graph_file_path):
@@ -67,31 +63,37 @@ class route_model:
         self.graph_file_path = graph_file_path
         self.num_of_paths = default_num_of_paths
 
-        self.graph = None
-        self.load_graph()
+        self.graph_OW_False = ox.load_graphml(self.graph_file_path)
 
-        # save copy of original and undirected graphs
-        self.original_graph = self.graph.copy()
-        self.undirected_graph = self.graph.copy().to_undirected()
+        for road_id, (origin_num, destination_num, data) in enumerate(self.graph_OW_False.edges(data=True)):
+            # speed limits and length
+            if isinstance(data.get('maxspeed'), list):
+                base_case = data.get('length') / float(data.get('maxspeed')[0])
+            elif isinstance(data.get('maxspeed'), str):
+                base_case = data.get('length') / float(data.get('maxspeed'))
+            else:
+                # if maximum speed is not specified, max speed of 30 km/h is assumed
+                # the number of edges without maximum speed is 2402, from the total of 25348 edges (so 9.47%)
+                base_case = data.get('length') / 30.0
 
-        # graph that is used during the bounded rational model for the second strategy
-        self.graph_end_strategy = self.graph.copy()
+            nx.set_edge_attributes(self.graph_OW_False,
+                                   {(origin_num, destination_num, 0): {
+                                       "base_case": base_case},
+                                       (origin_num, destination_num, 1): {
+                                           "base_case": base_case}})
+
+        self.graph_OW_True = self.graph_OW_False.to_undirected()
+
+        self.graph = self.graph_OW_False
+        self.graph_end_strategy = self.graph_OW_False
 
         # statistic variables
-        self.num_nodes = 0
-        self.num_edges = 0
         self.continuity = []
         self.connectivity = []
         self.degree_centrality_means = []
         self.degree_centrality_vars = []
-        self.betweenness_centrality_means = []
-        self.betweenness_centrality_vars = []
-
-    def load_graph(self):
-        """
-            Function that load the graph
-        """
-        self.graph = ox.load_graphml(self.graph_file_path)
+        self.node_frequency = []
+        self.path_costs_base_case = {}
 
     def generate_points(self, seed=default_seed, num_of_points_per_neighbourhood=1):
         """
@@ -107,7 +109,7 @@ class route_model:
 
         self.seed = seed
 
-        random.seed(seed)
+        np.random.seed(seed)
 
         points_from_map = []
 
@@ -143,12 +145,28 @@ class route_model:
 
             self.points.append(closest_node)
 
-    def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, SR=1, TA1=1, TA2=1, TA3=1,
+        for origin_point in self.points:
+            for destination_point in self.points:
+                if origin_point == destination_point:
+                    continue
+
+                # bereken de base case waardes
+                routes = ox.distance.k_shortest_paths(self.graph, origin_point, destination_point, self.num_of_paths,
+                                                      weight="base_case")
+
+                path_costs = []
+                for route in routes:
+                    path_costs.append(len(route))
+
+                self.path_costs_base_case[(origin_point, destination_point)] = sum(path_costs) / len(path_costs)
+
+    def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, TA=1, TA1=2, TA2=1.7, TA3=1.3,
                   num_of_paths=default_num_of_paths,
                   one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
                   seed=222, num_of_points_per_neighbourhood=1):
         """
         Function that runs a model scenario
+        @param TA: Multiplication factor for traffic avoidance
         @param TA1: Multiplication factor for traffic avoidance
         @param TA2: Multiplication factor for traffic avoidance
         @param TA3: Multiplication factor for traffic avoidance
@@ -161,43 +179,45 @@ class route_model:
         @param RP: Multiplication factor for residential preference
         @param OW: Multiplication factor for wrong way preference
         @param HS: Multiplication factor for high speed preference
-        @param SR: Multiplication factor for short road preference
         @param num_of_paths: number of paths generated per origin-destination pair
         @param one_way_possible: Boolean indicating possibility of driving into a road from the wrong way
         @param start_strategy: Integer number of starting strategy
         @param end_strategy: Integer number of ending strategy
         @param strategy_change_percentage: Float indicating at what time in the run, the strategy changes
         @return: Statistical values of run
+
         """
         self.reset_scenario_statistics()
-        self.generate_points(seed, num_of_points_per_neighbourhood)
+
+        if seed != self.seed:
+            self.generate_points(seed, num_of_points_per_neighbourhood)
 
         self.num_of_paths = num_of_paths
 
         if rational:
             if one_way_possible:
-                self.graph = self.undirected_graph.copy()
+                self.graph = self.graph_OW_True
             else:
-                self.graph = self.original_graph.copy()
+                self.graph = self.graph_OW_False
 
-            self.calculate_weights(CA, OA, LP, RP, OW, HS, SR, TA1, TA2, TA3, self.graph)
-            self.run_rational_model()
+            self.calculate_weights(CA, OA, LP, RP, OW, HS, TA, TA1, TA2, TA3, self.graph)
+            self.generate_route_network(rational=True)
 
         else:
             if strategies[start_strategy][-1]:
-                self.graph = self.undirected_graph.copy()
+                self.graph = self.graph_OW_True
             else:
-                self.graph = self.original_graph.copy()
+                self.graph = self.graph_OW_False
 
             if strategies[end_strategy][-1]:
-                self.graph_end_strategy = self.undirected_graph.copy()
+                self.graph_end_strategy = self.graph_OW_True
             else:
-                self.graph_end_strategy = self.original_graph.copy()
+                self.graph_end_strategy = self.graph_OW_False
 
             self.calculate_weights(*strategies[start_strategy][: -1], self.graph)
             self.calculate_weights(*strategies[end_strategy][: -1], self.graph_end_strategy)
 
-            self.run_bounded_rational_model(strategy_change_percentage)
+            self.generate_route_network(rational=False, strategy_change_percentage=strategy_change_percentage)
 
         return self.calculate_scenario_statistics()
 
@@ -205,173 +225,75 @@ class route_model:
         """
         Function that resets the scenario statistics
         """
-        self.num_nodes = 0
-        self.num_edges = 0
         self.continuity = []
         self.connectivity = []
-        self.degree_centrality_means = []
-        self.degree_centrality_vars = []
-        self.betweenness_centrality_means = []
-        self.betweenness_centrality_vars = []
+        self.node_frequency = []
 
     def calculate_scenario_statistics(self):
         """
         Function that calculates the scenario statistics
         @return: the scenario statistics
         """
-        degree_centrality_mean_mean = 0
-        if len(self.degree_centrality_means) != 0:
-            degree_centrality_mean_mean = sum(self.degree_centrality_means) / len(self.degree_centrality_means)
+        node_frequency_mean = sum(self.node_frequency) / len(self.node_frequency)
+        node_frequency_var = sum(
+            (i - node_frequency_mean) ** 2 for i in self.node_frequency) / len(
+            self.node_frequency)
 
-        degree_centrality_var_mean = 0
-        if len(self.degree_centrality_vars) != 0:
-            degree_centrality_var_mean = sum(self.degree_centrality_vars) / len(self.degree_centrality_vars)
+        continuity_mean = sum(self.continuity) / len(self.continuity)
+        continuity_vars = sum(
+            (i - continuity_mean) ** 2 for i in self.continuity) / len(
+            self.continuity)
 
-        betweenness_centrality_mean_mean = 0
-        if len(self.betweenness_centrality_means) != 0:
-            betweenness_centrality_mean_mean = sum(self.betweenness_centrality_means) / len(
-                self.betweenness_centrality_means)
-
-        betweenness_centrality_var_mean = 0
-        if len(self.betweenness_centrality_vars) != 0:
-            betweenness_centrality_var_mean = sum(self.betweenness_centrality_vars) / len(
-                self.betweenness_centrality_vars)
-
-        continuity_mean = 0
-        continuity_vars = 0
-        if len(self.continuity) != 0:
-            continuity_mean = sum(self.continuity) / len(self.continuity)
-            continuity_vars = sum(
-                (i - continuity_mean) ** 2 for i in self.continuity) / len(
-                self.continuity)
-
-        connectivity_mean = 0
-        connectivity_vars = 0
-        if len(self.connectivity) != 0:
-            connectivity_mean = sum(self.connectivity) / len(self.connectivity)
-            connectivity_vars = sum(
-                (i - connectivity_mean) ** 2 for i in self.connectivity) / len(
-                self.connectivity)
+        connectivity_mean = sum(self.connectivity) / len(self.connectivity)
+        connectivity_vars = sum(
+            (i - connectivity_mean) ** 2 for i in self.connectivity) / len(
+            self.connectivity)
 
         return {
-            "num_of_nodes": self.num_nodes,
-            "num_of_edges": self.num_edges,
             "continuity_mean": continuity_mean,
             "continuity_vars": continuity_vars,
             "connectivity_mean": connectivity_mean,
             "connectivity_vars": connectivity_vars,
-            'degree_centrality_mean': degree_centrality_mean_mean,
-            'degree_centrality_var': degree_centrality_var_mean,
-            'betweenness_centrality_mean': betweenness_centrality_mean_mean,
-            'betweenness_centrality_var': betweenness_centrality_var_mean,
+            'node_frequency_mean': node_frequency_mean,
+            'node_frequency_var': node_frequency_var
         }
 
-    def run_rational_model(self):
+    def generate_route_network(self, rational=True, strategy_change_percentage=0):
         """
         Function that runs the rational model
         """
         for source in self.points:
-            # create empty graph
-            route_graph = nx.Graph()
             routes_in_graph = []
+            node_frequency = {}
 
             for sink in self.points:
+                continuity_values = []
                 # if sink and source are equal, continue to next pair
                 if source == sink:
                     continue
                 # Calculate top x number of paths between sink and source
-                if not nx.has_path(self.graph, source, sink):
-                    continue
-                routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
-                                                      weight="used_weight")  # cpus=1??
+                routes = self.calculate_routes(source, sink, rational, strategy_change_percentage)
 
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
                     routes_in_graph.append(route)
                     for i in range(0, len(route) - 1):
-                        # add nodes
-                        if not route_graph.has_node(route[i]):
-                            route_graph.add_node(route[i])
 
-                        if not route_graph.has_node(route[i + 1]):
-                            route_graph.add_node(route[i + 1])
-
-                        # add edges
-                        if route_graph.has_edge(route[i], route[i + 1]):
-                            nx.set_edge_attributes(route_graph,
-                                                   {(route[i], route[i + 1]):
-                                                    {"count": route_graph[route[i]][route[i + 1]]['count'] + 1}})
+                        if i in node_frequency:
+                            # incrementing the count
+                            node_frequency[i] += 1
                         else:
-                            route_graph.add_edge(route[i], route[i + 1])
-                            nx.set_edge_attributes(route_graph, {(route[i], route[i + 1]): {"count": 1}})
+                            # initializing the count
+                            node_frequency[i] = 1
 
-                    self.continuity.append(len(route))
+                    continuity_values.append(len(route))
 
-            # Calculate the connectivity of a route by determining the number of routes it intersects with
-            for route in routes_in_graph:
-                connectivity_route = 0
-                for route_it in routes_in_graph:
-                    if route == route_it:
-                        continue
-                    if len(list((value for value in list(route[1:-1]) if value in list(route_it[1:-1])))) > 0:
-                        connectivity_route += 1
-                self.connectivity.append(connectivity_route)
+                continuity_values_mean = sum(continuity_values) / len(continuity_values)
+                self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
 
-            self.calculate_OD_statistics(route_graph)
-
-    def run_bounded_rational_model(self, strategy_change_percentage):
-        """
-        Function that runs the bounded rational model
-        @param strategy_change_percentage: Float indicating at what time in the run, the strategy changes
-        """
-        for source in self.points:
-            # create empty graph
-            route_graph = nx.Graph()
-            routes_in_graph = []
-
-            for sink in self.points:
-                # if sink and source are equal, continue to next pair
-                if source == sink:
-                    continue
-
-                # Calculate top x number of paths between sink and source
-                routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
-                                                      weight="used_weight")  # cpus=1??
-
-                # For every route, add the nodes and edges to the route graph
-                for route in routes:
-                    adjusted_routes = []
-
-                    index_to_change = int(len(route) * strategy_change_percentage)
-                    routes_to_adjust = ox.distance.k_shortest_paths(self.graph_end_strategy, route[index_to_change],
-                                                                    sink, 1,
-                                                                    weight="used_weight")  # cpus=1??
-
-                    for route_to_adjust in routes_to_adjust:
-                        adjusted_routes.append(route[0:index_to_change] + route_to_adjust)
-
-                    for adjusted_route in adjusted_routes:
-                        routes_in_graph.append(adjusted_route)
-                        for i in range(0, len(adjusted_route) - 1):
-                            # add nodes
-                            if not route_graph.has_node(adjusted_route[i]):
-                                route_graph.add_node(adjusted_route[i])
-
-                            if not route_graph.has_node(adjusted_route[i + 1]):
-                                route_graph.add_node(adjusted_route[i + 1])
-
-                            # add edges
-                            if route_graph.has_edge(adjusted_route[i], adjusted_route[i + 1]):
-                                nx.set_edge_attributes(route_graph,
-                                                       {(adjusted_route[i], adjusted_route[i + 1]):
-                                                            {"count": route_graph[adjusted_route[i]][
-                                                                          adjusted_route[i + 1]]['count'] + 1}})
-                            else:
-                                route_graph.add_edge(adjusted_route[i], adjusted_route[i + 1])
-                                nx.set_edge_attributes(route_graph,
-                                                       {(adjusted_route[i], adjusted_route[i + 1]): {"count": 1}})
-
-                        self.continuity.append(len(adjusted_route))
+            # calculate relative node frequency
+            for node_freq in node_frequency.values():
+                self.node_frequency.append(node_freq / self.num_of_paths)
 
             # Calculate the connectivity of a route by determining the number of routes it intersects with
             for route in routes_in_graph:
@@ -379,16 +301,33 @@ class route_model:
                 for route_it in routes_in_graph:
                     if route == route_it:
                         continue
-                    # connectivity is only when there is a crossing without it being the first and second node
-                    if len(list((value for value in list(route[1:-1]) if value in list(route_it[1:-1])))) > 0:
-                        connectivity_route += 1
-                self.connectivity.append(connectivity_route)
+                    connectivity_route += len(list((value for value in list(route) if value in list(route_it))))
+                self.connectivity.append((connectivity_route / len(route)) / self.num_of_paths)
 
-            self.calculate_OD_statistics(route_graph)
+    def calculate_routes(self, source, sink, rational=True, strategy_change_percentage=0):
+        # Calculate top x number of paths between sink and source
+        routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
+                                              weight="used_weight")
 
-    def calculate_weights(self, CA, OA, LP, RP, OW, HS, SR, TA1, TA2, TA3, graph=None):
+        if rational:
+            return routes
+
+        adjusted_routes = []
+        for route in routes:
+            index_to_change = int(len(route) * strategy_change_percentage)
+            routes_to_adjust = ox.distance.k_shortest_paths(self.graph_end_strategy, route[index_to_change],
+                                                            sink, 1,
+                                                            weight="used_weight")
+
+            for route_to_adjust in routes_to_adjust:
+                adjusted_routes.append(route[0:index_to_change] + route_to_adjust)
+
+        return adjusted_routes
+
+    def calculate_weights(self, CA, OA, LP, RP, OW, HS, TA, TA1, TA2, TA3, graph):
         """
         Function that calculates the weights of all the edges based on the scenario variables
+        @param TA: Multiplication factor for traffic avoidance
         @param TA3: Multiplication factor for traffic avoidance
         @param TA2: Multiplication factor for traffic avoidance
         @param TA1: Multiplication factor for traffic avoidance
@@ -398,18 +337,20 @@ class route_model:
         @param RP: Multiplication factor for residential preference
         @param OW: Multiplication factor for wrong way preference
         @param HS: Multiplication factor for high speed preference
-        @param SR: Multiplication factor for short road preference
         @param graph: the graph that needs to be adapted
+
         """
         for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
 
             # speed limits and length
             if isinstance(data.get('maxspeed'), list):
                 weight_used = data.get('length') / float(data.get('maxspeed')[0])
-
+                if float(data.get('maxspeed')[0]) > 50:
+                    weight_used = weight_used * HS
             elif isinstance(data.get('maxspeed'), str):
                 weight_used = data.get('length') / float(data.get('maxspeed'))
-
+                if float(data.get('maxspeed')) > 50:
+                    weight_used = weight_used * HS
             else:
                 # if maximum speed is not specified, max speed of 30 km/h is assumed
                 # the number of edges without maximum speed is 2402, from the total of 25348 edges (so 9.47%)
@@ -441,102 +382,18 @@ class route_model:
             if data["oneway"]:
                 weight_used = weight_used * OW
 
-            # High speed preference
-            if isinstance(data.get('maxspeed'), list):
-                if float(data.get('maxspeed')[0]) > 50:
-                    weight_used = weight_used * HS
-
-            elif isinstance(data.get('maxspeed'), str):
-                if float(data.get('maxspeed')) > 50:
-                    weight_used = weight_used * HS
-
-            # Short road preference
-            if data["length"] < 30:
-                weight_used = weight_used * SR
-
             # Traffic avoidance
             if 'highway' in data:
-                if data["highway"] in ['motorway', 'motorway_link', 'trunk']:
-                    weight_used = weight_used * TA1
-                elif data["highway"] in ['primary', 'primary_link', 'secondary']:
-                    weight_used = weight_used * TA2
-                elif data["highway"] in ['tertiary']:
-                    weight_used = weight_used * TA3
+                if TA > 1:
+                    if data["highway"] in ['motorway', 'motorway_link', 'trunk']:
+                        weight_used = weight_used * TA * TA1
+                    elif data["highway"] in ['primary', 'primary_link', 'secondary']:
+                        weight_used = weight_used * TA * TA2
+                    elif data["highway"] in ['tertiary']:
+                        weight_used = weight_used * TA * TA3
 
             nx.set_edge_attributes(graph,
                                    {(origin_num, destination_num, 0): {
                                        "used_weight": weight_used},
                                        (origin_num, destination_num, 1): {
                                            "used_weight": weight_used}})
-
-        # For edge cases in the graph, make sure that each edge has a calculated weight
-        for road_id, (origin_num, destination_num, data) in enumerate(graph.edges(data=True)):
-            if "used_weight" not in data:
-                nx.set_edge_attributes(graph,
-                                       {(origin_num, destination_num, 0): {
-                                           "used_weight": data.get("length") / 30.0},
-                                           (origin_num, destination_num, 1): {
-                                               "used_weight": data.get("length") / 30.0},
-                                           (origin_num, destination_num, 2): {
-                                               "used_weight": data.get("length") / 30.0},
-                                           (origin_num, destination_num, 3): {
-                                               "used_weight": data.get("length") / 30.0}})
-
-    def calculate_OD_statistics(self, route_graph):
-        """
-        Function to calculate the statistics of a origin-destination pair network
-        @param route_graph: the route network that is used
-        """
-        degree_centrality = list(nx.degree_centrality(route_graph).values())
-
-        degree_centrality_mean = 0
-        degree_centrality_var = 0
-        if len(degree_centrality) != 0:
-            degree_centrality_mean = sum(degree_centrality) / len(degree_centrality)
-            degree_centrality_var = sum((i - degree_centrality_mean) ** 2 for i in degree_centrality) / len(
-                degree_centrality)
-
-        betweenness_centrality = list(nx.betweenness_centrality(route_graph).values())
-
-        betweenness_centrality_mean = 0
-        betweenness_centrality_var = 0
-        if len(betweenness_centrality) != 0:
-            betweenness_centrality_mean = sum(betweenness_centrality) / len(betweenness_centrality)
-            betweenness_centrality_var = sum((i - betweenness_centrality_mean) ** 2 for i in betweenness_centrality) / len(
-            betweenness_centrality)
-
-        self.degree_centrality_means.append(degree_centrality_mean)
-        self.degree_centrality_vars.append(degree_centrality_var)
-        self.betweenness_centrality_means.append(betweenness_centrality_mean)
-        self.betweenness_centrality_vars.append(betweenness_centrality_var)
-
-        self.num_nodes = self.num_nodes + route_graph.number_of_nodes()
-        self.num_edges = self.num_edges + route_graph.number_of_edges()
-
-    def visualise(self, routes):
-        """
-        Function to visualize the
-        @param routes: the routes to be visualized
-        """
-        route_pairs = []
-        for route in routes:
-            for i in range(0, len(route) - 1):
-                route_pairs.append((route[i], route[i + 1]))
-
-        node_size = []
-        node_color = []
-        for node in self.graph.nodes:
-            node_size.append(0)
-            node_color.append('blue')
-
-        edge_color = []
-        for road_id, (origin_num, destination_num, data) in enumerate(self.graph.edges(data=True)):
-            if (origin_num, destination_num) in route_pairs:
-                edge_color.append("red")
-            else:
-                edge_color.append("grey")
-
-        ox.plot.plot_graph(
-            self.graph, bgcolor="white", node_color=node_color, node_size=node_size, edge_linewidth=1,
-            edge_color=edge_color
-        )
