@@ -4,8 +4,9 @@ import geopandas as gpd
 import numpy as np
 import math
 from shapely.geometry import Point
+import numpy
 
-default_points = [44430463, 44465861]
+default_points = [44254038, 44341323, 670854737, 44448306, 3161262011, 44232104, 44176183, 44532514, 1680069937, 44613980]
 default_graph_file_path = "graph/graph_base_case.graphml"
 default_num_of_paths = 5
 default_neighbourhood_map_file_path = "graph/neighbourhood_map_suburb.geojson"
@@ -192,6 +193,7 @@ class route_model:
         if seed != self.seed:
             self.generate_points(seed, num_of_points_per_neighbourhood)
 
+        print(self.points)
         self.num_of_paths = num_of_paths
 
         if rational:
@@ -201,7 +203,8 @@ class route_model:
                 self.graph = self.graph_OW_False
 
             self.calculate_weights(CA, OA, LP, RP, OW, HS, TA, TA1, TA2, TA3, self.graph)
-            self.generate_route_network(rational=True)
+            self.generate_route_network(rational=True, OA=OA, LP=LP, RP=RP, OW=OW, HS=HS, TA=TA)
+            return
 
         else:
             if strategies[start_strategy][-1]:
@@ -258,14 +261,14 @@ class route_model:
             'node_frequency_var': node_frequency_var
         }
 
-    def generate_route_network(self, rational=True, strategy_change_percentage=0):
+    def generate_route_network(self, OA=1, LP=1, RP=1, OW=1, HS=1, TA=1, rational=True, strategy_change_percentage=0):
         """
         Function that runs the rational model
         """
-        for source in self.points:
+        for source in [670854737]:
             routes_in_graph = []
             node_frequency = {}
-
+            total_routes = []
             for sink in self.points:
                 continuity_values = []
                 # if sink and source are equal, continue to next pair
@@ -273,23 +276,29 @@ class route_model:
                     continue
                 # Calculate top x number of paths between sink and source
                 routes = self.calculate_routes(source, sink, rational, strategy_change_percentage)
-
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
-                    routes_in_graph.append(route)
-                    for i in range(0, len(route) - 1):
+                    total_routes.append(route)
+                    # routes_in_graph.append(route)
+                    # for i in range(0, len(route) - 1):
+                    #
+                    #     if i in node_frequency:
+                    #         # incrementing the count
+                    #         node_frequency[i] += 1
+                    #     else:
+                    #         # initializing the count
+                    #         node_frequency[i] = 1
 
-                        if i in node_frequency:
-                            # incrementing the count
-                            node_frequency[i] += 1
-                        else:
-                            # initializing the count
-                            node_frequency[i] = 1
+                    # continuity_values.append(len(route))
 
-                    continuity_values.append(len(route))
+                # continuity_values_mean = sum(continuity_values) / len(continuity_values)
+                # self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
 
-                continuity_values_mean = sum(continuity_values) / len(continuity_values)
-                self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
+            #save routes
+            file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
+
+            numpy.save('notebooks/visualisations/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
+            return
 
             # calculate relative node frequency
             for node_freq in node_frequency.values():
@@ -304,7 +313,7 @@ class route_model:
                     connectivity_route += len(list((value for value in list(route) if value in list(route_it))))
                 self.connectivity.append((connectivity_route / len(route)) / self.num_of_paths)
 
-    def calculate_routes(self, source, sink, rational=True, strategy_change_percentage=0):
+    def calculate_routes(self, source, sink, rational=True, strategy_change_percentage=0, ):
         # Calculate top x number of paths between sink and source
         routes = ox.distance.k_shortest_paths(self.graph, source, sink, self.num_of_paths,
                                               weight="used_weight")
