@@ -163,7 +163,7 @@ class route_model:
 
     def run_model(self, rational=True, CA=1, OA=1, LP=1, RP=1, OW=1, HS=1, TA=1, TA1=2, TA2=1.7, TA3=1.3,
                   num_of_paths=default_num_of_paths,
-                  one_way_possible=False, start_strategy=1, end_strategy=1, strategy_change_percentage=1,
+                  one_way_possible=False, start_strategy=1, end_strategy=2, strategy_change_percentage=1,
                   seed=222, num_of_points_per_neighbourhood=1):
         """
         Function that runs a model scenario
@@ -278,6 +278,7 @@ class route_model:
                 routes = self.calculate_routes(source, sink, rational, strategy_change_percentage)
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
+                    print(route)
                     total_routes.append(route)
                     # routes_in_graph.append(route)
                     # for i in range(0, len(route) - 1):
@@ -295,9 +296,9 @@ class route_model:
                 # self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
 
             #save routes
-            file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
-
-            numpy.save('notebooks/visualisations/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
+            # file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
+            # file_path = 'test.npy'
+            # numpy.save('notebooks/visualisations/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
             return
 
             # calculate relative node frequency
