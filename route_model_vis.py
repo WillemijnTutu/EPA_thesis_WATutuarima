@@ -6,7 +6,7 @@ import math
 from shapely.geometry import Point
 import numpy
 
-default_points = [44254038, 44341323, 670854737, 44448306, 3161262011, 44232104, 44176183, 44532514, 1680069937, 44613980]
+default_points = [44254038, 44341323, 670854737, 44448306, 3161262011, 44232104, 44176183, 44532514, 1680069937, 44613980, 44207459, 6486583741, 44378318,44503638,  1426610333, 44299826, 44575911, 6580405252, 44587615, 44246400, 614974777, 44338662, 1435580845, 44314444, 44296160, 44405529, 1680069724, 44559341]
 default_graph_file_path = "graph/graph_base_case.graphml"
 default_num_of_paths = 5
 default_neighbourhood_map_file_path = "graph/neighbourhood_map_suburb.geojson"
@@ -193,7 +193,7 @@ class route_model:
         if seed != self.seed:
             self.generate_points(seed, num_of_points_per_neighbourhood)
 
-        print(self.points)
+        # print(self.points)
         self.num_of_paths = num_of_paths
 
         if rational:
@@ -278,7 +278,7 @@ class route_model:
                 routes = self.calculate_routes(source, sink, rational, strategy_change_percentage)
                 # For every route, add the nodes and edges to the route graph
                 for route in routes:
-                    print(route)
+                    # print(route)
                     total_routes.append(route)
                     # routes_in_graph.append(route)
                     # for i in range(0, len(route) - 1):
@@ -295,10 +295,9 @@ class route_model:
                 # continuity_values_mean = sum(continuity_values) / len(continuity_values)
                 # self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
 
-            #save routes
-            # file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
-            # file_path = 'test.npy'
-            # numpy.save('notebooks/visualisations/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
+            # save routes
+            file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
+            numpy.save('notebooks/visualisations/30_points_5_paths/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
             return
 
             # calculate relative node frequency

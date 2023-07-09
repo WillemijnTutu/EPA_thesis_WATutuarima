@@ -37,7 +37,7 @@ if __name__ == "__main__":
                 for OW in values_OW:
                     for RP in values_RP:
                         for TA in values_TA:
-                            print(route_model_instance.run_model(seed=1000, OA=OA, HS=HS, LP=LP, OW=OW, RP=RP, TA=TA))
+                            route_model_instance.run_model(seed=1000, OA=OA, HS=HS, LP=LP, OW=OW, RP=RP, TA=TA, num_of_paths=5)
 
     exit(0)
 
