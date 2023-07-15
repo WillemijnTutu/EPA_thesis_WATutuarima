@@ -6,7 +6,7 @@ import math
 from shapely.geometry import Point
 import numpy
 
-default_points = [44254038, 44341323, 670854737, 44448306, 3161262011, 44232104, 44176183, 44532514, 1680069937, 44613980, 44207459, 6486583741, 44378318,44503638,  1426610333, 44299826, 44575911, 6580405252, 44587615, 44246400, 614974777, 44338662, 1435580845, 44314444, 44296160, 44405529, 1680069724, 44559341]
+default_points = [6238824713,  44201093] #44596978] #, 44471862, 44201093]
 default_graph_file_path = "graph/graph_base_case.graphml"
 default_num_of_paths = 5
 default_neighbourhood_map_file_path = "graph/neighbourhood_map_suburb.geojson"
@@ -95,6 +95,19 @@ class route_model:
         self.degree_centrality_vars = []
         self.node_frequency = []
         self.path_costs_base_case = {}
+
+
+        # bereken de base case waardes
+        for point in self.points:
+            if point != 6238824713:
+                routes = ox.distance.k_shortest_paths(self.graph, default_points[0], point, self.num_of_paths,
+                                                      weight="base_case")
+
+                path_costs = []
+                for route in routes:
+                    path_costs.append(len(route))
+
+                self.path_costs_base_case[(default_points[0], point)] = sum(path_costs) / len(path_costs)
 
     def generate_points(self, seed=default_seed, num_of_points_per_neighbourhood=1):
         """
@@ -296,8 +309,52 @@ class route_model:
                 # self.continuity.append(continuity_values_mean / self.path_costs_base_case[(source, sink)])
 
             # save routes
-            file_path = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.npy'
-            numpy.save('notebooks/visualisations/30_points_5_paths/data/' + file_path, np.array(total_routes, dtype=object), allow_pickle=True)
+
+            nodes_in_routes = []
+            edges_in_routes = []
+
+            for route in total_routes:
+                for i in range(0, len(route) - 2):
+                    nodes_in_routes.append(route[i])
+                    edges_in_routes.append((route[i], route[i + 1]))
+                nodes_in_routes.append(route[-1])
+
+            node_colors = []
+            node_size = []
+            edge_colors = []
+            edge_size = []
+            for index in self.graph_OW_False.nodes():
+                if index in nodes_in_routes:
+                    node_size.append(1)
+                    node_colors.append('black')
+                else:
+                    node_colors.append("lightgray")
+                    node_size.append(0)
+
+            for (u, v) in self.graph_OW_False.edges():
+                if (u, v) in edges_in_routes:
+                    edge_colors.append('black')
+                    edge_size.append(2)
+                elif (v, u) in edges_in_routes:
+                    edge_colors.append('black')
+                    edge_size.append(2)
+                else:
+                    edge_colors.append('lightgray')
+                    edge_size.append(0.5)
+
+
+            file_path_specific = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.png'
+            file_path = 'notebooks/case_study/visualisations/residential_south/residential_south' + file_path_specific
+
+            ox.plot.plot_graph(
+                self.graph_OW_False,
+                bgcolor="white",
+                node_color=node_colors,
+                node_size=node_size,
+                edge_linewidth=edge_size,
+                edge_color=edge_colors,
+                show=False, save=True, filepath=file_path
+            )
             return
 
             # calculate relative node frequency
