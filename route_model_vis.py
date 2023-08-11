@@ -6,7 +6,12 @@ import math
 from shapely.geometry import Point
 import numpy
 
-default_points = [6238824713,  44201093] #44596978] #, 44471862, 44201093]
+default_points = [6238824713,  44596978, 44471862, 44201093]
+#stadhuis 6238824713 -> 2351979103
+#node number highway east 44596978 -> 44573645
+#node number highway north  44471862 -> 44459477
+#node number residential south 44201093
+destination_points = [44573645, 44459477, 44201093]
 default_graph_file_path = "graph/graph_base_case.graphml"
 default_num_of_paths = 5
 default_neighbourhood_map_file_path = "graph/neighbourhood_map_suburb.geojson"
@@ -95,7 +100,6 @@ class route_model:
         self.degree_centrality_vars = []
         self.node_frequency = []
         self.path_costs_base_case = {}
-
 
         # bereken de base case waardes
         for point in self.points:
@@ -278,7 +282,8 @@ class route_model:
         """
         Function that runs the rational model
         """
-        for source in [670854737]:
+        sources = [self.points[0]]
+        for source in sources:
             routes_in_graph = []
             node_frequency = {}
             total_routes = []
@@ -324,11 +329,17 @@ class route_model:
             edge_colors = []
             edge_size = []
             for index in self.graph_OW_False.nodes():
-                if index in nodes_in_routes:
+                if index == 2351979103:
+                    node_size.append(20)
+                    node_colors.append('red')
+                elif index in destination_points:
+                    node_size.append(20)
+                    node_colors.append("tab:blue")
+                elif index in nodes_in_routes:
                     node_size.append(1)
                     node_colors.append('black')
                 else:
-                    node_colors.append("lightgray")
+                    node_colors.append('white')
                     node_size.append(0)
 
             for (u, v) in self.graph_OW_False.edges():
@@ -339,16 +350,16 @@ class route_model:
                     edge_colors.append('black')
                     edge_size.append(2)
                 else:
-                    edge_colors.append('lightgray')
+                    edge_colors.append('white')
                     edge_size.append(0.5)
 
 
             file_path_specific = 'OA' + str(OA) +  'LP' + str(LP) + 'RP' + str(RP) + 'OW' + str(OW) + 'HS' + str(HS) + 'TA' + str(TA) + '.png'
-            file_path = 'notebooks/case_study/visualisations/residential_south/residential_south' + file_path_specific
+            file_path = 'notebooks/case_study/visualisations/points_together/points_together' + file_path_specific
 
             ox.plot.plot_graph(
                 self.graph_OW_False,
-                bgcolor="white",
+                bgcolor=None,
                 node_color=node_colors,
                 node_size=node_size,
                 edge_linewidth=edge_size,
